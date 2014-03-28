@@ -1,0 +1,12 @@
+auto: true
+
+
+markdown: rdiscount
+pygments: true
+paginate: 1
+permalink: /:title
+
+title: www.wuli.mobi
+url: http://www.wuli.mobi
+feed: /atom.xml
+author_info: <a href="http://www.wuli.mobi/">Wu Li</a>
