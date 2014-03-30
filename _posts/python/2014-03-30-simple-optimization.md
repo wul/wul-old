@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 一个简单优化Python程序效率的小技巧
-description: 一个简单的，不同改动代码逻辑的小方法。
+description: 一个简单的，不用改动代码逻辑的小方法。
 category: python
 tags: python performance
 ---
