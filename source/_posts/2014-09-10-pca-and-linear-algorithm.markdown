@@ -3,7 +3,7 @@ layout: post
 title: PCA的线性代数的背景
 date: 2014-09-10 09:36:23 +0800
 comments: true
-categories: Machine Learning
+categories: [Machine Learning]
 ---
 
 前段时间虽然学了机器学习中关于 PCA 的相关算法，也知道如何利用 PCA 对数据进行降维处理；现有的语言如Python，Octave 都也有很多现成的函数可供利用，非常便捷。但是总是觉得学得囫囵，俗话说：授人以鱼不如授人以渔。还是很期望了解背后的数学原理。
