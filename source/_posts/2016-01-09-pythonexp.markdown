@@ -1,3 +1,9 @@
+---
+layout: post
+title: "Python 语言使用回顾"
+comments: true
+categories: [Python]
+---
 #Python 语言使用回顾(一)
 
 Python是个非常好的语言，用了8年了。从最初对其脚本语言的认知到接触使用到各种高级概念。越发觉得这个语言对于初学者非常友善，同时对于有经验的程序员带来很多帮助，能够在各个方面进行运用，来解决实际的工程问题。
@@ -10,8 +16,8 @@ Python是个非常好的语言，用了8年了。从最初对其脚本语言的�
 #include <iostream>
 int main()
 {
-    std::count << "Hello, World!\n"
-    return 0   
+    std::count << "Hello, World!\n";
+    return 0;   
 }
 ```
 
