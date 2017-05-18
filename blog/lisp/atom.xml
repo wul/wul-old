@@ -4,7 +4,7 @@
   <title><![CDATA[Wu's Blogs]]></title>
   <link href="http://www.wuli.mobi/atom.xml" rel="self"/>
   <link href="http://www.wuli.mobi/"/>
-  <updated>2017-05-18T23:31:33+08:00</updated>
+  <updated>2017-05-18T23:56:03+08:00</updated>
   <id>http://www.wuli.mobi/</id>
   <author>
     <name><![CDATA[Wu Li]]></name>
@@ -14,11 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Pythonexp]]></title>
+    <title type="html"><![CDATA[Python 语言使用回顾]]></title>
     <link href="http://www.wuli.mobi/blog/2016/01/09/pythonexp/"/>
     <updated>2016-01-09T00:00:00+08:00</updated>
     <id>http://www.wuli.mobi/blog/2016/01/09/pythonexp</id>
-    <content type="html"><![CDATA[<h1>Python 语言使用回顾(一)</h1>
+    <content type="html"><![CDATA[<h1>Python 语言使用回顾 (一)</h1>
 
 <p>Python是个非常好的语言，用了8年了。从最初对其脚本语言的认知到接触使用到各种高级概念。越发觉得这个语言对于初学者非常友善，同时对于有经验的程序员带来很多帮助，能够在各个方面进行运用，来解决实际的工程问题。</p>
 
@@ -35,8 +35,8 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>#include &lt;iostream&gt;
 </span><span class='line'>int main()
 </span><span class='line'>{
-</span><span class='line'>    std::count &lt;&lt; "Hello, World!\n"
-</span><span class='line'>    return 0   
+</span><span class='line'>    std::count &lt;&lt; "Hello, World!\n";
+</span><span class='line'>    return 0;   
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
