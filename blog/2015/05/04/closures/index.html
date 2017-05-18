@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>闭包 - Wu's Blogs</title>
+  <meta name="author" content="Wu Li">
+
+  
+  <meta name="description" content="套用维基百科的解释：闭包（closure）是此法闭包（Lexical Closure）的简称，是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创造它的环境也不例外。我们从一个简单地例子来分析这些话在说什么。 def foo(bar): def plus_one &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.wuli.mobi/blog/2015/05/04/closures">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wu's Blogs" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wu's Blogs</a></h1>
+  
+    <h2>A blog for saving my articles.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.wuli.mobi" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">闭包</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-04T14:27:03+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:27 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>套用维基百科的解释：闭包（closure）是此法闭包（Lexical Closure）的简称，是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创造它的环境也不例外。我们从一个简单地例子来分析这些话在说什么。</p>
+
+<pre><code>def foo(bar):
+    def plus_one():
+    return bar+1          #1 引用自由变量 bar
+
+    return plus_one
+func1 = foo(100)
+func2 = foo(101)
+print(func1())                #2 bar 仍然存在， 输出为101
+print(func2())                #3 bar 仍然存在， 输出为102
+</code></pre>
+
+<p>这个例子中，foo 函数中一个局部变量 bar 被一个其内部定义的函数 plus_one 所引用，并且这个函数被当做对象作为返回值返回。当被返回的函数被调用的时候，其运算的时候仍然能够访问得到 foo 所定义的局部变量 bar，即使此时已经不在 foo 函数内部。 这个就是闭包的一个基本用法。</p>
+
+<p>首先确定的是，闭包在创建的时候封闭了当时的一些状态，并且能够此后被调用的时候利用当时的状态信息。上面例子中，诸如局部变量（plus_one的enclosing函数）bar被plus_one所保留，即使离开了 foo 的执行，plus_one 仍够访问这个当初保留的状态，也即 bar 这个变量。</p>
+
+<p>再者，我们看到，根据不同的环境创建的函数保留了不同的状态而在此后表现出不同的行为（输出分别为101和102），比如根据参数不同生成的两个函数 func1和 func2，非常类似模式里面的工厂方法。创建的时候根据不同的输入而此后表现出不同的行为带给程序员很大的灵活性。</p>
+
+<p>最后，在使用闭包的过程中，需要注意，闭包引用的变量可能在后来发生改变，因此也会影响闭包的行为。比如：函数 plus_one 在创建的时候保留了 bar 的状态，但不意味着此后如果 bar 的值再次修改，不会影响 plus_one 的调用结果。修改上面代码如下:</p>
+
+<pre><code>def foo():
+    bar = 100                
+    def plus_one():
+    return bar+1         
+bar = 99                 # 在创建plus_one函数对象之后，修改 bar 会影响 plus_one 的调用结果
+    return plus_one
+func = foo()
+print(func())                # 输出100
+</code></pre>
+
+<p>可以看到，return 函数对象plus_one之前，修改过 bar 的值，plus_one 的调用使得它会使用最后一次 bar 的赋值。需要注意一下这个特性，尤其是引用的变量处于循环当中。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Wu Li</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-04T14:27:03+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:27 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.wuli.mobi/blog/2015/05/04/closures/" data-via="" data-counturl="http://www.wuli.mobi/blog/2015/05/04/closures/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/04/30/legb/" title="Previous Post: LEGB规则与 Python 变量的存取">&laquo; LEGB规则与 Python 变量的存取</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/24/resume/" title="Next Post: Resume">Resume &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/pythonexp/">Pythonexp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/24/resume/">Resume</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/04/closures/">闭包</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/30/legb/">LEGB规则与 Python 变量的存取</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/29/issues-of-imports/">Python 包管理以及导入包时候一些问题辨析</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Wu Li -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'httpwulimobi';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.wuli.mobi/blog/2015/05/04/closures/';
+        var disqus_url = 'http://www.wuli.mobi/blog/2015/05/04/closures/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

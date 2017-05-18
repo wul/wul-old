@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>逻辑回归的一个日常应用 - Wu's Blogs</title>
+  <meta name="author" content="Wu Li">
+
+  
+  <meta name="description" content="学了机器学习，一直没找到好的练习。经常练手的诸如垃圾邮件过滤，似乎已经有很多实现了，况且我也不是很感兴趣。翻着手机查看交通违章记录的时候，突然想到在网站上如果想查看违章记录，需要输入一堆东西，还要图片验证校验码，比较麻烦。 刚好，这些过程，比如自动获取网页，POST 信息，用程序实现都很方便， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.wuli.mobi/blog/2014/08/28/application-of-logistic-regression">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wu's Blogs" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wu's Blogs</a></h1>
+  
+    <h2>A blog for saving my articles.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.wuli.mobi" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">逻辑回归的一个日常应用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-08-28T18:22:40+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:22 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>学了机器学习，一直没找到好的练习。经常练手的诸如垃圾邮件过滤，似乎已经有很多实现了，况且我也不是很感兴趣。翻着手机查看交通违章记录的时候，突然想到在网站上如果想查看违章记录，需要输入一堆东西，还要图片验证校验码，比较麻烦。 刚好，这些过程，比如自动获取网页，POST 信息，用程序实现都很方便，让人感兴趣的时校验码输入，刚好能够练习一下机器学习学到的东西。</p>
+
+<p>查询违章记录的时针对上海市的交通信息网，里面有供司机查询电子眼拍到或现场违章记录。</p>
+
+<p>用 Python 简单实现了Logistic Regression，配合一些手工得到的样本，图片识别很成功。一方面归功于网站的校验码设置也比较简单，另一方面，也体现 ML 的实用性。</p>
+
+<p>反正是练习，顺便用 SVM 和 Decision Tree 同时来识别校验码，效果都很好，唯一不好的时 kNN, 经常将数字8和0混淆，也可能是样本少得缘故吧。</p>
+
+<p>源代码在github:    <a href="https://github.com/wul/tvish">https://github.com/wul/tvish</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn"><Wu Li> li.koun@gmail.com</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-08-28T18:22:40+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:22 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ml/'>ml</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.wuli.mobi/blog/2014/08/28/application-of-logistic-regression/" data-via="" data-counturl="http://www.wuli.mobi/blog/2014/08/28/application-of-logistic-regression/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/03/30/simple-optimization/" title="Previous Post: 一个简单优化Python程序效率的小技巧">&laquo; 一个简单优化Python程序效率的小技巧</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/08/28/manage-old-posts/" title="Next Post: 更新了下个人主页">更新了下个人主页 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/pythonexp/">Pythonexp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/24/resume/">Resume</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/04/closures/">闭包</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/30/legb/">LEGB规则与 Python 变量的存取</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/29/issues-of-imports/">Python 包管理以及导入包时候一些问题辨析</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Wu Li -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'httpwulimobi';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.wuli.mobi/blog/2014/08/28/application-of-logistic-regression/';
+        var disqus_url = 'http://www.wuli.mobi/blog/2014/08/28/application-of-logistic-regression/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

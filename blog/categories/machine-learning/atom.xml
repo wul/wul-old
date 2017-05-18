@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Machine Learning | Wu's Blogs]]></title>
+  <link href="http://www.wuli.mobi/blog/categories/machine-learning/atom.xml" rel="self"/>
+  <link href="http://www.wuli.mobi/"/>
+  <updated>2017-05-18T23:31:33+08:00</updated>
+  <id>http://www.wuli.mobi/</id>
+  <author>
+    <name><![CDATA[Wu Li]]></name>
+    <email><![CDATA[li.koun@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[支持向量机 (SVM)]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/11/19/svm/"/>
+    <updated>2014-11-19T08:42:38+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/11/19/svm</id>
+    <content type="html"><![CDATA[<h1>支持向量机 (Support Vector Machine)</h1>
+
+<p>支持向量机从字面意思上完全得不到要领。支持&hellip;向量机&hellip;？干嘛要支持机器？了解到底这是一个什么东西之前，我们先看看它另外一个别名，“最大边界分类器”（Maximum Margin Classifier）。这个就有点意思了，首先是个分类器，再者是基于边界进行分类，再加上个限定词“最大”。这是一个基于直觉上的形象说法，在探讨算法本身之前，我们先看看，在一个二维空间内，对于线性可以区分的两类数据如何划分它们的边界，以此来获得关于所谓的最大边界分类的一个初步认识。</p>
+
+<p>以下图来自Wikipedia
+<img src="http://upload.wikimedia.org/wikipedia/commons/2/20/Svm_separating_hyperplanes.png" alt="SVM" /></p>
+
+<p>这里明显有两组不同样本，在机器学习中我们可以通过神经网络或者逻辑回归或者其他算法来做分类处理，但是从直觉上，我们可以看到，实际上可以在它们中间划分一条线来进行分割。这是一个很自然地想法，问题是，如何来划这个分割线。不同的人有不同的画法，在这里总共有3条直线来划分，H1，H2 和 H3。其中 H3 这个划分是错误的，它没有将多数样本正确区分。H1这条线可以说区分了样本，但是没有 H2 这条线的划分好。这是因为，H1的划分并不在两个样本集合边缘的正中间，如果新来一个样本来计算分类的话，很容易错误分类。而 H2 这条线则使得两组样本的边缘最大化，是一个优选的答案。</p>
+
+<p>现在对于分类器而言，我们的问题就是根据这个想法，如何找到这个最优的分割线。这个例子本身是用得二维空间，通过线段来分割两组样本。对于多维空间，我们是要寻找一个超平面（Hyperplane），来分割样本。</p>
+
+<p>首先我们定义包含 m 个样本，n 个 features的集合为：</p>
+
+<p>$$\mathcal{D}=\{(x_i,y_i)|x_{i}\in{R^{n}},y_i\in\{-1,1\} \}_{i=1}^{m}$$</p>
+
+<h2>拉格朗日对偶（Lagrange duality）- 数学理论基础</h2>
+
+<p>我们之前已经知道我们所要找寻的目标是最大化2/w，这个问题可以换种表述方式而不影响结果。那就是，我们找寻的目标是最小化 $w<sup>2</sup>/2 $。</p>
+
+<p>在目前的情况下，似乎很难找到这样的 w，但是这里有一些约束，可以帮助我们进行寻找。这些约束显而易见，对于我们所有的样本，它们对应的值不是>=1，就是&lt;=-1。</p>
+
+<p>在继续推导之前，先介绍一下拉格朗日对偶。说要寻找一个函数 f(x) 的最小值，这个函数符合一些约束。</p>
+
+<p>$$ \underset{w}{min}\quad f(w) $$
+$$  s.t. \quad h_i(w)=0, \quad i=1,2,&hellip;,l.$$</p>
+
+<p>对此，我们定义拉格朗日方程</p>
+
+<p>$$\mathcal{L}(\mathcal{w},\beta)=f(w)+\sum_{i=1}^{l}\beta_ih_i(w)$$</p>
+
+<p>$\beta_i$被称作拉格朗日乘子(Lagrange multipliers)，对于这个方程，求偏导数可得$\mathcal{w}和\beta$.</p>
+
+<p>$$\frac{\partial{\mathcal{L}}}{\partial{w_i}}=0 ;\quad \frac{\partial{\mathcal{L}}}{\partial \beta_i} = 0 $$</p>
+
+<p>这里，我们谈论的这个约束条件是一个等式。对于更一般的拉格朗日方程，它不但包含等式约束，也有可能报刊不等式约束，也就是<strong>primal</strong> 优化问题。</p>
+
+<p>$$\underset{w}{min}\quad f(w) $$
+$$ s.t. \quad g_i(w)\leq 0, \quad i=1,&hellip;,k $$
+$$\qquad   h_i(w)=0,\quad i=1,&hellip;l$$</p>
+
+<p>对于更改后的约束，更一般的拉格朗日方程为:</p>
+
+<p>$$\mathcal{L}(\mathcal{w},\alpha,\beta)=f(w)+\sum_{i=l}^{k}\alpha_ig_i(w)+\sum_{i=l}^{l}\beta_ih_i(w)$$</p>
+
+<p>$\alpha与\beta$仍然是拉格朗日乘子。现在考虑拉格朗日方程的最大值，定义其为</p>
+
+<p>$$\theta_\mathcal{P}(w)=\underset{\alpha,\beta:\alpha_{i}\geq 0}{max}\mathcal{L}(w,\alpha,\beta) $$</p>
+
+<p>$\mathcal{P}$代表&#8221;primal&#8221;。拉格朗日方程中，如果选取的 w 出现 $g_i(w)或者h_i(w)$不符合约束条件的话，我们总能够选取足够大的$\alpha和\beta$，使得$\theta_\mathcal{P}(w)$的最大值区域无穷；反之，如果对于任意 w，这些约束条件都满足，则最大值就是f(w),表示如下:</p>
+
+<p>$$
+\theta_\mathcal{p}(w) = \left \{
+  \begin{array}{l l}
+    \infty &amp; \quad \text{如果 w 不满足约束}&#92;
+    f(w) &amp; \quad \text{如果 w 满足约束}
+  \end{array}
+\right.
+$$</p>
+
+<p>因此，假设在 w 取值满足约束的时候，如果我们寻找$\underset{w}{min}\theta_\mathcal{P}(w)$，实际上就是寻找$\underset{w}{min} f(w)$。 为什么要绕这个弯子？ 为什么不直接找 f(w)最小值呢？ 那是因为做不到啊，很难用替代法之类的找到这个答案。那么用间接方式又如何做到呢？ 根据上面的推导，我们首先定义</p>
+
+<p>$$\underset{w}{min} \theta_\mathcal{P}(w)=\underset{w}{min} \underset{\alpha,\beta:\alpha_i \geq 0}{max} \mathcal{L}(w,\alpha,\beta) \quad \text {(1)}$$</p>
+
+<p>我们定义这个值为$p^*$。</p>
+
+<p>然后换个角度看待问题，定义新的方程</p>
+
+<p>$$\theta_\mathcal{D}(\alpha,\beta)=\underset{w}{min}\mathcal{L}(w,\alpha,\beta)$$</p>
+
+<p>$\mathcal{D}$代表对偶(dual),这个方程寻找拉格朗日方程的最小值，不过不同于公式(1)中的相对于的变量$\alpha和\beta$，这里我们相对于变量w。继续推导，可得对偶优化问题</p>
+
+<p>$$\underset{\alpha,\beta:\alpha_i \geq 0}{max} \theta_\mathcal{D}(\alpha,\beta)=\underset{\alpha,\beta:\alpha_i \geq 0}{max} \underset{w}{min}\mathcal{L}(w,\alpha,\beta) \quad \text {(2)}$$</p>
+
+<p>这个公式和公式（1）很相似，不同的是把 max 和 min 的顺序反了。定义这个值为$d^*$</p>
+
+<p>不过似乎还是没有头绪，现在不过就是定义了2个公式，对应了两个极值$d^*和p^*$，可这对于解决f(w)有什么帮助呢？答案是这两个值的关系可以帮助我们寻找答案。 那么这两个值什么关系？ 先看一个不等式</p>
+
+<p>$$\underset{x}{max}\underset{y}{min}f_(x,y) &lt;= \underset{y}{min}\underset{x}{max}f(x,y)$$</p>
+
+<p>这个公式这里不证明了，如果想不通可以看一个例子：定义f(x,y)=sin(x+y)，这样可得：</p>
+
+<p>$$\underset{x}{max}\underset{y}{min}f_(x,y) = -1 &lt;= \underset{y}{min}\underset{x}{max}f(x,y) = 1$$</p>
+
+<p>这个公式告诉我们$d^*\leq p^*$。 假设$f,g_i$是凸函数，$h_i(w)=a_i^{T}w+b_i$,同时对于任意w,$g_i(w) \leq 0$，那么必存在$w^*,\alpha^*,\beta^*$，使得$p^*=d^*=\mathcal{L}(w^*,\alpha^*,\beta^*)$ (还不是很明白这一段)，同时$w^*,\alpha^*,\beta^*$符合 KKT 条件（Karush-Kuhn-Tucker)：</p>
+
+<p>$$
+\begin{align*}
+\frac{\partial{}}{\partial{w_i}}\mathcal{L}(w^*,\alpha^*,\beta^*) &amp;= 0,\quad \text {i=1,..,n} &#92;
+\frac{\partial{}}{\partial{\beta_i}}\mathcal{L}(w^*,\alpha^*,\beta^*) &amp;= 0,\quad \text {i=1,..,l} &#92;
+\alpha_i^*g_i(w^*)&amp;=0,\quad \text {i=1,..,k} &#92;
+g_i(w^*)&amp;\leq 0,\quad \text {i=1,..,k} &#92;
+\alpha^*&amp;\geq 0,\quad \text {i=1,..,k}
+\end{align*}
+$$</p>
+
+<p>未完，待修改&hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[期望值，方差和协方差（2）]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/11/05/variance/"/>
+    <updated>2014-11-05T08:05:09+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/11/05/variance</id>
+    <content type="html"><![CDATA[<p>上篇说了期望值，我们知道这是一种对结果的预期。有了这个基础，我们可以进一步讨论下一个概念：方差（Variance）</p>
+
+<h1>方差 （ Variance）</h1>
+
+<p>方差就是平法差。它的数学定义是:</p>
+
+<p>$$Var(X)=\sum_{s\in_S}(X(s)-\mu)^{2}P(s)   \qquad 离散随机变量$$</p>
+
+<p>$\mu$就是期望值E[x]。方差用Var(X)或者$\sigma^{2}$来表示。这个公式是说，对于每个样本，首先计算其随机变量值与期望值差异的平方，然后乘以出现这个样本的概率，最后对于所有样本做一个总和。从公式的形式来看，我们如果把$(X(s)-\mu)^{2}$看做s的随机变量的话，其实方差也算是一个新的随机变量的期望值。这是另外一个角度看待方差，于是方差亦可以表示为:</p>
+
+<p>$$Var(X)=E[(x-\mu)^{2}]$$</p>
+
+<p>在这里，方差就是对于结果偏差（的平方）的一个预期。学术点的说法就是描述离散程度的一个量。</p>
+
+<p>这个公式经过推导（利用期望值的运算公式）可以得到：</p>
+
+<p>$$Var(X) = E[X^{2}] - E[X]^{2}$$</p>
+
+<p>一些方差的运算公式有</p>
+
+<p>$$
+\begin{align*}
+Var(X+a) &amp;= Var(X) &#92;
+Var(aX) &amp;= a^{2}Var(X)&#92;
+Var(aX+bY) &amp;= a^{2}Var(X)+2abCov(X,Y)+b^{2}Var(Y)&#92;
+\end{align*}
+$$</p>
+
+<p>第三个等式的更一般形式为：</p>
+
+<p>$$Var(\sum_{i=1}^N a_iX_i)=\sum_{i,j=1}^NCov(X_i,X_j)=\sum_{i=1}^Na_i^{2}Var(X_i)+2\sum_{1\leq{i}\leq{j}\leq{N}}^Na_ia_jCov(X_iX_j)$$</p>
+
+<p>至于Cov，就是协方差（Covariance）的缩写。下次再说。</p>
+
+<p>这里的特例是如果 X 和 Y 为独立变量，则有</p>
+
+<p>$$Var(X+Y) &amp;= Var(X)+Var(Y) \qquad X,Y 为独立变量 $$</p>
+
+<p>这个可以由期望值的定义和运算公式推出。</p>
+
+<p>总而言之，方差就是描述数值的离散程度。离散程度越高，方差越大。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[期望值，方差和协方差（1）]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/11/05/expected-value/"/>
+    <updated>2014-11-05T08:05:09+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/11/05/expected-value</id>
+    <content type="html"><![CDATA[<p>学习统计学、机器学习甚至线性代数的时候，总是有几个概念时不时跳出来，伴随着整个学习过程。起初的时候，你好像知道他们是干什么用的，慢慢地，你得回头过去看看到底他们是做什么用得，甚至还要思考，他们为什么还会存在。为什么数学家要将他们定义成这个样子，而不是其他的形式。他们就是期望值、方差、协方差，许多讨论概率的分布，随机变量的相关性等问题，都与他们相联系。因此，真正搞懂他们的意义，本身的意义就很重大。</p>
+
+<h1>期望值 (Expected Value/Expectation)</h1>
+
+<p>期望值的数学定义为：
+$$E[X]=\sum_{s\in_S}X(s)P(s)   \qquad 离散随机变量$$</p>
+
+<p>其中 X 是<strong>随机变量</strong>，s是<strong>样本</strong>，S 是<strong>样本空间</strong>，P(s)是样本的<strong>概率</strong>。每个样本的概率可以看做是一个权重，于是在这个样本下对应的随机变量的值与这个权重的乘积描述了此随机变量值对总体期望的一个“贡献值”。将所有这些贡献值相加，得到对总体随机变量值的一个期望。那么这个期望又有什么意思呢？通过一个例子来理解这个期望比较容易，比如说掷色子，色子有6个面，一个理想没有作弊过的色子我们认为（注意，是认为，为什么这么认为呢？以后再说）在其被掷出，每个面朝上的几率都是1/6，样本空间为{1，2，3，4，5，6}（集合中的每个值代表每个面的点数）。将这些信息带入上面的期望值中得定义里可得
+ E[X]=1<em>1/6+2</em>1/6+&hellip;+6*1/6=3.5</p>
+
+<p>这个3.5与任意一次掷色子的结果{1，2，3，4，5，6}都不同，但它描述了一个趋势，那就是，如果我们掷色子足够多次数，我们得到的所有结果，其点数的平均值就是3.5。或许你连着6次都扔了6点，但是当扔足够大的次数时候，所有点数的平均值比如等于3.5（大数定理）。</p>
+
+<p>听起来期望值似乎与平均值一个意思，单单从数值上来讲，对于足够多次的实验结果，这两个值是一样的。但是这两个概念的定义是不同的。期望值对应的是所有<strong>样本</strong>，即掷色子出现{1，2，3，4，5，6}这个样本空间；而平均值是针对投掷色子的<strong>结果</strong>，如{2，3，5，6，6，6，2，3，&hellip;}。</p>
+
+<p>上面关于期望值的定义可以推导出另外一种形式的定义：</p>
+
+<p>$$E[X]=\sum_{r}(X=r)P(X=r)   \qquad 离散随机变量$$</p>
+
+<p>这个形式描述了随机变量的值与这个值所出现的概率。对于连续随机变量，期望值的定义如下：</p>
+
+<p>$$E[X]=\int^{+\infty}_{-\infty}xf(x)dx   \qquad 连续随机变量$$</p>
+
+<p>这里f(x)是概率密度函数。</p>
+
+<h1>这就是期望值？没啥花头么</h1>
+
+<p>方差就是这样定义，似乎描述了一个类似平均或者重心的概念，没有什么啥好想的。其实不然，我们从一个小赌博开始，假设你和另外一个人投硬币游戏，那个人对你说，我们玩个游戏，连续猜五次正反面为一局，如果都猜对，给你30圆，如果输，你给他一元。 你说你赌不赌？赌是可以赌的，小赌怡情么，不过对于当前这个规则，假设你们能够赌到天荒地老，时间管够。你可是必输无疑的。为什么呢？我们算算期望值，也就是你的理想收益（足够多局数情况下）。</p>
+
+<p>对于连着猜5次都能猜正确，我们知道，这个概率是$(&frac12;)^{5} = 1/32$
+于是你有1/32的概率得到30圆，而又31/32的概率输掉1圆钱。那么期望值E(X)=1/32*30+31/32*(-1)=-1/32圆。这意味着你玩这个游戏，每次的收益期望是-1/32圆。那么时间玩得够久，你就损失大了。 当然，话说回来，这也不排除你第一把就全猜对5个正反面，赢了30 圆跑路。</p>
+
+<p>概率论本身就是研究这个世界不确定性，它的发展反映了人性的一些特点，历史上很多人把概率应用到各种赌博中去，甚至有人通过计算，发了横财。这再次说明，知识就是生产力啊。</p>
+
+<p>总体而言，期望着是给你一个预期，让你理性判别得失。</p>
+
+<p>作为结束，提一下期望值的一些运算规则，很好证明，不再赘述。</p>
+
+<p>$$
+\begin{align*}
+E[X+b] &amp;= E[X] + b &#92;
+E[X+Y] &amp;= E[X] + E[Y] &#92;
+E[aX] &amp;= aE[X] &#92;
+E[XY] &amp;= E[X]E[Y] \qquad X,Y是独立变量&#92;
+\end{align*}
+$$</p>
+
+<p>关于方差 (Variance) ，且听下回分解。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[期望值，方差和协方差（3）]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/11/05/covariance/"/>
+    <updated>2014-11-05T08:05:09+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/11/05/covariance</id>
+    <content type="html"><![CDATA[<p>在多随机变量的方差运算中，我们看到了协方差的身影 COV。协方差的定义为：</p>
+
+<p>$$cov(X,Y)=E[(X-\mu)(Y-\nu)] = E[XY]-E[X]E[Y]$$</p>
+
+<p>$\mu$是 X 的期望值 E[X]，$\nu$是 Y 的期望值 E[Y]。协方差是描述两个随机变量之间的。协方差有时候也用符号$\sigma$来表示。这个公式看起来有点眼熟，如果我们让 Y=X，实际上它就变成了方差的定义。这不是偶合，下面详细说明。</p>
+
+<p>协方差表示的是两个随机变量的总体误差，并描述两个随机变量之间的线性相关度。为了方便，我们经常使用规范化（normalized）的协方差。</p>
+
+<p>$$corr(X,Y)=\frac{cov(X,Y)}{\sqrt{Var(X)Var(Y)}} $$</p>
+
+<p>由柯西不等式可以知道这个值介于-1与1之间。 下图第一排反映的是2个随机变量（$X_i,Y_i$）构成的点集的相关性关系。如果两个随机变量正相关，即Y和 X 之间符合Y=aX+b，则它们的构成的点集为一条直线（corr=1）；如果2个随机变量相反，但符合 Y=-aX+b，此时他们负相关相反（corr=-1）；同时，还有一个特点，如果2个随机变量独立，或者说它们是不相关的，此时，则构成的点集是一团（corr=0）。</p>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Correlation_examples.png/800px-Correlation_examples.png" alt="aaaa" /></p>
+
+<center>图片取自wikipedia</center>
+
+
+<p>由方差公式 Var(X+Y)=Var(X)+Var(Y)+Cov(X,Y)知道，如果 X，Y 为独立变量，则 Cov(X,Y)=0。但不能翻过来说。亦，如果 Cov(X,Y)=0， 则 X,Y 互为独立变量是错误的。比如在[-1,1]之间 $Cov(X,X<sup>2</sup>)$为0（根据 Cov 定义，代$入 X，X<sup>2</sup>积分可得），但不能说 X 和 X<sup>2</sup>$ 是独立的。</p>
+
+<p>另一方面，如果两个随机变量非常相关，比如 Y=X，那么相关度公式</p>
+
+<p>$$corr(X,X)=\frac{Var(X)}{\sqrt{Var(X)<sup>2</sup>}}=1$$</p>
+
+<p>从这个特例可直觉上印证随机变量的相关度。</p>
+
+<p>在线性代数中，对于一个矩阵 A，其由 N 个列向量组成，每个列向量可以看做是一个随机变量的不同值构成，那么它的协方差矩阵为</p>
+
+<p>$$\Sigma=E[(X-E[X])^{T}(X-E[X])]$$</p>
+
+<p>协方差矩阵在这里描述的是任意两个向量之间的线性相关度（一般将 E(x)归一化成0）。在机器学习中得降维处理中有所应用。其目的在于寻找一组基使得排除一些不重要的维度成为可能。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PCA的线性代数的背景]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/09/10/pca-and-linear-algorithm/"/>
+    <updated>2014-09-10T09:36:23+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/09/10/pca-and-linear-algorithm</id>
+    <content type="html"><![CDATA[<p>前段时间虽然学了机器学习中关于 PCA 的相关算法，也知道如何利用 PCA 对数据进行降维处理；现有的语言如Python，Octave 都也有很多现成的函数可供利用，非常便捷。但是总是觉得学得囫囵，俗话说：授人以鱼不如授人以渔。还是很期望了解背后的数学原理。</p>
+
+<p>于是钻研了一下，一路上是云漫漫兮白日寒，天荆地棘行路难。虽说学过高数，念过线性代数，看相关资料还是十分痛苦。实话说本来学得时候就不敢说都懂，现在又忘记的差不多了，这么多年不用，确实够呛。好在网上有一篇对 PCA 数学原理解析得非常好的文章，我估计让我总结也不如这个好，暂且借用一下，放个链接到此。
+<a href="http://blog.codinglabs.org/articles/pca-tutorial.html">http://blog.codinglabs.org/articles/pca-tutorial.html</a>
+即使有如此好文章，看到后来的矩阵对角化还是感觉要复习的知识太多。对比 PCA 算法的几个步骤和这些算法库给的一些函数，很多情况不明白为什么要这样做，也不明白这是函数的返回值确切数学含义是什么，只是知道如何用而已。</p>
+
+<p>所以，对照上面的这个文章，结合算法，我也来分析这些算法步骤的意义：</p>
+
+<p>PCA 算法
+样本数量为m, feature 个数为n</p>
+
+<h2>计算协方差矩阵</h2>
+
+<p>$$
+\Sigma=\frac{1}{m}\Sigma_{i=1}^{m}(x^{(i)})(x^{(i)})^{T}
+$$
+   为什么要算协方差矩阵呢？我们来看看这个算出来的矩阵（我们称这个矩阵为A）包含了些什么东西在里面：</p>
+
+<p>$$
+\begin{bmatrix}
+\Sigma_{i=1}^{m}x_1^{(i)}x_1^{(i)} &amp;  \Sigma_{i=1}^{m}x_1^{(i)}x_2^{(i)} &amp;  &hellip; &amp; \Sigma_{i=1}^{m}x_1^{(i)}x_n^{(i)} \cr
+\Sigma_{i=1}^{m}x_2^{(i)}x_1^{(i)} &amp;  \Sigma_{i=1}^{m}x_2^{(i)}x_2^{(i)} &amp;  &hellip; &amp; \Sigma_{i=1}^{m}x_2^{(i)}x_n^{(i)} \cr
+&hellip; &amp; &hellip; &amp; &hellip; &amp; &hellip; \cr
+\Sigma_{i=1}^{m}x_n^{(i)}x_1^{(i)} &amp;  \Sigma_{i=1}^{m}x_n^{(i)}x_2^{(i)} &amp;  &hellip; &amp; \Sigma_{i=1}^{m}x_n^{(i)}x_n^{(i)}
+\end{bmatrix}=
+\begin{bmatrix}
+x_1*x_1^{T} &amp;  x_1*x_2^{T} &amp;  &hellip; &amp; x_1*x_n^{T} \cr
+x_2*x_1^{T} &amp;  x_2*x_2^{T} &amp;  &hellip; &amp; x_2*x_n^{T} \cr
+&hellip; &amp; &hellip; &amp; &hellip; &amp; &hellip; \cr
+x_n*x_1^{T} &amp;  x_n*x_2^{T} &amp;  &hellip; &amp; x_n*x_n^{T}
+\end{bmatrix}
+$$
+这个矩阵是什么特点呢？ 这个协方差矩阵是一个对称矩阵。什么？费劲画了这么多知道是对称矩阵又如何？先不用急，先考虑一下 PCA 的目的是什么。PCA 主要目的是降维处理数据，方便各种算法，能够快速处理。在一个样本中，并不是所有的 feature 都同等重要，甚至有时候，有的 feature 根本就没有用（比如 feature $x_2 = 2 * x_1$）, 这个时候，实际上 feature x2的引入并没有实际意义。那么 PCA 正是试图去掉这样的一些 feature，并同时最小化信息丢失。</p>
+
+<p>说得好听？怎么才能“最小化信息的丢失”？这里用到线性变换，全部都是线性代数上的知识。首先，将每个样本看做是一个 n 维向量。想想一下二维空间中得一个向量，经过坐标变换可以得到另外一组坐标；n 维向量也可以通过线性变换得到另外一个向量。如果在变换过程中能够依次找到一个一个的基，在第一个基上，所有样本在其上的投影最长（最能区分不同的样本），第二个基，在垂直于第一个基（内积为0）的所有基的基础上，寻找哪个投影次长的基，第三个基在垂直于前两个基的基础上寻找，以此类推。当我们能够找到 n 个基，在他们上面的投影（l1,l2,l3,&hellip;,ln）即与原始的（x1,x2,x3,&hellip;,xn）相互对应。但是我们的目的是降维，比如从 n 维降低到 k（ 1&lt;=k&lt;n），我们找到的 n 各基，是按照重要程度以此下来的，因此或许找到第 K 的基，在基1,2,&hellip;,K上的线性变换或许就可以满足精度需要。</p>
+
+<p>那么这与协方差矩阵有啥关系呢？观察这个协方差矩阵，假设此时的x1,x2,&hellip;,xn已经是按照我们找到的这一组基变换后的值。那么对角线上，$x_i*x_i^{T}$ (1=&lt;i &lt;=n)  就是方差的一个变异形式，描述了在这个基上面的分散程度，我们希望其能够最大化，这也正是我们刚才找到的那一组基的目的。因此，这两个目标是一致的。</p>
+
+<p>观察上三角区与下三角区，$x_i*x_j$ (1=&lt;i != j &lt;=n) 是不同 feature 之间的协方差。在降维的时候，我们希望选择的各个基之间是线性无关的，也就是互相正交的。因此x1,x2,&hellip;,xn这些在各个基上的投影也应该满足$X_i*X_j=0$,或者说让这个值尽量的趋近于零。
+    于是，我们的目标实际上就是对A进行对角化。</p>
+
+<h2>矩阵对角化</h2>
+
+<p>对角化处理在Python中对应的函数有:numpy.linalg.svd，它用来生成特征向量与特征值。
+    $$
+    U,S,V=np.linalg.svd(A)
+    $$</p>
+
+<p>   矩阵对角化在线性代数上是求得特征向量（U）(确切的说，应该是特征向量对应的标准正交基)和特征值（$\lambda$）。数学公式略过，只看定理和结论。
+   特征向量与特征值满足如下公式
+   A*U=U*$\Lambda$, $\Lambda$是特征值$\lambda$构成的对角矩阵。矩阵 A，这里是我们要进行对角化的矩阵，也是我们最初定义的那个$X*X^{T}$，它最终对角化变成了$\Lambda$，U 是用来进行变化的一组基。S 就是$\lambda_i(1&lt;=1&lt;=n)$</p>
+
+<h2>降维处理</h2>
+
+<p>使用对角化处理得到的U，就可以进行降维处理了，我们的目标既要降维，有不能损失太多的信息，将 S 以降序进行排列。假设我们要从 N 维降到 K 维，我们希望
+$$
+\frac{\Sigma_{i=1}^{k}S_{ii}}{\Sigma_{i=1}^{n}S_{ii}} >= 0.99
+$$</p>
+
+<p>我们可以依次去K=1,2,3,&hellip;,N来使上面的公式得到满足。假设得到这个 K。我们此刻即可对原始的样本 X 进行降维处理
+$$
+Z=U[0:K,:]*X
+$$</p>
+
+<p>此刻 Z 就是我们经过降维化的样本了。</p>
+]]></content>
+  </entry>
+  
+</feed>

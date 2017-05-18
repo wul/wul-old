@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>最大子序列问题 - Wu's Blogs</title>
+  <meta name="author" content="Wu Li">
+
+  
+  <meta name="description" content="给定一个实数构成的序列，如何寻找一个子序列，使其相加之和最大。">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.wuli.mobi/blog/2013/11/28/max-sub-seq">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wu's Blogs" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wu's Blogs</a></h1>
+  
+    <h2>A blog for saving my articles.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.wuli.mobi" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">最大子序列问题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-11-28T00:00:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>问题：给定一个实数序列，寻找一个子序列，其相加之和为最大。</h1>
+
+<h1>方案：Divide and Conquer</h1>
+
+<p>这里我有两个实现版本，从不同的思路来做Divide， 同时实现上一个采用递归，一个采用循环</p>
+
+<ul>
+<li><p> 方法一：如果将序列一分为二，那么中点要么位于这个子序列的右边，要么位于子序列左边，要么刚好在这个子序列上。因此有思路，找到中点左边最大子序列，找到中点右边最大子序列，找到跨越中点的最大子序列，选择其和最大地子序列，即为真正最大的子序列。其中，左右两个序列的子序列的查找是递归的</p></li>
+<li><p> 方法二：这个最大的子序列要么从位置0开始，要么从1开始，。。。或者从N-1开始。 因此无非是比较以不同下标开始的子序列中的最大序列。</p></li>
+</ul>
+
+
+<p>代码一：</p>
+
+<pre><code>(defun find-max-crossing-subarray (lst low mid high)
+  (let* ((key (nth mid lst)) 
+         (count key) 
+         (sum-left key) 
+         (sum-right key) 
+         (left mid)
+         (right mid))
+
+    (if (/= low mid)
+        (loop for i from (- mid 1) downto low do
+              (incf count (nth i lst))
+              (when (&gt; count sum-left)
+                (setf left i)
+                (incf sum-left (nth i lst)))))
+
+
+    (setf count key)
+    (if (/= mid high) 
+        (loop for j from (+ mid 1) to high do
+              (incf count (nth j lst))
+              (when (&gt; count sum-right)
+                (setf right j)
+                (incf sum-right (nth j lst)))))
+
+                                        ;duplicated count of A[mid]
+    (list left right (- (+ sum-left sum-right) key))))
+
+
+(defun find-maximum-subarray (lst &amp;optional low high)
+  (if (eq low  nil) (setf low 0))
+  (if (eq high nil) (setf high (- (length lst) 1)))
+
+  (if (= low high) (return-from find-maximum-subarray (list low low (nth low lst))))
+
+
+  (let* ((mid (floor (+ low high) 2))
+         (seq nil)
+         (left-seq  (find-maximum-subarray lst low mid))
+         (right-seq (find-maximum-subarray lst (1+ mid) high))
+         (mid-seq   (find-max-crossing-subarray lst low mid high))
+         (v-l (third left-seq))
+         (v-m (third mid-seq))
+         (v-r (third right-seq)))
+
+    (if (&gt; v-l v-r)
+        (if (&gt; v-l v-m)
+            (setf seq left-seq)
+          (setf seq mid-seq))
+      (if (&gt; v-r v-m)
+          (setf seq right-seq)
+        (setf seq mid-seq)))
+    seq))
+</code></pre>
+
+<p>代码二：</p>
+
+<pre><code>(defun find-maximum-subarray-2 (lst)
+
+  (let (sum old-sum count seq index low high)
+    (loop for i from 0 below (length lst) do
+          (setf count 0)
+          (loop for j from i below (length lst) do
+                (incf count (nth j lst))
+                (when (or (not sum) (&gt; count sum))
+                  (setf index j)
+                  (setf sum count)))
+
+
+          (when (or (not old-sum) (&gt; sum old-sum))
+            (setf low i)
+            (setf high index)
+            (setf old-sum sum)))
+    (list low high old-sum)))
+</code></pre>
+
+<p>代码二的实现显著地比代码一地实现短小。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn"><Wu Li> li.koun@gmail.com</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2013-11-28T00:00:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/lisp/'>lisp</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.wuli.mobi/blog/2013/11/28/max-sub-seq/" data-via="" data-counturl="http://www.wuli.mobi/blog/2013/11/28/max-sub-seq/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/11/13/symbol-variable/" title="Previous Post: Symbol, Variable, Name, Value, what exactly are they in Lisp?">&laquo; Symbol, Variable, Name, Value, what exactly are they in Lisp?</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/11/29/lisp-list-nd-vector/" title="Next Post: Lisp list和vector的效率">Lisp list和vector的效率 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/pythonexp/">Pythonexp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/24/resume/">Resume</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/04/closures/">闭包</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/30/legb/">LEGB规则与 Python 变量的存取</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/29/issues-of-imports/">Python 包管理以及导入包时候一些问题辨析</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Wu Li -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'httpwulimobi';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

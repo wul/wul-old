@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>向量空间 - Wu's Blogs</title>
+  <meta name="author" content="Wu Li">
+
+  
+  <meta name="description" content="向量空间的一些相关知识 关于向量空间 V 的公理：V 定义了加法和标量乘法运算的集合。对于 V 中每一对元素 x 和 y，x+y 与 V 中一个元素相对应；同时如果有一个标量$\alpha$，有$\alpha$x 也与 V 中一个元素相对应。集合 V 称为向量空间（Vector Space） &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.wuli.mobi/blog/2014/11/10/vector">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wu's Blogs" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wu's Blogs</a></h1>
+  
+    <h2>A blog for saving my articles.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.wuli.mobi" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">向量空间</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-10T09:45:49+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:45 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>向量空间的一些相关知识</h1>
+
+<p>关于向量空间 V 的公理：V 定义了加法和标量乘法运算的集合。对于 V 中每一对元素 x 和 y，x+y 与 V 中一个元素相对应；同时如果有一个标量$\alpha$，有$\alpha$x 也与 V 中一个元素相对应。集合 V 称为向量空间（Vector Space）的前提是：除过这两个，并满足下面公理</p>
+
+<ul>
+<li>V 中的任意元素 x，y 有 x+y=y+x</li>
+<li>V 中的任意元素 x，y，z，有 (x+y)+z = x+(y+z)</li>
+<li>V 中存在元素0, 对于任何元素 $x\in_{}V$，有 x+0=x</li>
+<li>对于$x\in_{}V$，有 x+(-x)=0</li>
+<li>a(x+y)=ax+ay</li>
+<li>(a+b)x=ax+bx</li>
+<li>(ab)x=a(bx)</li>
+<li>1*x=x</li>
+</ul>
+
+
+<p>这些运算称作线性运算。向量空间的定义很冗长，但是是基础。学不好基础，就像我这样，大学毕业很久，看一些书，还得回来重新复习。<strong>向量空间有个很重要的属性，就是其封闭性</strong>，任何向量经过加法或者与标量的乘法运算，或者同时进行这两种运算，都对于向量空间中得某一个向量。</p>
+
+<p>向量空间又称作线性空间。</p>
+
+<h1>子空间</h1>
+
+<p>若 S 为向量空间 V 的非空子集，且 S 满足如下条件：</p>
+
+<ul>
+<li>对已任意标量$\alpha$，若 $x\in{S}$，则$\alpha{x}\in{S}$</li>
+<li>若$x\in{S}$ 和 $y\in{S}$，则$x+y\in{S}$</li>
+</ul>
+
+
+<p>定义 S 为 V 的子空间（subspace）。这两个条件表明子空间在加法和乘法意义下，如同向量空间一样，也是<strong>封闭</strong>的。</p>
+
+<p>话都明白，但是不大容易理解子空间到底是什么。举个栗子，V 为一三维空间，则在此三维空间中，我们找到一个平面，则此平面上的所有向量构成 V 的子空间 S。此子空间同时也满足封闭性；因为此子空间也满足向量空间所满足的八个公理，于是向量空间的子空间仍然是向量空间。</p>
+
+<p>集合{0}为零子空间。</p>
+
+<h1>向量的张成（span）的定义</h1>
+
+<p>若$v_1,v_2,&hellip;,v_n$是向量空间 V 中的向量，则$\alpha_1v_1+\alpha_2v_2+&hellip;+\alpha_nv_n$（$\alpha$为标量）称为向量$v_1,v_2,&hellip;,v_n$的线性组合，所有线性组合构成的集合成为$v_1,v_2,&hellip;v_n$的张成，记作Span($v_1,v_2,&hellip;,v_n$)。</p>
+
+<h1>向量空间的张集（spanning set）的定义</h1>
+
+<p>有一种张集的特殊情况，那就是 Span($v_1,v_2,&hellip;,v_n$)=V。于是定义：
+($v_1,v_2,&hellip;,v_n$)是向量空间 V 的一个张集的充要条件是 V 中的任何一个向量都一个表示为($v_1,v_2,&hellip;,v_n$)的线性组合。</p>
+
+<h1>线性无关（linear independence）</h1>
+
+<p>寻找最小张集的问题。</p>
+
+<p>定义：如果向量空间 V 中的 ($v_1,v_2,&hellip;,v_n$) 满足 ($c_1v_1,c_2v_2,&hellip;,c_nv_n=0$) 只有在$c_1,c_2,&hellip;,c_n$全部为0的情况下才满足，则它们是线性无关的。</p>
+
+<p>于是寻找最小张集的问题就是寻找这么一组想想，($v_1,v_2,&hellip;,v_n$)，使得它们线性无关。最小张集又称作基（basis）。</p>
+
+<p>线性相关的定义则是能够找到不全为0的$c_1,c_2,&hellip;,c_n$，使得</p>
+
+<p>$$c_1v_1+c_2v_2+&hellip;+c_nv_n=0$$</p>
+
+<p>结合向量</p>
+
+<h1>基</h1>
+
+<p>首先基是一组线性无关的向量；并且这组向量张成向量空间 V。这就是基的定义。</p>
+
+<p>如果向量空间 V 的维数为 n>0,则
++ 任意 n 个线性无关的向量可以张成 V
++ 任何张成 V 的 n 各向量都线性无关</p>
+
+<p>标准基 {$e_1,e_2,&hellip;,e_n$}.</p>
+
+<h1>向量空间 V 的维数</h1>
+
+<p>定义：V 的一组基含有的 n 个向量，称之为 V 的维数。</p>
+
+<h1>坐标变换</h1>
+
+<p>标准基[$e_1,e_2,&hellip;,e_n$]下的一个向量X ($x_1,x_2,&hellip;,x_n$)在新基[$u_1,u_2,&hellip;,u_n$]的坐标向量是</p>
+
+<p>$$c=U^{-1}x$$</p>
+
+<p>反之，如果一个向量在 U 基的坐标向量是 C，那么对应原标准基的坐标为</p>
+
+<p>$$x=Uc$$</p>
+
+<p>U称作从有序基 U 到基 E 的转移矩阵（transition matrix）</p>
+
+<h1>行空间和列空间</h1>
+
+<p>矩阵 A 的行空间的维数称为矩阵 A 的秩（rank）。 怎么理解？ 维数是基的个数，也就是最大线性无关向量组的向量个数。因此:</p>
+
+<p>Rank(A)=Number of {$e_1,e_2,&hellip;,e_n$}</p>
+
+<h1>线性映射与线性变换</h1>
+
+<p>线性映射：从空间 A 到 B 的映射，又成线性变换。 (Linear map/linear mapping/linear transformation, or linear function under some scenarios)
+$$y = \tau(x)$$</p>
+
+<p>$$x\in{A};y\in{B}$$</p>
+
+<p>同时需要满足$\tau(x+y)=\tau(x)+\tau(y)$和$\tau(\alpha{x})=\alpha\tau(x)$
+线性映射的像空间如果是零空间，那么使得$\tau(\alpha)=0$的$\alpha$的全体向量本身也是一个线性空间，称作线性变换$\tau$的核。</p>
+
+<p>$S_\tau = {\alpha|\alpha\in{V},\tau(\alpha)=0}$</p>
+
+<p>线性算子 (Linear Operator，或者叫自同态，endomorphism)：从空间 A 到自身的映射</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Wu Li</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-11-10T09:45:49+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:45 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/math/'>math</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.wuli.mobi/blog/2014/11/10/vector/" data-via="" data-counturl="http://www.wuli.mobi/blog/2014/11/10/vector/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/05/variance/" title="Previous Post: 期望值，方差和协方差（2）">&laquo; 期望值，方差和协方差（2）</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/11/17/orthogonal/" title="Next Post: 向量的正交性">向量的正交性 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/pythonexp/">Pythonexp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/24/resume/">Resume</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/04/closures/">闭包</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/30/legb/">LEGB规则与 Python 变量的存取</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/29/issues-of-imports/">Python 包管理以及导入包时候一些问题辨析</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Wu Li -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'httpwulimobi';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.wuli.mobi/blog/2014/11/10/vector/';
+        var disqus_url = 'http://www.wuli.mobi/blog/2014/11/10/vector/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

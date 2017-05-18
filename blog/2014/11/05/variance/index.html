@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>期望值，方差和协方差（2） - Wu's Blogs</title>
+  <meta name="author" content="Wu Li">
+
+  
+  <meta name="description" content="上篇说了期望值，我们知道这是一种对结果的预期。有了这个基础，我们可以进一步讨论下一个概念：方差（Variance） 方差 （ Variance） 方差就是平法差。它的数学定义是: $$Var(X)=\sum_{s\in_S}(X(s)-\mu)^{2}P(s) \qquad 离散随机变量$$ $\ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.wuli.mobi/blog/2014/11/05/variance">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wu's Blogs" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wu's Blogs</a></h1>
+  
+    <h2>A blog for saving my articles.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.wuli.mobi" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">期望值，方差和协方差（2）</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-05T08:05:09+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>8:05 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>上篇说了期望值，我们知道这是一种对结果的预期。有了这个基础，我们可以进一步讨论下一个概念：方差（Variance）</p>
+
+<h1>方差 （ Variance）</h1>
+
+<p>方差就是平法差。它的数学定义是:</p>
+
+<p>$$Var(X)=\sum_{s\in_S}(X(s)-\mu)^{2}P(s)   \qquad 离散随机变量$$</p>
+
+<p>$\mu$就是期望值E[x]。方差用Var(X)或者$\sigma^{2}$来表示。这个公式是说，对于每个样本，首先计算其随机变量值与期望值差异的平方，然后乘以出现这个样本的概率，最后对于所有样本做一个总和。从公式的形式来看，我们如果把$(X(s)-\mu)^{2}$看做s的随机变量的话，其实方差也算是一个新的随机变量的期望值。这是另外一个角度看待方差，于是方差亦可以表示为:</p>
+
+<p>$$Var(X)=E[(x-\mu)^{2}]$$</p>
+
+<p>在这里，方差就是对于结果偏差（的平方）的一个预期。学术点的说法就是描述离散程度的一个量。</p>
+
+<p>这个公式经过推导（利用期望值的运算公式）可以得到：</p>
+
+<p>$$Var(X) = E[X^{2}] - E[X]^{2}$$</p>
+
+<p>一些方差的运算公式有</p>
+
+<p>$$
+\begin{align*}
+Var(X+a) &amp;= Var(X) \\
+Var(aX) &amp;= a^{2}Var(X)\\
+Var(aX+bY) &amp;= a^{2}Var(X)+2abCov(X,Y)+b^{2}Var(Y)\\
+\end{align*}
+$$</p>
+
+<p>第三个等式的更一般形式为：</p>
+
+<p>$$Var(\sum_{i=1}^N a_iX_i)=\sum_{i,j=1}^NCov(X_i,X_j)=\sum_{i=1}^Na_i^{2}Var(X_i)+2\sum_{1\leq{i}\leq{j}\leq{N}}^Na_ia_jCov(X_iX_j)$$</p>
+
+<p>至于Cov，就是协方差（Covariance）的缩写。下次再说。</p>
+
+<p>这里的特例是如果 X 和 Y 为独立变量，则有</p>
+
+<p>$$Var(X+Y) &amp;= Var(X)+Var(Y) \qquad X,Y 为独立变量 $$</p>
+
+<p>这个可以由期望值的定义和运算公式推出。</p>
+
+<p>总而言之，方差就是描述数值的离散程度。离散程度越高，方差越大。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Wu Li</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-11-05T08:05:09+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>8:05 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/machine-learning/'>machine learning</a>, <a class='category' href='/blog/categories/math/'>math</a>, <a class='category' href='/blog/categories/statictisc/'>statictisc</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.wuli.mobi/blog/2014/11/05/variance/" data-via="" data-counturl="http://www.wuli.mobi/blog/2014/11/05/variance/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/05/expected-value/" title="Previous Post: 期望值，方差和协方差（1）">&laquo; 期望值，方差和协方差（1）</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/11/10/vector/" title="Next Post: 向量空间">向量空间 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/pythonexp/">Pythonexp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/24/resume/">Resume</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/04/closures/">闭包</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/30/legb/">LEGB规则与 Python 变量的存取</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/29/issues-of-imports/">Python 包管理以及导入包时候一些问题辨析</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Wu Li -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'httpwulimobi';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.wuli.mobi/blog/2014/11/05/variance/';
+        var disqus_url = 'http://www.wuli.mobi/blog/2014/11/05/variance/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

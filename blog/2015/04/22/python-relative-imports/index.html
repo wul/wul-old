@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Python Relative Imports - Wu's Blogs</title>
+  <meta name="author" content="Wu Li">
+
+  
+  <meta name="description" content="Python Relative Imports Python包内模块之间当然可以像我们熟知的包导入方式一样，通过import或者from &hellip; import &hellip;来完成。 但是这里有个细节问题，可能会出现并非开发者所想到的后果。通过举例来说明， 现在要开发一个包（ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.wuli.mobi/blog/2015/04/22/python-relative-imports">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wu's Blogs" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wu's Blogs</a></h1>
+  
+    <h2>A blog for saving my articles.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.wuli.mobi" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Python Relative Imports</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-22T10:11:17+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:11 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>Python Relative Imports</h1>
+
+<p>Python包内模块之间当然可以像我们熟知的包导入方式一样，通过<em>import</em>或者<em>from &hellip; import &hellip;</em>来完成。 但是这里有个细节问题，可能会出现并非开发者所想到的后果。通过举例来说明， 现在要开发一个包（Package）Hello，它的目录结构如下：</p>
+
+<pre><code>Hello\
+      __init__.py
+      foo.py
+      bar.py  
+</code></pre>
+
+<p>Hello这个包包含两个文件， foo.py 和 bar.py， 我们说 foo.py 包含一个函数叫做 <em>func</em>，bar.py 希望通过引入 foo 这个包来使用这个函数。那么对于 bar.py 来讲，导入并使用的方式可以如下：</p>
+
+<pre><code>import foo
+foo.func()
+</code></pre>
+
+<p>这个用法似乎也没啥问题。 但是Python2.x 与 Python3.x 对于<em>import foo</em>的解释是不同的。</p>
+
+<ul>
+<li>Python2.x:会在当前包（"Hello"）所在的路径中搜索叫做 foo 的包名，然后搜索系统路径(sys.path)</li>
+<li>Python3.x:只会搜索系统路径</li>
+</ul>
+
+
+<p>可以看到，对于一些程序，如果既要运行在 Python2.x，又要运行到 Python3.x，可能会出现问题，考虑到 sys.path 里面的目录，其中一个路径恰好也有一个模块是 foo，那么在 bar.py 引入 foo 模块的时候，Python3.x 会用这个模块而非和 bar 在同一个包得模块 foo，当调用<em>foo.func()</em>要么报错（不存在），要么用得不是期望的函数。</p>
+
+<p>那么如何通过显示的手段来指明我们想要引入的包，来避免模块内包互相导入呢出现的上述问题呢？ 这可以使用 Python 的相对导入（Relative Imports）机制。 通过</p>
+
+<ul>
+<li><strong>from .foo import func</strong></li>
+<li><strong>from . import foo</strong></li>
+</ul>
+
+
+<p>来对包 foo 进行导入。 这种通过一个点来指明包内导入的方式叫做相对导入。</p>
+
+<p>无论是Python2.x或者Python3.x碰见这种语句，都会只在当前包目录中查找想要导入的包，而不会去系统路径中去寻找，因此避免了不当导入。</p>
+
+<p>当然，包得层次结构也不都一定是扁平的，只有一个目录，可能有子目录，子目录下可能还有下级子目录。那么又如何在包内导入其他目录下的模块呢？</p>
+
+<p>有人或许已经猜到，既然像 Unix 访问目录一样，用 “.”表示包内同一个目录。那么可以用“..”表示包层次结构中的上一层。仍旧通过举例说明，有一个复杂的目录结构如下：</p>
+
+<pre><code>Hello \
+      __init__.py
+      a\
+        __init__.py
+        b\
+          __init__.py
+          b1.py
+      c\
+         __init__.py
+         c1.py
+</code></pre>
+
+<p>Hello包包含子目录“a”和子目录“c”，其中子目录 “a”又包含二级子目录 “b”。 在目录“b”与“c”内分别有两个模块“b1”与“c1”。模块“c1”想使用“b1”中的函数“func”。</p>
+
+<p>模块“c1”中可以用下面这种方式来引入模块“b1”.</p>
+
+<ul>
+<li><em>from ..b.b1 import func</em></li>
+<li><em>import ..b.b1</em></li>
+</ul>
+
+
+<p>如同目录行为一样，很好理解，不用赘述。</p>
+
+<p>可是，仍旧有人会说，其实也简单，将 Hello 包所在路径加入 sys.path 中，在模块“c1”中用如下语句也可以：</p>
+
+<pre><code>from Hello.a.b.b1 import func
+#
+#or
+#
+import Hello.a.b.b1
+</code></pre>
+
+<p>是的，这种方式也可以。但首先，如果目录层次比较复杂，敲的字符会很长，不够经济；再者，如果目录进行挪动，需要改动代码，相对导入能够解决这个问题（相对路径如果保持不变）。</p>
+
+<p>虽然用类似目录结构的方式相对导入包内的模块，但这种语句也只是适合包内导入，位于非包这种组织形式(包含__init__.py)的两个文件，不可以通过这种方式（from . .. import）来互相导入。</p>
+
+<p>总结一下：Python 的相对导入的关键在于</p>
+
+<ul>
+<li>它限定了搜索的路径在于包内，而不会盲目的在系统路径中找寻一个相同的名字，避免了误导入。</li>
+<li>所有的相对导入通过<em>from &hellip; import &hellip;</em>这种格式来完成</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Wu Li</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-04-22T10:11:17+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:11 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.wuli.mobi/blog/2015/04/22/python-relative-imports/" data-via="" data-counturl="http://www.wuli.mobi/blog/2015/04/22/python-relative-imports/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/04/07/unicode/" title="Previous Post: Unicode 以及如何使用 Unicode 编程">&laquo; Unicode 以及如何使用 Unicode 编程</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/04/29/issues-of-imports/" title="Next Post:  Python 包管理以及导入包时候一些问题辨析"> Python 包管理以及导入包时候一些问题辨析 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/pythonexp/">Pythonexp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/24/resume/">Resume</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/04/closures/">闭包</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/30/legb/">LEGB规则与 Python 变量的存取</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/29/issues-of-imports/">Python 包管理以及导入包时候一些问题辨析</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Wu Li -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'httpwulimobi';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.wuli.mobi/blog/2015/04/22/python-relative-imports/';
+        var disqus_url = 'http://www.wuli.mobi/blog/2015/04/22/python-relative-imports/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

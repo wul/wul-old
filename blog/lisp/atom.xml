@@ -1,93 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Wu's Blogs</title>
-  <meta name="author" content="Wu Li">
-
-  
-  <meta name="description" content="Python 语言使用回顾(一) Python是个非常好的语言，用了8年了。从最初对其脚本语言的认知到接触使用到各种高级概念。越发觉得这个语言对于初学者非常友善，同时对于有经验的程序员带来很多帮助，能够在各个方面进行运用，来解决实际的工程问题。 先从友善度来讲， &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><![CDATA[Wu's Blogs]]></title>
+  <link href="http://www.wuli.mobi/atom.xml" rel="self"/>
+  <link href="http://www.wuli.mobi/"/>
+  <updated>2017-05-18T23:31:33+08:00</updated>
+  <id>http://www.wuli.mobi/</id>
+  <author>
+    <name><![CDATA[Wu Li]]></name>
+    <email><![CDATA[li.koun@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-  <link rel="canonical" href="http://www.wuli.mobi">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Wu's Blogs" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Wu's Blogs</a></h1>
-  
-    <h2>A blog for saving my articles.</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="https://www.google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:www.wuli.mobi" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/09/pythonexp/">Pythonexp</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-01-09T00:00:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:00 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Python 语言使用回顾(一)</h1>
+  <entry>
+    <title type="html"><![CDATA[Pythonexp]]></title>
+    <link href="http://www.wuli.mobi/blog/2016/01/09/pythonexp/"/>
+    <updated>2016-01-09T00:00:00+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2016/01/09/pythonexp</id>
+    <content type="html"><![CDATA[<h1>Python 语言使用回顾(一)</h1>
 
 <p>Python是个非常好的语言，用了8年了。从最初对其脚本语言的认知到接触使用到各种高级概念。越发觉得这个语言对于初学者非常友善，同时对于有经验的程序员带来很多帮助，能够在各个方面进行运用，来解决实际的工程问题。</p>
 
@@ -161,35 +92,15 @@
 <p>比如C++和Java对于类属性和成员函数，都有public，protected和private等存取限定。这种设置对于又经验的程序员可能不觉得困难，但是对于初学者，在诸如外部调用或者继承调用等不同使用场景下可能觉得比较烦杂。这虽然本着安全角度来考虑，但是是通过技术手段来限制，Python OOP就没有这种概念，对于该存取不该存取的属性，并没有技术手段来限制，而是通过一些common rules来形成共识，必须以下横线&#8221;_&ldquo;开通的变量就是private属性，两个下横线&rdquo;__&ldquo;则代表更强private意味。 那么所有的人都遵循这些规则，我们一样可以写出安全程序，那么语法上就没有那么繁杂了。</p>
 
 <p>另外，C++和Java实际上提供了很多不是那么常用的的特性，至少是在频率上不那么常用。那么为什么不大胆的舍弃一些特性使得语言显得简练呢？ 这样最大的好处就是嫌少了团队的学习成本。对于一个人来说，很多时间花费在并不常用的特性学习上可能看不到这个代价，但对于一个团队来讲，这个代价就要倍乘。这是因为，一旦有人在代码中用到这些特性，其他一起维护代码的团队成员就不得不熟悉这些特性，来理解采用这些技术的实现。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/24/resume/">Resume</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-24T00:00:00+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Resume</h1>
+  <entry>
+    <title type="html"><![CDATA[Resume]]></title>
+    <link href="http://www.wuli.mobi/blog/2015/08/24/resume/"/>
+    <updated>2015-08-24T00:00:00+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2015/08/24/resume</id>
+    <content type="html"><![CDATA[<h1>Resume</h1>
 
 <p>I have 17 years&#8217; software engineering experience working for networking industry. I am seeking a long-term position as a software engineer / QA / lead / manager position where I can fully utilize my training, skills and make significant to the success of cooperation.</p>
 
@@ -296,35 +207,15 @@ Supported our customer with all kinds of PKI related APIs.</li>
 <li>Best Partner Awarded by CDO Learning &amp; Development of China (2014): Cooperated with Cisco Learning &amp; Development department we offered a series Python courses to Cisco employees. As a Python language coacher, my class got a lot of warming feedbacks from employees and won the prize.</li>
 </ul>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/04/closures/">闭包</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-05-04T14:27:03+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:27 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>套用维基百科的解释：闭包（closure）是此法闭包（Lexical Closure）的简称，是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创造它的环境也不例外。我们从一个简单地例子来分析这些话在说什么。</p>
+  <entry>
+    <title type="html"><![CDATA[闭包]]></title>
+    <link href="http://www.wuli.mobi/blog/2015/05/04/closures/"/>
+    <updated>2015-05-04T14:27:03+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2015/05/04/closures</id>
+    <content type="html"><![CDATA[<p>套用维基百科的解释：闭包（closure）是此法闭包（Lexical Closure）的简称，是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创造它的环境也不例外。我们从一个简单地例子来分析这些话在说什么。</p>
 
 <pre><code>def foo(bar):
     def plus_one():
@@ -356,35 +247,15 @@ print(func())                # 输出100
 </code></pre>
 
 <p>可以看到，return 函数对象plus_one之前，修改过 bar 的值，plus_one 的调用使得它会使用最后一次 bar 的赋值。需要注意一下这个特性，尤其是引用的变量处于循环当中。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/30/legb/">LEGB规则与 Python 变量的存取</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-30T16:38:35+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:38 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>每种语言都有检索变量的规则，决定了当程序查找一个变量的时候，会去哪里找，遵循什么样的搜索顺序。Python 亦然，Python 内部的查询变量的规则简称 LEGB。它是 Local，Environment，Global，Builtin 首字母的缩写。</p>
+  <entry>
+    <title type="html"><![CDATA[LEGB规则与 Python 变量的存取]]></title>
+    <link href="http://www.wuli.mobi/blog/2015/04/30/legb/"/>
+    <updated>2015-04-30T16:38:35+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2015/04/30/legb</id>
+    <content type="html"><![CDATA[<p>每种语言都有检索变量的规则，决定了当程序查找一个变量的时候，会去哪里找，遵循什么样的搜索顺序。Python 亦然，Python 内部的查询变量的规则简称 LEGB。它是 Local，Environment，Global，Builtin 首字母的缩写。</p>
 
 <p>具体说来，加入一个函数要操作一个叫做 x 的变量，那么 Python 首先在函数内部，局部（Local）范围来查找这个变量；如果没有找到，则到包含这个函数定义的外围去查找（称作 Enclosing)，这个外围或许是另外一个函数（包括匿名函数），如果还是没有，继续朝外查找，一直到模块级别，从这里定义了全局（Global）变量中寻找；如果仍然没有找到，则查找 Python 内置变量(Built-in)，看是否有相同名字的。</p>
 
@@ -474,35 +345,15 @@ print(x)                   #2 UnboundLocalError: local variable 'x' referenced b
 
 
 <p>当然了，如果你仔细维护你的代码，并且遵循 LEGB 规则，你就不会起名同名变量来做类似操作，因此即使你不知道这两种特殊作用域的变量也没有关系。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/29/issues-of-imports/">Python 包管理以及导入包时候一些问题辨析</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-29T14:16:39+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:16 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>之前写了一点关于Python相对包导入机制的东西。除过概念上要区分传统导入方式，记住包导入时候如何寻找路径之外。还经常会碰见在包管理以及使用上因为随意混合这两种方式所带来的意想不到的后果。</p>
+  <entry>
+    <title type="html"><![CDATA[Python 包管理以及导入包时候一些问题辨析]]></title>
+    <link href="http://www.wuli.mobi/blog/2015/04/29/issues-of-imports/"/>
+    <updated>2015-04-29T14:16:39+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2015/04/29/issues-of-imports</id>
+    <content type="html"><![CDATA[<p>之前写了一点关于Python相对包导入机制的东西。除过概念上要区分传统导入方式，记住包导入时候如何寻找路径之外。还经常会碰见在包管理以及使用上因为随意混合这两种方式所带来的意想不到的后果。</p>
 
 <p>之前说过，对于传统包引用：</p>
 
@@ -570,35 +421,15 @@ foo \
 <p> 一方面可以解决相对导入模式下无法当做程序文件使用；另外一方面可以解决不小心在 sys.path 下找到一个同名的 baz 文件而导入错的事情。当然了，代价就是敲的字符多了，当初从 import baz 到相对导入 from . import baz， 现在时 from foo import baz， baz 如果层次越深敲得越多。</p>
 
 <p>似乎使用绝对导入能够使用的范围更为广泛。那么为什么要存在相对导入这种奇葩呢？他们说，能够解决一个层次复杂的 package 重新组织时候需要修改各个包的麻烦。 我相信这是对的，不过我也相信相对导入带来的麻烦更多。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/22/python-relative-imports/">Python Relative Imports</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-22T10:11:17+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:11 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Python Relative Imports</h1>
+  <entry>
+    <title type="html"><![CDATA[Python Relative Imports]]></title>
+    <link href="http://www.wuli.mobi/blog/2015/04/22/python-relative-imports/"/>
+    <updated>2015-04-22T10:11:17+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2015/04/22/python-relative-imports</id>
+    <content type="html"><![CDATA[<h1>Python Relative Imports</h1>
 
 <p>Python包内模块之间当然可以像我们熟知的包导入方式一样，通过<em>import</em>或者<em>from &hellip; import &hellip;</em>来完成。 但是这里有个细节问题，可能会出现并非开发者所想到的后果。通过举例来说明， 现在要开发一个包（Package）Hello，它的目录结构如下：</p>
 
@@ -684,35 +515,15 @@ import Hello.a.b.b1
 <li>所有的相对导入通过<em>from &hellip; import &hellip;</em>这种格式来完成</li>
 </ul>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/07/unicode/">Unicode 以及如何使用 Unicode 编程</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-07T11:07:36+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:07 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>我们讨论 Unicode和使用编程中使用 Unicode，需要对 Unicode 的一些概念予以澄清，从而知道知道它是什么，它用来解决什么问题。对于很多的程序员来讲，在编程生涯中或多或少听过或者少量用过 Unicode，但是可能对于说清楚它是什么，它如何工作的却没有信心。那么本着回答这些问题的原则，我们来目的性的了解 Unicode 是什么，如何在编程语言中使用（Python）它。</p>
+  <entry>
+    <title type="html"><![CDATA[Unicode 以及如何使用 Unicode 编程]]></title>
+    <link href="http://www.wuli.mobi/blog/2015/04/07/unicode/"/>
+    <updated>2015-04-07T11:07:36+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2015/04/07/unicode</id>
+    <content type="html"><![CDATA[<p>我们讨论 Unicode和使用编程中使用 Unicode，需要对 Unicode 的一些概念予以澄清，从而知道知道它是什么，它用来解决什么问题。对于很多的程序员来讲，在编程生涯中或多或少听过或者少量用过 Unicode，但是可能对于说清楚它是什么，它如何工作的却没有信心。那么本着回答这些问题的原则，我们来目的性的了解 Unicode 是什么，如何在编程语言中使用（Python）它。</p>
 
 <h1>Unicode的历史起源</h1>
 
@@ -722,7 +533,7 @@ import Hello.a.b.b1
 
 <p>当计算机被使用的越来越广泛，越来越多的国家参与到计算机的使用与开发时候，一个新问题马上就浮现出来，那就是对于本国语言的表示示与存储的支持。之前提到的 ASCII 编码集合规定了英文字符用于交互时候的表示，它是通过一个7bit 的数字来表示。那么对于其他的西欧字符，比如字符&#8221;ä&#8221;就无法映射到0-127这个数值范围内。于是有了扩展 ASCII 的 ISO-8859-1(Lantin-1)字符集。Latin-1字符集用到了其他的一些西欧字符，未能能够对其编码，需要把一个字节的8个比特都用到，于是除过 ASCII 定义好的0-127这个数值范围对应的字符外，扩展了128-255的映射，里面包含了诸如ä之类的额外的西欧字符。如下图所示：摘自 <a href="http://en.wikipedia.org/wiki/ISO/IEC_8859-1">Wikipedia</a></p>
 
-<p><img src="/images/latin-1.png" alt="LATIN-1" /></p>
+<p><img src="http://www.wuli.mobi/images/latin-1.png" alt="LATIN-1" /></p>
 
 <p>到了这里还不够，即使 LATIN-1这种编码仍然没法包含地球上所有国家所使用的字符，也无法包含常用的诸如汉语这样的字符。因此还的定义更多的字符集。</p>
 
@@ -743,7 +554,7 @@ import Hello.a.b.b1
 <p>让我们对编码（Encoding）这个概念进行一下澄清。之前将到字符集以及如何将字符“编码”成数字，是建立一个概念上的字符与数字之间的意义对应关系。这里并不牵扯到这个数字如何表示，在计算机中用几个字节存储，字节顺序等等。它只一个概念上的字符与数字的对应。这里的编码（Encoding）是抽象层次的编码，准确说来是 “编号”（Coding）；而如果考虑这些数字的最终存储形式等实现细节，则是实现层次的编码,比如 UTF-8, UTF-16, UTF-32.  这里举的例子针对 Unicode。对于简单地ASCII 码，它既是指ASCII 字符的编号，同时也是编码。编码这个概念在 Unicode 相关概念中实在是重要，因此需要理解在提到编码的时候到底指的是哪个层次的编码。</p>
 
 <p>使用图例来区分 编号（Coding） 与 编码（Encoding）之间的区别。他们所在的层次不一样，如下面所示。
-<img src="/images/encoding.png" alt="Coding/Encoding" /></p>
+<img src="http://www.wuli.mobi/images/encoding.png" alt="Coding/Encoding" /></p>
 
 <p>一个某种语言的字符，首先对应一个某种规则定义的数值。这是用来定义某种字符集和它的编号规则。然后，在存储的时候，这个编号根据不同的编码规则，生成二进制序列串（比如 Unicode 字符‘汉’按照不同编码规则生成的字节流不一样）。实际上在看关于 Unicode 相关文章的时候，编号和编码这两个词是混用的，但是我们自己心里得清楚这里有两个层次： 一个是数字表示形式，一个是数字存储形式。</p>
 
@@ -868,41 +679,21 @@ print(s)                                             =&gt; "这是 unicode 字�
 
 <p><b><img src="http://img.blog.csdn.net/20141031165003296" alt="装B 状-pic from CSDN" /> </b>
 <b><a href="http://img.blog.csdn.net/20141031165003296">装B 状-pic 引用自 CSDN</a></b></p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/03/learning-pandas-1/">Learning Pandas (1) - DataFrame Indexing and Slicing</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-03T08:29:46+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>8:29 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>总是记不着DataFrame中各种Indexing和Slicing操作，也是因为用得少的缘故。很多操作非常像numpy.ndarray的操作，很多又像字典操作，又有类似 sequence 的操作。总之似乎很方便，前提是都得知道该怎么用。</p>
+  <entry>
+    <title type="html"><![CDATA[Learning Pandas (1) - DataFrame Indexing and Slicing]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/12/03/learning-pandas-1/"/>
+    <updated>2014-12-03T08:29:46+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/12/03/learning-pandas-1</id>
+    <content type="html"><![CDATA[<p>总是记不着DataFrame中各种Indexing和Slicing操作，也是因为用得少的缘故。很多操作非常像numpy.ndarray的操作，很多又像字典操作，又有类似 sequence 的操作。总之似乎很方便，前提是都得知道该怎么用。</p>
 
 <p>因此整理一下，权当笔记。</p>
 
 <p>首先构造一个试验用的 DataFrame。</p>
 
-<p><img src="/images/pandas-df.png" alt="frame" /></p>
+<p><img src="http://www.wuli.mobi/images/pandas-df.png" alt="frame" /></p>
 
 <p>这个 DateFrame 的索引（index）是基于时间的，他得列分别给予标签&#8217;one&#8217;, &lsquo;two&rsquo;, &lsquo;three&#8217;。那么关于索引，有以下几种目的：</p>
 
@@ -1028,35 +819,15 @@ print(s)                                             =&gt; "这是 unicode 字�
 <p>因此，似乎是用标签来做 slicing 的时候，是用类似列表的 <em>start:end</em> 不是很管用。</p>
 
 <p>总体看来，ix 的各种操作很方便获得行，而是用 frame[]类似的快捷方式能方便得获得各种列。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/19/svm/">支持向量机 (SVM)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-11-19T08:42:38+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>8:42 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>支持向量机 (Support Vector Machine)</h1>
+  <entry>
+    <title type="html"><![CDATA[支持向量机 (SVM)]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/11/19/svm/"/>
+    <updated>2014-11-19T08:42:38+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/11/19/svm</id>
+    <content type="html"><![CDATA[<h1>支持向量机 (Support Vector Machine)</h1>
 
 <p>支持向量机从字面意思上完全得不到要领。支持&hellip;向量机&hellip;？干嘛要支持机器？了解到底这是一个什么东西之前，我们先看看它另外一个别名，“最大边界分类器”（Maximum Margin Classifier）。这个就有点意思了，首先是个分类器，再者是基于边界进行分类，再加上个限定词“最大”。这是一个基于直觉上的形象说法，在探讨算法本身之前，我们先看看，在一个二维空间内，对于线性可以区分的两类数据如何划分它们的边界，以此来获得关于所谓的最大边界分类的一个初步认识。</p>
 
@@ -1152,35 +923,15 @@ g_i(w^*)&amp;\leq 0,\quad \text {i=1,..,k} &#92;
 $$</p>
 
 <p>未完，待修改&hellip;</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/17/orthogonal/">向量的正交性</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-11-17T09:24:43+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:24 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>正交性 (Orthogonal)</h1>
+  <entry>
+    <title type="html"><![CDATA[向量的正交性]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/11/17/orthogonal/"/>
+    <updated>2014-11-17T09:24:43+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/11/17/orthogonal</id>
+    <content type="html"><![CDATA[<h1>正交性 (Orthogonal)</h1>
 
 <p>在向量空间中，如何评价两个向量之间的角度，或者更加进一步说他们之间的相关程度？ 想想在一个二维空间中，一个通过原点的向量的长度和方向由其坐标（x,y）决定。如果同时存在另外一个类似的向量，他们之间会存在一个夹角。这个夹角要么大于或者小于90度，要么正好90度。</p>
 
@@ -1193,99 +944,682 @@ $$</p>
 <p>$$ ||x|| * ||y|| = x^{T} y $$</p>
 
 <p>即内积等于向量长度之积。（如果向量方向相反，则等于内积的负值）</p>
-</div>
+]]></content>
+  </entry>
   
+  <entry>
+    <title type="html"><![CDATA[向量空间]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/11/10/vector/"/>
+    <updated>2014-11-10T09:45:49+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/11/10/vector</id>
+    <content type="html"><![CDATA[<h1>向量空间的一些相关知识</h1>
+
+<p>关于向量空间 V 的公理：V 定义了加法和标量乘法运算的集合。对于 V 中每一对元素 x 和 y，x+y 与 V 中一个元素相对应；同时如果有一个标量$\alpha$，有$\alpha$x 也与 V 中一个元素相对应。集合 V 称为向量空间（Vector Space）的前提是：除过这两个，并满足下面公理</p>
+
+<ul>
+<li>V 中的任意元素 x，y 有 x+y=y+x</li>
+<li>V 中的任意元素 x，y，z，有 (x+y)+z = x+(y+z)</li>
+<li>V 中存在元素0, 对于任何元素 $x\in_{}V$，有 x+0=x</li>
+<li>对于$x\in_{}V$，有 x+(-x)=0</li>
+<li>a(x+y)=ax+ay</li>
+<li>(a+b)x=ax+bx</li>
+<li>(ab)x=a(bx)</li>
+<li>1*x=x</li>
+</ul>
+
+
+<p>这些运算称作线性运算。向量空间的定义很冗长，但是是基础。学不好基础，就像我这样，大学毕业很久，看一些书，还得回来重新复习。<strong>向量空间有个很重要的属性，就是其封闭性</strong>，任何向量经过加法或者与标量的乘法运算，或者同时进行这两种运算，都对于向量空间中得某一个向量。</p>
+
+<p>向量空间又称作线性空间。</p>
+
+<h1>子空间</h1>
+
+<p>若 S 为向量空间 V 的非空子集，且 S 满足如下条件：</p>
+
+<ul>
+<li>对已任意标量$\alpha$，若 $x\in{S}$，则$\alpha{x}\in{S}$</li>
+<li>若$x\in{S}$ 和 $y\in{S}$，则$x+y\in{S}$</li>
+</ul>
+
+
+<p>定义 S 为 V 的子空间（subspace）。这两个条件表明子空间在加法和乘法意义下，如同向量空间一样，也是<strong>封闭</strong>的。</p>
+
+<p>话都明白，但是不大容易理解子空间到底是什么。举个栗子，V 为一三维空间，则在此三维空间中，我们找到一个平面，则此平面上的所有向量构成 V 的子空间 S。此子空间同时也满足封闭性；因为此子空间也满足向量空间所满足的八个公理，于是向量空间的子空间仍然是向量空间。</p>
+
+<p>集合{0}为零子空间。</p>
+
+<h1>向量的张成（span）的定义</h1>
+
+<p>若$v_1,v_2,&hellip;,v_n$是向量空间 V 中的向量，则$\alpha_1v_1+\alpha_2v_2+&hellip;+\alpha_nv_n$（$\alpha$为标量）称为向量$v_1,v_2,&hellip;,v_n$的线性组合，所有线性组合构成的集合成为$v_1,v_2,&hellip;v_n$的张成，记作Span($v_1,v_2,&hellip;,v_n$)。</p>
+
+<h1>向量空间的张集（spanning set）的定义</h1>
+
+<p>有一种张集的特殊情况，那就是 Span($v_1,v_2,&hellip;,v_n$)=V。于是定义：
+($v_1,v_2,&hellip;,v_n$)是向量空间 V 的一个张集的充要条件是 V 中的任何一个向量都一个表示为($v_1,v_2,&hellip;,v_n$)的线性组合。</p>
+
+<h1>线性无关（linear independence）</h1>
+
+<p>寻找最小张集的问题。</p>
+
+<p>定义：如果向量空间 V 中的 ($v_1,v_2,&hellip;,v_n$) 满足 ($c_1v_1,c_2v_2,&hellip;,c_nv_n=0$) 只有在$c_1,c_2,&hellip;,c_n$全部为0的情况下才满足，则它们是线性无关的。</p>
+
+<p>于是寻找最小张集的问题就是寻找这么一组想想，($v_1,v_2,&hellip;,v_n$)，使得它们线性无关。最小张集又称作基（basis）。</p>
+
+<p>线性相关的定义则是能够找到不全为0的$c_1,c_2,&hellip;,c_n$，使得</p>
+
+<p>$$c_1v_1+c_2v_2+&hellip;+c_nv_n=0$$</p>
+
+<p>结合向量</p>
+
+<h1>基</h1>
+
+<p>首先基是一组线性无关的向量；并且这组向量张成向量空间 V。这就是基的定义。</p>
+
+<p>如果向量空间 V 的维数为 n>0,则
++ 任意 n 个线性无关的向量可以张成 V
++ 任何张成 V 的 n 各向量都线性无关</p>
+
+<p>标准基 {$e_1,e_2,&hellip;,e_n$}.</p>
+
+<h1>向量空间 V 的维数</h1>
+
+<p>定义：V 的一组基含有的 n 个向量，称之为 V 的维数。</p>
+
+<h1>坐标变换</h1>
+
+<p>标准基[$e_1,e_2,&hellip;,e_n$]下的一个向量X ($x_1,x_2,&hellip;,x_n$)在新基[$u_1,u_2,&hellip;,u_n$]的坐标向量是</p>
+
+<p>$$c=U^{-1}x$$</p>
+
+<p>反之，如果一个向量在 U 基的坐标向量是 C，那么对应原标准基的坐标为</p>
+
+<p>$$x=Uc$$</p>
+
+<p>U称作从有序基 U 到基 E 的转移矩阵（transition matrix）</p>
+
+<h1>行空间和列空间</h1>
+
+<p>矩阵 A 的行空间的维数称为矩阵 A 的秩（rank）。 怎么理解？ 维数是基的个数，也就是最大线性无关向量组的向量个数。因此:</p>
+
+<p>Rank(A)=Number of {$e_1,e_2,&hellip;,e_n$}</p>
+
+<h1>线性映射与线性变换</h1>
+
+<p>线性映射：从空间 A 到 B 的映射，又成线性变换。 (Linear map/linear mapping/linear transformation, or linear function under some scenarios)
+$$y = \tau(x)$$</p>
+
+<p>$$x\in{A};y\in{B}$$</p>
+
+<p>同时需要满足$\tau(x+y)=\tau(x)+\tau(y)$和$\tau(\alpha{x})=\alpha\tau(x)$
+线性映射的像空间如果是零空间，那么使得$\tau(\alpha)=0$的$\alpha$的全体向量本身也是一个线性空间，称作线性变换$\tau$的核。</p>
+
+<p>$S_\tau = {\alpha|\alpha\in{V},\tau(\alpha)=0}$</p>
+
+<p>线性算子 (Linear Operator，或者叫自同态，endomorphism)：从空间 A 到自身的映射</p>
+]]></content>
+  </entry>
   
+  <entry>
+    <title type="html"><![CDATA[期望值，方差和协方差（2）]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/11/05/variance/"/>
+    <updated>2014-11-05T08:05:09+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/11/05/variance</id>
+    <content type="html"><![CDATA[<p>上篇说了期望值，我们知道这是一种对结果的预期。有了这个基础，我们可以进一步讨论下一个概念：方差（Variance）</p>
 
+<h1>方差 （ Variance）</h1>
 
-    </article>
+<p>方差就是平法差。它的数学定义是:</p>
+
+<p>$$Var(X)=\sum_{s\in_S}(X(s)-\mu)^{2}P(s)   \qquad 离散随机变量$$</p>
+
+<p>$\mu$就是期望值E[x]。方差用Var(X)或者$\sigma^{2}$来表示。这个公式是说，对于每个样本，首先计算其随机变量值与期望值差异的平方，然后乘以出现这个样本的概率，最后对于所有样本做一个总和。从公式的形式来看，我们如果把$(X(s)-\mu)^{2}$看做s的随机变量的话，其实方差也算是一个新的随机变量的期望值。这是另外一个角度看待方差，于是方差亦可以表示为:</p>
+
+<p>$$Var(X)=E[(x-\mu)^{2}]$$</p>
+
+<p>在这里，方差就是对于结果偏差（的平方）的一个预期。学术点的说法就是描述离散程度的一个量。</p>
+
+<p>这个公式经过推导（利用期望值的运算公式）可以得到：</p>
+
+<p>$$Var(X) = E[X^{2}] - E[X]^{2}$$</p>
+
+<p>一些方差的运算公式有</p>
+
+<p>$$
+\begin{align*}
+Var(X+a) &amp;= Var(X) &#92;
+Var(aX) &amp;= a^{2}Var(X)&#92;
+Var(aX+bY) &amp;= a^{2}Var(X)+2abCov(X,Y)+b^{2}Var(Y)&#92;
+\end{align*}
+$$</p>
+
+<p>第三个等式的更一般形式为：</p>
+
+<p>$$Var(\sum_{i=1}^N a_iX_i)=\sum_{i,j=1}^NCov(X_i,X_j)=\sum_{i=1}^Na_i^{2}Var(X_i)+2\sum_{1\leq{i}\leq{j}\leq{N}}^Na_ia_jCov(X_iX_j)$$</p>
+
+<p>至于Cov，就是协方差（Covariance）的缩写。下次再说。</p>
+
+<p>这里的特例是如果 X 和 Y 为独立变量，则有</p>
+
+<p>$$Var(X+Y) &amp;= Var(X)+Var(Y) \qquad X,Y 为独立变量 $$</p>
+
+<p>这个可以由期望值的定义和运算公式推出。</p>
+
+<p>总而言之，方差就是描述数值的离散程度。离散程度越高，方差越大。</p>
+]]></content>
+  </entry>
   
-  <div class="pagination">
-    
-      <a class="prev" href="/posts/2">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
+  <entry>
+    <title type="html"><![CDATA[期望值，方差和协方差（1）]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/11/05/expected-value/"/>
+    <updated>2014-11-05T08:05:09+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/11/05/expected-value</id>
+    <content type="html"><![CDATA[<p>学习统计学、机器学习甚至线性代数的时候，总是有几个概念时不时跳出来，伴随着整个学习过程。起初的时候，你好像知道他们是干什么用的，慢慢地，你得回头过去看看到底他们是做什么用得，甚至还要思考，他们为什么还会存在。为什么数学家要将他们定义成这个样子，而不是其他的形式。他们就是期望值、方差、协方差，许多讨论概率的分布，随机变量的相关性等问题，都与他们相联系。因此，真正搞懂他们的意义，本身的意义就很重大。</p>
+
+<h1>期望值 (Expected Value/Expectation)</h1>
+
+<p>期望值的数学定义为：
+$$E[X]=\sum_{s\in_S}X(s)P(s)   \qquad 离散随机变量$$</p>
+
+<p>其中 X 是<strong>随机变量</strong>，s是<strong>样本</strong>，S 是<strong>样本空间</strong>，P(s)是样本的<strong>概率</strong>。每个样本的概率可以看做是一个权重，于是在这个样本下对应的随机变量的值与这个权重的乘积描述了此随机变量值对总体期望的一个“贡献值”。将所有这些贡献值相加，得到对总体随机变量值的一个期望。那么这个期望又有什么意思呢？通过一个例子来理解这个期望比较容易，比如说掷色子，色子有6个面，一个理想没有作弊过的色子我们认为（注意，是认为，为什么这么认为呢？以后再说）在其被掷出，每个面朝上的几率都是1/6，样本空间为{1，2，3，4，5，6}（集合中的每个值代表每个面的点数）。将这些信息带入上面的期望值中得定义里可得
+ E[X]=1<em>1/6+2</em>1/6+&hellip;+6*1/6=3.5</p>
+
+<p>这个3.5与任意一次掷色子的结果{1，2，3，4，5，6}都不同，但它描述了一个趋势，那就是，如果我们掷色子足够多次数，我们得到的所有结果，其点数的平均值就是3.5。或许你连着6次都扔了6点，但是当扔足够大的次数时候，所有点数的平均值比如等于3.5（大数定理）。</p>
+
+<p>听起来期望值似乎与平均值一个意思，单单从数值上来讲，对于足够多次的实验结果，这两个值是一样的。但是这两个概念的定义是不同的。期望值对应的是所有<strong>样本</strong>，即掷色子出现{1，2，3，4，5，6}这个样本空间；而平均值是针对投掷色子的<strong>结果</strong>，如{2，3，5，6，6，6，2，3，&hellip;}。</p>
+
+<p>上面关于期望值的定义可以推导出另外一种形式的定义：</p>
+
+<p>$$E[X]=\sum_{r}(X=r)P(X=r)   \qquad 离散随机变量$$</p>
+
+<p>这个形式描述了随机变量的值与这个值所出现的概率。对于连续随机变量，期望值的定义如下：</p>
+
+<p>$$E[X]=\int^{+\infty}_{-\infty}xf(x)dx   \qquad 连续随机变量$$</p>
+
+<p>这里f(x)是概率密度函数。</p>
+
+<h1>这就是期望值？没啥花头么</h1>
+
+<p>方差就是这样定义，似乎描述了一个类似平均或者重心的概念，没有什么啥好想的。其实不然，我们从一个小赌博开始，假设你和另外一个人投硬币游戏，那个人对你说，我们玩个游戏，连续猜五次正反面为一局，如果都猜对，给你30圆，如果输，你给他一元。 你说你赌不赌？赌是可以赌的，小赌怡情么，不过对于当前这个规则，假设你们能够赌到天荒地老，时间管够。你可是必输无疑的。为什么呢？我们算算期望值，也就是你的理想收益（足够多局数情况下）。</p>
+
+<p>对于连着猜5次都能猜正确，我们知道，这个概率是$(&frac12;)^{5} = 1/32$
+于是你有1/32的概率得到30圆，而又31/32的概率输掉1圆钱。那么期望值E(X)=1/32*30+31/32*(-1)=-1/32圆。这意味着你玩这个游戏，每次的收益期望是-1/32圆。那么时间玩得够久，你就损失大了。 当然，话说回来，这也不排除你第一把就全猜对5个正反面，赢了30 圆跑路。</p>
+
+<p>概率论本身就是研究这个世界不确定性，它的发展反映了人性的一些特点，历史上很多人把概率应用到各种赌博中去，甚至有人通过计算，发了横财。这再次说明，知识就是生产力啊。</p>
+
+<p>总体而言，期望着是给你一个预期，让你理性判别得失。</p>
+
+<p>作为结束，提一下期望值的一些运算规则，很好证明，不再赘述。</p>
+
+<p>$$
+\begin{align*}
+E[X+b] &amp;= E[X] + b &#92;
+E[X+Y] &amp;= E[X] + E[Y] &#92;
+E[aX] &amp;= aE[X] &#92;
+E[XY] &amp;= E[X]E[Y] \qquad X,Y是独立变量&#92;
+\end{align*}
+$$</p>
+
+<p>关于方差 (Variance) ，且听下回分解。</p>
+]]></content>
+  </entry>
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2016/01/09/pythonexp/">Pythonexp</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/24/resume/">Resume</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/04/closures/">闭包</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/30/legb/">LEGB规则与 Python 变量的存取</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/29/issues-of-imports/">Python 包管理以及导入包时候一些问题辨析</a>
-      </li>
-    
-  </ul>
-</section>
+  <entry>
+    <title type="html"><![CDATA[期望值，方差和协方差（3）]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/11/05/covariance/"/>
+    <updated>2014-11-05T08:05:09+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/11/05/covariance</id>
+    <content type="html"><![CDATA[<p>在多随机变量的方差运算中，我们看到了协方差的身影 COV。协方差的定义为：</p>
+
+<p>$$cov(X,Y)=E[(X-\mu)(Y-\nu)] = E[XY]-E[X]E[Y]$$</p>
+
+<p>$\mu$是 X 的期望值 E[X]，$\nu$是 Y 的期望值 E[Y]。协方差是描述两个随机变量之间的。协方差有时候也用符号$\sigma$来表示。这个公式看起来有点眼熟，如果我们让 Y=X，实际上它就变成了方差的定义。这不是偶合，下面详细说明。</p>
+
+<p>协方差表示的是两个随机变量的总体误差，并描述两个随机变量之间的线性相关度。为了方便，我们经常使用规范化（normalized）的协方差。</p>
+
+<p>$$corr(X,Y)=\frac{cov(X,Y)}{\sqrt{Var(X)Var(Y)}} $$</p>
+
+<p>由柯西不等式可以知道这个值介于-1与1之间。 下图第一排反映的是2个随机变量（$X_i,Y_i$）构成的点集的相关性关系。如果两个随机变量正相关，即Y和 X 之间符合Y=aX+b，则它们的构成的点集为一条直线（corr=1）；如果2个随机变量相反，但符合 Y=-aX+b，此时他们负相关相反（corr=-1）；同时，还有一个特点，如果2个随机变量独立，或者说它们是不相关的，此时，则构成的点集是一团（corr=0）。</p>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Correlation_examples.png/800px-Correlation_examples.png" alt="aaaa" /></p>
+
+<center>图片取自wikipedia</center>
 
 
+<p>由方差公式 Var(X+Y)=Var(X)+Var(Y)+Cov(X,Y)知道，如果 X，Y 为独立变量，则 Cov(X,Y)=0。但不能翻过来说。亦，如果 Cov(X,Y)=0， 则 X,Y 互为独立变量是错误的。比如在[-1,1]之间 $Cov(X,X<sup>2</sup>)$为0（根据 Cov 定义，代$入 X，X<sup>2</sup>积分可得），但不能说 X 和 X<sup>2</sup>$ 是独立的。</p>
 
+<p>另一方面，如果两个随机变量非常相关，比如 Y=X，那么相关度公式</p>
 
+<p>$$corr(X,X)=\frac{Var(X)}{\sqrt{Var(X)<sup>2</sup>}}=1$$</p>
 
+<p>从这个特例可直觉上印证随机变量的相关度。</p>
+
+<p>在线性代数中，对于一个矩阵 A，其由 N 个列向量组成，每个列向量可以看做是一个随机变量的不同值构成，那么它的协方差矩阵为</p>
+
+<p>$$\Sigma=E[(X-E[X])^{T}(X-E[X])]$$</p>
+
+<p>协方差矩阵在这里描述的是任意两个向量之间的线性相关度（一般将 E(x)归一化成0）。在机器学习中得降维处理中有所应用。其目的在于寻找一组基使得排除一些不重要的维度成为可能。</p>
+]]></content>
+  </entry>
   
-</aside>
+  <entry>
+    <title type="html"><![CDATA[PCA的线性代数的背景]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/09/10/pca-and-linear-algorithm/"/>
+    <updated>2014-09-10T09:36:23+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/09/10/pca-and-linear-algorithm</id>
+    <content type="html"><![CDATA[<p>前段时间虽然学了机器学习中关于 PCA 的相关算法，也知道如何利用 PCA 对数据进行降维处理；现有的语言如Python，Octave 都也有很多现成的函数可供利用，非常便捷。但是总是觉得学得囫囵，俗话说：授人以鱼不如授人以渔。还是很期望了解背后的数学原理。</p>
 
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - Wu Li -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+<p>于是钻研了一下，一路上是云漫漫兮白日寒，天荆地棘行路难。虽说学过高数，念过线性代数，看相关资料还是十分痛苦。实话说本来学得时候就不敢说都懂，现在又忘记的差不多了，这么多年不用，确实够呛。好在网上有一篇对 PCA 数学原理解析得非常好的文章，我估计让我总结也不如这个好，暂且借用一下，放个链接到此。
+<a href="http://blog.codinglabs.org/articles/pca-tutorial.html">http://blog.codinglabs.org/articles/pca-tutorial.html</a>
+即使有如此好文章，看到后来的矩阵对角化还是感觉要复习的知识太多。对比 PCA 算法的几个步骤和这些算法库给的一些函数，很多情况不明白为什么要这样做，也不明白这是函数的返回值确切数学含义是什么，只是知道如何用而已。</p>
 
-</footer>
+<p>所以，对照上面的这个文章，结合算法，我也来分析这些算法步骤的意义：</p>
+
+<p>PCA 算法
+样本数量为m, feature 个数为n</p>
+
+<h2>计算协方差矩阵</h2>
+
+<p>$$
+\Sigma=\frac{1}{m}\Sigma_{i=1}^{m}(x^{(i)})(x^{(i)})^{T}
+$$
+   为什么要算协方差矩阵呢？我们来看看这个算出来的矩阵（我们称这个矩阵为A）包含了些什么东西在里面：</p>
+
+<p>$$
+\begin{bmatrix}
+\Sigma_{i=1}^{m}x_1^{(i)}x_1^{(i)} &amp;  \Sigma_{i=1}^{m}x_1^{(i)}x_2^{(i)} &amp;  &hellip; &amp; \Sigma_{i=1}^{m}x_1^{(i)}x_n^{(i)} \cr
+\Sigma_{i=1}^{m}x_2^{(i)}x_1^{(i)} &amp;  \Sigma_{i=1}^{m}x_2^{(i)}x_2^{(i)} &amp;  &hellip; &amp; \Sigma_{i=1}^{m}x_2^{(i)}x_n^{(i)} \cr
+&hellip; &amp; &hellip; &amp; &hellip; &amp; &hellip; \cr
+\Sigma_{i=1}^{m}x_n^{(i)}x_1^{(i)} &amp;  \Sigma_{i=1}^{m}x_n^{(i)}x_2^{(i)} &amp;  &hellip; &amp; \Sigma_{i=1}^{m}x_n^{(i)}x_n^{(i)}
+\end{bmatrix}=
+\begin{bmatrix}
+x_1*x_1^{T} &amp;  x_1*x_2^{T} &amp;  &hellip; &amp; x_1*x_n^{T} \cr
+x_2*x_1^{T} &amp;  x_2*x_2^{T} &amp;  &hellip; &amp; x_2*x_n^{T} \cr
+&hellip; &amp; &hellip; &amp; &hellip; &amp; &hellip; \cr
+x_n*x_1^{T} &amp;  x_n*x_2^{T} &amp;  &hellip; &amp; x_n*x_n^{T}
+\end{bmatrix}
+$$
+这个矩阵是什么特点呢？ 这个协方差矩阵是一个对称矩阵。什么？费劲画了这么多知道是对称矩阵又如何？先不用急，先考虑一下 PCA 的目的是什么。PCA 主要目的是降维处理数据，方便各种算法，能够快速处理。在一个样本中，并不是所有的 feature 都同等重要，甚至有时候，有的 feature 根本就没有用（比如 feature $x_2 = 2 * x_1$）, 这个时候，实际上 feature x2的引入并没有实际意义。那么 PCA 正是试图去掉这样的一些 feature，并同时最小化信息丢失。</p>
+
+<p>说得好听？怎么才能“最小化信息的丢失”？这里用到线性变换，全部都是线性代数上的知识。首先，将每个样本看做是一个 n 维向量。想想一下二维空间中得一个向量，经过坐标变换可以得到另外一组坐标；n 维向量也可以通过线性变换得到另外一个向量。如果在变换过程中能够依次找到一个一个的基，在第一个基上，所有样本在其上的投影最长（最能区分不同的样本），第二个基，在垂直于第一个基（内积为0）的所有基的基础上，寻找哪个投影次长的基，第三个基在垂直于前两个基的基础上寻找，以此类推。当我们能够找到 n 个基，在他们上面的投影（l1,l2,l3,&hellip;,ln）即与原始的（x1,x2,x3,&hellip;,xn）相互对应。但是我们的目的是降维，比如从 n 维降低到 k（ 1&lt;=k&lt;n），我们找到的 n 各基，是按照重要程度以此下来的，因此或许找到第 K 的基，在基1,2,&hellip;,K上的线性变换或许就可以满足精度需要。</p>
+
+<p>那么这与协方差矩阵有啥关系呢？观察这个协方差矩阵，假设此时的x1,x2,&hellip;,xn已经是按照我们找到的这一组基变换后的值。那么对角线上，$x_i*x_i^{T}$ (1=&lt;i &lt;=n)  就是方差的一个变异形式，描述了在这个基上面的分散程度，我们希望其能够最大化，这也正是我们刚才找到的那一组基的目的。因此，这两个目标是一致的。</p>
+
+<p>观察上三角区与下三角区，$x_i*x_j$ (1=&lt;i != j &lt;=n) 是不同 feature 之间的协方差。在降维的时候，我们希望选择的各个基之间是线性无关的，也就是互相正交的。因此x1,x2,&hellip;,xn这些在各个基上的投影也应该满足$X_i*X_j=0$,或者说让这个值尽量的趋近于零。
+    于是，我们的目标实际上就是对A进行对角化。</p>
+
+<h2>矩阵对角化</h2>
+
+<p>对角化处理在Python中对应的函数有:numpy.linalg.svd，它用来生成特征向量与特征值。
+    $$
+    U,S,V=np.linalg.svd(A)
+    $$</p>
+
+<p>   矩阵对角化在线性代数上是求得特征向量（U）(确切的说，应该是特征向量对应的标准正交基)和特征值（$\lambda$）。数学公式略过，只看定理和结论。
+   特征向量与特征值满足如下公式
+   A*U=U*$\Lambda$, $\Lambda$是特征值$\lambda$构成的对角矩阵。矩阵 A，这里是我们要进行对角化的矩阵，也是我们最初定义的那个$X*X^{T}$，它最终对角化变成了$\Lambda$，U 是用来进行变化的一组基。S 就是$\lambda_i(1&lt;=1&lt;=n)$</p>
+
+<h2>降维处理</h2>
+
+<p>使用对角化处理得到的U，就可以进行降维处理了，我们的目标既要降维，有不能损失太多的信息，将 S 以降序进行排列。假设我们要从 N 维降到 K 维，我们希望
+$$
+\frac{\Sigma_{i=1}^{k}S_{ii}}{\Sigma_{i=1}^{n}S_{ii}} >= 0.99
+$$</p>
+
+<p>我们可以依次去K=1,2,3,&hellip;,N来使上面的公式得到满足。假设得到这个 K。我们此刻即可对原始的样本 X 进行降维处理
+$$
+Z=U[0:K,:]*X
+$$</p>
+
+<p>此刻 Z 就是我们经过降维化的样本了。</p>
+]]></content>
+  </entry>
   
+  <entry>
+    <title type="html"><![CDATA[Latex Support on Github Blogs]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/08/29/latex-support/"/>
+    <updated>2014-08-29T09:08:24+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/08/29/latex-support</id>
+    <content type="html"><![CDATA[<p>$$
+f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{\frac{(x-\mu)^{2}}{2\sigma^{2}}}
+$$</p>
 
-<script type="text/javascript">
-      var disqus_shortname = 'httpwulimobi';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
+<p>Thanks for MathJax ，现在可以在Github blog 上面增加 Latex 支持了。步骤很简单：</p>
 
+<ol>
+<li><p>将以下代码拷贝到布局页面中去，和其他 load 各种 javascript 的代码放在一起。</p>
 
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
+<pre><code> &lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;  
+</code></pre></li>
+<li><p>然后就可以开始书写 Latex 代码了，前后用双美元符号($$)括起来即可.</p></li>
+</ol>
 
 
+<p>有一点不便利，不知道是我哪里用错了，书写 Latex 代码的时候，所有的 superscribe都必须用大括号括起来，否则就不行。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[更新了下个人主页]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/08/28/manage-old-posts/"/>
+    <updated>2014-08-28T18:51:15+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/08/28/manage-old-posts</id>
+    <content type="html"><![CDATA[<p>好久没更新个人主页了。原因一是以前用得框架很丑陋，自己不擅长搞这些界面的东西，也没找到个好的框架；另一方面也没有太多要放上来得东西。</p>
+
+<p>不过域名既然申请了，还是得好好维护。幸在今天找到一个好框架，搭建配置也非常顺利，最主要的时解决了界面丑陋的问题，深得我心。</p>
+
+<p>赶快把以前的帖子重新放在新框架里，同时发几个水帖.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[逻辑回归的一个日常应用]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/08/28/application-of-logistic-regression/"/>
+    <updated>2014-08-28T18:22:40+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/08/28/application-of-logistic-regression</id>
+    <content type="html"><![CDATA[<p>学了机器学习，一直没找到好的练习。经常练手的诸如垃圾邮件过滤，似乎已经有很多实现了，况且我也不是很感兴趣。翻着手机查看交通违章记录的时候，突然想到在网站上如果想查看违章记录，需要输入一堆东西，还要图片验证校验码，比较麻烦。 刚好，这些过程，比如自动获取网页，POST 信息，用程序实现都很方便，让人感兴趣的时校验码输入，刚好能够练习一下机器学习学到的东西。</p>
+
+<p>查询违章记录的时针对上海市的交通信息网，里面有供司机查询电子眼拍到或现场违章记录。</p>
+
+<p>用 Python 简单实现了Logistic Regression，配合一些手工得到的样本，图片识别很成功。一方面归功于网站的校验码设置也比较简单，另一方面，也体现 ML 的实用性。</p>
+
+<p>反正是练习，顺便用 SVM 和 Decision Tree 同时来识别校验码，效果都很好，唯一不好的时 kNN, 经常将数字8和0混淆，也可能是样本少得缘故吧。</p>
+
+<p>源代码在github:    <a href="https://github.com/wul/tvish">https://github.com/wul/tvish</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[一个简单优化Python程序效率的小技巧]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/03/30/simple-optimization/"/>
+    <updated>2014-03-30T00:00:00+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/03/30/simple-optimization</id>
+    <content type="html"><![CDATA[<p>先看以下两个程序, 先是s1.py</p>
+
+<pre><code>#s1.py
+n = 0
+while n &lt; 10000000:
+    i, j , k = [1,2,3]
+    m = i+j+k
+    n += 1
+</code></pre>
+
+<p>再是s2.py</p>
+
+<pre><code>def main():
+    n = 0
+    while n &lt; 10000000:
+        i, j , k = [1,2,3]
+        m = i+j+k
+        n += i
+main()
+</code></pre>
+
+<p>这两个程序代码几乎一样，只是s2.py的主要代码都包在函数里面执行，而s1.py的代码直接在global空间执行。代码其实很简单，就是执行了一千万次的1，2，3的相加。</p>
+
+<p>然后分别统计以下各自的执行时间。在我的MacPro上，它们的执行时间如下：</p>
+
+<pre><code>wuli2-mac:tmp wuli2$ time python s1.py 
+
+real    0m3.898s
+user    0m3.886s
+sys 0m0.011s
+wuli2-mac:tmp wuli2$ time python s2.py 
+
+real    0m2.151s
+user    0m2.140s
+sys 0m0.010s
+wuli2-mac:tmp wuli2$ time python s1.py 
+
+real    0m3.875s
+user    0m3.862s
+sys 0m0.012s
+wuli2-mac:tmp wuli2$ time python s2.py 
+
+real    0m2.157s
+user    0m2.145s
+sys 0m0.011s
+wuli2-mac:tmp wuli2$ time python s1.py 
+
+real    0m3.908s
+user    0m3.897s
+sys 0m0.010s
+wuli2-mac:tmp wuli2$ time python s2.py 
+
+real    0m2.163s
+user    0m2.153s
+sys 0m0.009s
+</code></pre>
+
+<p>先简单说下time命令的输出。real代表实际程序执行的时间，这个是用户最直观的感受，程序到底从执行到结束执行了多少时间；user代表程序在用户态执行了多少时间，体现的是用户模式下执行指令画了多少CPU时间，至于你的用户代码因为等待或者被调度不算在里面；sys是代码因为系统调用进入内核态，在内核态执行占用了多少时间。 因此 user + sys代表了一个程序实际上占用了多少CPU资源。</p>
+
+<p>在我们这个例子里面，sys占到的比值太小了，而且两个程序相比较差别也不大，因此我们看用户态执行时间的差异如何。3次执行结果取平均值，s1.py平均用了3.889秒，s2.py平均用了2.150秒。</p>
+
+<p>这里的问题很明显，对于几乎一模一样的程序，为什么速度上有几乎81%的差异？</p>
+
+<p>这本质上是Python对待全局变量与局部变量的区别。全局变量存放在字典中，对他们的存取是通过<strong>getattribute</strong>的操作，这样必然需要一些类似hash，搜作等操作，而局部变量一般的实现方式都是放在栈中或者寄存器中，它的存取必然比全局变量快。</p>
+
+<p>因此，程序s1.py和s2.py的速度差异主要体现在一千万次对全局变量和局部变量的存取速度上。</p>
+
+<p>单单从这个小小的优化来讲，似乎应用范围很窄，一般来讲，速度的瓶颈一般处于迭代或者递归之处，而这样的代码又一般封装在函数里面作为算法。当然了，这里也是一个提醒，这样的可能造成瓶颈的代码一定不要放在global空间来执行。</p>
+
+<p>最后，还是那句老话。优化的第一步，就是不要优化。 程序的结构和逻辑比优化更重要，不要因为优化而大段改写代码，不易懂又难维护。</p>
+
+<h1>参考</h1>
+
+<p><a href="http://stackoverflow.com/questions/9132288/why-are-local-variables-accessed-faster-than-global-variables-in-lua">http://stackoverflow.com/questions/9132288/why-are-local-variables-accessed-faster-than-global-variables-in-lua</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python Decorator]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/01/21/python-decorator/"/>
+    <updated>2014-01-21T00:00:00+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/01/21/python-decorator</id>
+    <content type="html"><![CDATA[<h1>装饰（Decoration）</h1>
+
+<p>Decoration 是一种向函数或者类添加代码或者进行管理的方式。在Python中，我们是通过使用装饰器来实现这种管理或者代码注入的。</p>
+
+<h1>装饰器（Decorator）</h1>
+
+<p>装饰器 (Decorator) 本身也是callable对象（函数或类）,其处理callable对象并返回callable对象（要理解好下文的概念，一定要理解callable对象，有关callable 的概念请参考 Python手册 ）。 按照被装饰对象分类可以分为</p>
+
+<ul>
+<li> Function Decorator 对函数进行装饰，提供函数的管理</li>
+<li> Class Decorator 用来对类进行装饰，对类及其类的实例进行管理</li>
+</ul>
 
 
+<p>无论对类还是对函数进行装饰，其实质都是在函数或者类的定义之后添加了一些代码。至于这些添加的代码，则可以完成各种任务。比如：</p>
 
-</body>
-</html>
+<p>用来代理函数调用：通过安装wrapper函数，使得对函数的调用先经过添加的代码，执行一些处理，然后才将执行传递给原先被装饰的函数。
+用来接口代理：对类进行代理，使得类实例的创建接口被代理。可以先经过添加的代码执行一些处理，然后调用原先的类创建函数，使得最后被创建的实例能够被管理。
+装饰的原理和过程如下：</p>
+
+<p>在函数定义(def)或者类定义(class)之后，装饰器先对原先的函数或者类添加一些处理。
+装饰器将处wrapper函数或者原函数或类或者类重新赋值回原先的函数或者类名。
+当调用者使用这些callable的函数和类的时候，它实际上调用的是被装饰过的，与先前函数或者类有相同名字的callable而已。至于这些装饰过的函数具体做些什么，则完全看装饰器的目的如何。
+为什么需要装饰器呢？因为在实际变成中，我们可能需要处理以下场景：</p>
+
+<p>对函数进行日志，跟踪，调试，timing，锁处理等。
+对类及其属性进行跟踪，验证等。
+对这些的处理可以手工来做，但是使用装饰器有两个好处：</p>
+
+<p>显式语法：使得处理的意图明确，比如@classmethod,@property,@staticmethod等。
+一次定义，到处使用：因为wrapping的方式都是一样的，因此装饰器可以定义后用在任何使用这些代码的地方，不用到处拷贝代码。</p>
+
+<h1>使用装饰器</h1>
+
+<p>在定义自己的装饰器之前，先看一些使用装饰器的例子，来理解装饰器怎么用，它揭示了些什么秘密。</p>
+
+<ul>
+<li><p>函数装饰器:
+函数装饰器作用在函数上，包括普通函数和类的成员函数。用在函数定义语句def之前。</p>
+
+<pre><code>#对函数进行装饰
+@decorator
+def func (*args):
+    ...
+</code></pre>
+
+<p>调用被装饰的函数</p>
+
+<pre><code>func(1,2,3)
+</code></pre>
+
+<p>其本质是对函数增加了代码并对函数名字的重绑定</p>
+
+<pre><code>def func (*args):
+    ...
+
+func = decorator(func)
+</code></pre>
+
+<p>decorator就像是一个高阶函数，对函数进行加工处理，因此调用时候实际上调用 func(1,2,3) 就是</p>
+
+<pre><code>decorator(func)(1,2,3)
+</code></pre>
+
+<p>不单对于普通函数可以应用装饰器，对于类函数亦可以。可以参考@classmethod, @staticmethod, @property</p></li>
+<li><p>类装饰器</p>
+
+<p>类装饰器作用在类上。用在类定义语句class之前。</p>
+
+<pre><code>#对类进行装饰
+@decorator
+class Cls:
+    ...
+</code></pre>
+
+<p>使用被装饰的类</p>
+
+<pre><code>ins = Cls()
+</code></pre>
+
+<p>实际发生的是Cls = decorator(Cls)，Cls实际上变成另外一个改装的类。代码ins=Cls()实际上是ins=decorator(Cls)()，因此看起来生成的实例ins实际上是被装饰类的返回callable对象调用的结果。这个callable可以是一个被装饰后的类，也有可能是一个函数而已，完全看装饰器是如何实现的。但是最终的结果是生成了一个callable对象ins.一个 正常 的装饰器应该允许此ins实例调用其实例方法，属性，除过装饰作用，应该保留被装饰类的特性，让用户用起来能够保持其原先的语义。</p></li>
+</ul>
+
+
+<h1>实现装饰器</h1>
+
+<p>装饰器本身就是callable对象，因此可以用以下两种方式来实现装饰器</p>
+
+<ul>
+<li><p>通过函数来实现装饰</p>
+
+<p>最常用和易于理解的实现方式。通过定义一个函数，其加工callable对象，并返回callable对象。比如要对一个callable对象进行装饰，可以通过函数来先定义一个装饰器如下：</p>
+
+<pre><code>def decorator1(f):
+    #added a lot of code here
+    ...
+    #finally, you return original f
+    return f
+
+def decorator2(f)
+    #added a lot of code here
+    ...
+    #and you defined a wrapper
+    def wrapper_of_f(*args):
+        #some code 
+        ...
+        #execute original callable
+        f(*args)
+
+    #finally, you return a wapper of f
+    return wrapper_of_f
+    ... 
+</code></pre>
+
+<p>decorator1仅仅在你定义完毕callable的时候增添了些代码，或者用来管理记录，或者用来调试等，它将用户定义的函数重新赋值给原先的函数名。decorator2则安装了一个代理函数，并将其返回，当你使用调用callable对象的时候，实际上已经不是执行原先的函数，而是这个代理函数了。</p></li>
+<li><p>通过类来实现对象</p>
+
+<p>一个类通过实现<em>call</em>方法可以使其变成一个callable对象。借助于这个特性，可以用类来实现装饰器。</p>
+
+<pre><code>class decorator:
+    def __init__(self, f):
+        self.f = f
+        #add your code here
+        ...
+
+    def __call__(self, *args):
+        #add your code here
+        ...
+        #then call original callable
+        self.f(args)
+</code></pre>
+
+<p>通过用类实现的装饰器与用函数实现的装饰器原理类似。对于最初的一个callable，比如foo。首先，在对其装饰的时候</p>
+
+<pre><code>@decorator
+def foo(*args):
+    ...
+</code></pre>
+
+<p>会生成一个decorator类的实例，这个实例存有变量self.f，指向原先的foo。这个decorator的实例会被重新绑定到名字foo上。因此之后调用foo其实是调用decorator的实例，由于这个实例实现了&#8221;<em>call__&ldquo;方法（实例是个callable对象），使得实例的调用即为&#8221;decorator.</em>call__&#8221;的调用.</p></li>
+</ul>
+
+
+<p>需要注意的是，用类来实现装饰器的时候，如果被装饰的callable是个类成员函数的话，会引起副作用。接着用上面的例子，如果foo是一个类Cls的成员函数，如下定义并使用装饰器:</p>
+
+<pre><code>class decorator:
+    def __init__(self, f):
+        self.f = f
+
+    def __call__(self, *args):
+        print self
+        self.f(args)
+
+class Cls:
+    @decorator
+    def foo(self, data):
+        print data
+</code></pre>
+
+<p>那么我们调用的如下代码的时候</p>
+
+<pre><code>ins = Cls()
+ins.foo("hi")   #call ins.
+</code></pre>
+
+<p>存成/tmp/decorator.py并执行以上代码，输出为</p>
+
+<pre><code>&lt;__main__.decorator instance at 0x108793560&gt;
+Traceback (most recent call last):
+  File "/tmp/decorator.py", line 16, in &lt;module&gt;
+    ins.foo("hi")
+  File "/tmp/decorator.py", line 7, in __call__
+    self.f(args)
+TypeError: foo() takes exactly 2 arguments (1 given)
+</code></pre>
+
+<p>ins.foo()调用实际上调用的是decorator的实例，这个实例有&#8221;<em>call__&ldquo;方法，是个callable对象，因此会最终执行到&#8221;decorator.</em>call__&#8221;中的self.f,这才是最初定义的Cls的成员函数。但是此时遗憾的是，在装饰器调用它的时候，已经丢失了实例对象，self无法被替换成Cls的实例ins。 如果用函数来实现装饰器的话则没有这个问题，如下:</p>
+
+<pre><code>def decorator(f):
+    def wrapper(*args):
+        print "inside wrapper"
+        f(*args)
+
+    return wrapper
+
+class Cls:
+    @decorator
+    def foo(self, data):
+        print data
+</code></pre>
+
+<p>输出为</p>
+
+<pre><code>inside wrapper
+hi
+</code></pre>
+
+<p>实际上调用代理方法wrapper的时候，实例ins作为第一个参数，这些参数会原封不动的继续传递给wrapper中的f（即Cls的foo）</p>
+
+<h1>总结</h1>
+
+<p>装饰器的实际上就是一个callable对象，通过在函数或者类定义之后增加一些代码装饰另外一些callable（类或函数），并且返回经过装饰的callable（类或函数），来达到一些特殊目的。</p>
+
+<p>最后，感谢emacs orgmode，最近发现了这个好东西，在emacs直接写文本，自动转换成html，方便了许多。</p>
+]]></content>
+  </entry>
+  
+</feed>

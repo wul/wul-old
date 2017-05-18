@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Lisp | Wu's Blogs]]></title>
+  <link href="http://www.wuli.mobi/blog/categories/lisp/atom.xml" rel="self"/>
+  <link href="http://www.wuli.mobi/"/>
+  <updated>2017-05-18T23:31:33+08:00</updated>
+  <id>http://www.wuli.mobi/</id>
+  <author>
+    <name><![CDATA[Wu Li]]></name>
+    <email><![CDATA[li.koun@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[作为数据结构的列表（List），数组（Array）简单数组（Simple Array），向量（Vector）与简单向量（Simple Vector）]]></title>
+    <link href="http://www.wuli.mobi/blog/2013/12/02/lisp-data-structure/"/>
+    <updated>2013-12-02T00:00:00+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2013/12/02/lisp-data-structure</id>
+    <content type="html"><![CDATA[<p>作为数据结构的列表（List），数组（Array）简单数组（Simple Array），向量（Vector）与简单向量（Simple Vector）</p>
+
+<p>在用Lisp实现算法的时候，发现如果只是为了描述一种算法是如何运作的，无论采取什么样的实际数据结构都没有关系。比如描述各种排序算法，用到的数据结构是数组，各种数组的操作主要就是从下标获取数组中元素的值，那么用Lisp来实现，为了表述清楚，可以选择列表，数组，向量，简单向量都行。唯一不同的是，这些实现在实际运行的时候，因为选择了不同的数据结构，在效率上存在很大差异。比如选择数组比选择列表要效率高很多。那么，为了搞清楚围绕他们的一些操作符的效率如何，有必要了解一下Lisp中这些数据结构具体如何实现。对于这些数据结构的定义（或说明）如下：
+*   列表（List）：一个列表中的各个元素通过元素之间的指针来索引。比如一个4元素的列表(a b c d)，它的表示如下
+    <img src="/images/list.png" alt="列表" />
+*   数组（Array）: Lisp支持多维数组，一个完全的使用MAKE-ARRAY来声明数组的细节可以参考Common Lisp HyperSpec.这里先举两个例子： <br/>
+    创建一个3维数组，维度分别维2，3，4并且带有初始值：</p>
+
+<pre><code>    (make-array '(2 3 4) :initial-contents '( ((1 2 3 4) (2 3 4 5) (3 4 5 6))
+                                              ((0 0 0 0) (1 1 1 1) (2 2 2 2))))
+
+
+创建一个可变长度的一维数组，初始长度为3：
+
+    ;fill-pointer is an integer associated with the vector, it represents the index and above which no elements are active
+    (make-array 3 :adjustable t :fill-pointer 0) 
+</code></pre>
+
+<ul>
+<li>简单数组（Simple Array）：不与其他数组共享结构，同时没有fill pointers,也不可调整大小。</li>
+<li>向量（Vector）：向量极为一维数组，可以用MAKE-ARRAY或者VECTOR函数来创建</li>
+<li>简单向量（Simple Vector）：与简单数组的定义相同，简单向量不可调整大小，没有fill pointers，也不与其他向量共享结构。</li>
+</ul>
+
+
+<p>Lisp中的序列指的是列表和向量，针对列表和向量的操作符有：</p>
+
+<ul>
+<li>ELT： 比如 <code>(elt seq 2)</code></li>
+<li>NTH: 比如 (nth  1 lst)</li>
+<li>AREF(对数组操作)：比如<code>(aref two-demision-arrary 2 3)</code>或<code>(aref arr 2)</code>.简单数组和简单向量因为本身也是数组和向量，这个针对数组的操作符对其也适用.同时，对于简单向量，还额外有一个操作符来获取某个位置上的元素：</li>
+<li>SVREF:和AREF类似，不同的是，第一个参数必须是一个简单向量.</li>
+</ul>
+
+
+<p>至于不同结构排序时候的效率，列表肯定是最慢，因为每个元素的索引本事就是需要迭代获取的。至于向量和简单向量，则并没有多大区别。</p>
+
+<p>以下是适用合并排序的一个结果，随机产生数组，包含1，800，000个数字</p>
+
+<pre><code>IS simple vector: NIL
+Evaluation took:
+  3.449 seconds of real time
+  3.448972 seconds of total run time (3.355315 user, 0.093657 system)
+  [ Run times consist of 0.254 seconds GC time, and 3.195 seconds non-GC time. ]
+  100.00% CPU
+  8,258,992,983 processor cycles
+  1,469,701,840 bytes consed
+</code></pre>
+
+<p>&mdash;&mdash;&ndash;以上是向量，以下适用简单向量，排序数组个数1,800,000&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</p>
+
+<pre><code>IS simple vector: T
+Evaluation took:
+  3.430 seconds of real time
+  3.430265 seconds of total run time (3.333013 user, 0.097252 system)
+  [ Run times consist of 0.327 seconds GC time, and 3.104 seconds non-GC time. ]
+  100.00% CPU
+  8,214,305,702 processor cycles
+  1,485,606,720 bytes consed
+</code></pre>
+
+<p>随机产生数组，包含900，000个数字</p>
+
+<pre><code>IS simple vector: NIL
+Evaluation took:
+  1.649 seconds of real time
+  1.648613 seconds of total run time (1.605715 user, 0.042898 system)
+  [ Run times consist of 0.096 seconds GC time, and 1.553 seconds non-GC time. ]
+  100.00% CPU
+  3,947,813,569 processor cycles
+  721,261,328 bytes consed`
+</code></pre>
+
+<p>&mdash;&mdash;&ndash;以上是向量，以下适用简单向量，排序数组个数900,000&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</p>
+
+<pre><code>IS simple vector: T
+Evaluation took:
+  1.671 seconds of real time
+  1.670449 seconds of total run time (1.588011 user, 0.082438 system)
+  [ Run times consist of 0.066 seconds GC time, and 1.605 seconds non-GC time. ]
+  99.94% CPU
+  4,000,369,754 processor cycles
+  734,046,224 bytes consed`
+</code></pre>
+
+<p>随机产生数组，包含500，000个数字</p>
+
+<pre><code>IS simple vector: NIL
+Evaluation took:
+  0.932 seconds of real time
+  0.932690 seconds of total run time (0.898945 user, 0.033745 system)
+  [ Run times consist of 0.064 seconds GC time, and 0.869 seconds non-GC time. ]
+  100.11% CPU
+  2,233,946,007 processor cycles
+  396,433,808 bytes consed
+</code></pre>
+
+<p>&mdash;&mdash;&ndash;以上是向量，以下适用简单向量，排序数组个数500,000&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</p>
+
+<pre><code>IS simple vector: T
+Evaluation took:
+  0.850 seconds of real time
+  0.850777 seconds of total run time (0.827034 user, 0.023743 system)
+  [ Run times consist of 0.047 seconds GC time, and 0.804 seconds non-GC time. ]
+  100.12% CPU
+  2,037,277,796 processor cycles
+  396,432,288 bytes consed
+</code></pre>
+
+<p>数据也证实简单数组／向量和数组／向量之间并没有太多效率上的差异，那么为什么要有简单数组／向量呢？ 看来，这篇文章还得继续写下去。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Lisp List和vector的效率]]></title>
+    <link href="http://www.wuli.mobi/blog/2013/11/29/lisp-list-nd-vector/"/>
+    <updated>2013-11-29T00:00:00+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2013/11/29/lisp-list-nd-vector</id>
+    <content type="html"><![CDATA[<p>LISP 在做大序列运算中list 和vector的效率</p>
+
+<p>输入分别是包含3万个元素的列表和向量（一位数组），采用合并排序（Merge Sort），下面是所用时间</p>
+
+<pre><code>Test merge sort by using list
+Evaluation took:
+  14.406 seconds of real time
+  14.401719 seconds of total run time (14.394148 user, 0.007571 system)
+  99.97% CPU
+  34,497,526,560 processor cycles
+  25,904,128 bytes consed
+
+Test merge sort by using vector
+Evaluation took:
+  0.041 seconds of real time
+  0.040773 seconds of total run time (0.040756 user, 0.000017 system)
+  100.00% CPU
+  97,625,097 processor cycles
+  22,743,328 bytes consed
+</code></pre>
+
+<p>明显采用向量更加有效率，其原因在于在列表中，如果想查找第m个元素，使用函数 NTH需要在列表上从头做迭代，一直找到第m个元素。而数组取下标通过偏移一次就可以找到。</p>
+
+<p>但是同时也比较了下采用向量的合并排序与系统提供的SORT函数的效率，发现奇特现象，系统提供排序函数效率极高，随着序列的增大，所耗费的时间增长不显著。同时使用列表也似乎不影响其效率。以下是</p>
+
+<p>3万个元素的列表排序。</p>
+
+<pre><code>Test merge sort by sys sort
+Evaluation took:
+  0.007 seconds of real time
+  0.007739 seconds of total run time (0.007738 user, 0.000001 system)
+  114.29% CPU
+  18,523,509 processor cycles
+  0 bytes consed
+</code></pre>
+
+<p>6万个元素列表排序：</p>
+
+<pre><code>Test merge sort by sys sort
+Evaluation took:
+  0.015 seconds of real time
+  0.015586 seconds of total run time (0.015582 user, 0.000004 system)
+  106.67% CPU
+  37,315,730 processor cycles
+  0 bytes consed
+</code></pre>
+
+<p>12万个元素列表排序：</p>
+
+<pre><code>Test merge sort by sys sort
+Evaluation took:
+  0.042 seconds of real time
+  0.042162 seconds of total run time (0.042148 user, 0.000014 system)
+  100.00% CPU
+  100,950,376 processor cycles
+  0 bytes consed
+</code></pre>
+
+<p>24万个元素列表排序：</p>
+
+<pre><code>Test merge sort by sys sort
+Evaluation took:
+  0.095 seconds of real time
+  0.095124 seconds of total run time (0.095093 user, 0.000031 system)
+  100.00% CPU
+  227,771,817 processor cycles
+  0 bytes consed
+</code></pre>
+
+<p>系统自带的SORT方法效率很高，24万个元素的排序不到0.1秒就能够完成</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[最大子序列问题]]></title>
+    <link href="http://www.wuli.mobi/blog/2013/11/28/max-sub-seq/"/>
+    <updated>2013-11-28T00:00:00+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2013/11/28/max-sub-seq</id>
+    <content type="html"><![CDATA[<h1>问题：给定一个实数序列，寻找一个子序列，其相加之和为最大。</h1>
+
+<h1>方案：Divide and Conquer</h1>
+
+<p>这里我有两个实现版本，从不同的思路来做Divide， 同时实现上一个采用递归，一个采用循环</p>
+
+<ul>
+<li><p> 方法一：如果将序列一分为二，那么中点要么位于这个子序列的右边，要么位于子序列左边，要么刚好在这个子序列上。因此有思路，找到中点左边最大子序列，找到中点右边最大子序列，找到跨越中点的最大子序列，选择其和最大地子序列，即为真正最大的子序列。其中，左右两个序列的子序列的查找是递归的</p></li>
+<li><p> 方法二：这个最大的子序列要么从位置0开始，要么从1开始，。。。或者从N-1开始。 因此无非是比较以不同下标开始的子序列中的最大序列。</p></li>
+</ul>
+
+
+<p>代码一：</p>
+
+<pre><code>(defun find-max-crossing-subarray (lst low mid high)
+  (let* ((key (nth mid lst)) 
+         (count key) 
+         (sum-left key) 
+         (sum-right key) 
+         (left mid)
+         (right mid))
+
+    (if (/= low mid)
+        (loop for i from (- mid 1) downto low do
+              (incf count (nth i lst))
+              (when (&gt; count sum-left)
+                (setf left i)
+                (incf sum-left (nth i lst)))))
+
+
+    (setf count key)
+    (if (/= mid high) 
+        (loop for j from (+ mid 1) to high do
+              (incf count (nth j lst))
+              (when (&gt; count sum-right)
+                (setf right j)
+                (incf sum-right (nth j lst)))))
+
+                                        ;duplicated count of A[mid]
+    (list left right (- (+ sum-left sum-right) key))))
+
+
+(defun find-maximum-subarray (lst &amp;optional low high)
+  (if (eq low  nil) (setf low 0))
+  (if (eq high nil) (setf high (- (length lst) 1)))
+
+  (if (= low high) (return-from find-maximum-subarray (list low low (nth low lst))))
+
+
+  (let* ((mid (floor (+ low high) 2))
+         (seq nil)
+         (left-seq  (find-maximum-subarray lst low mid))
+         (right-seq (find-maximum-subarray lst (1+ mid) high))
+         (mid-seq   (find-max-crossing-subarray lst low mid high))
+         (v-l (third left-seq))
+         (v-m (third mid-seq))
+         (v-r (third right-seq)))
+
+    (if (&gt; v-l v-r)
+        (if (&gt; v-l v-m)
+            (setf seq left-seq)
+          (setf seq mid-seq))
+      (if (&gt; v-r v-m)
+          (setf seq right-seq)
+        (setf seq mid-seq)))
+    seq))
+</code></pre>
+
+<p>代码二：</p>
+
+<pre><code>(defun find-maximum-subarray-2 (lst)
+
+  (let (sum old-sum count seq index low high)
+    (loop for i from 0 below (length lst) do
+          (setf count 0)
+          (loop for j from i below (length lst) do
+                (incf count (nth j lst))
+                (when (or (not sum) (&gt; count sum))
+                  (setf index j)
+                  (setf sum count)))
+
+
+          (when (or (not old-sum) (&gt; sum old-sum))
+            (setf low i)
+            (setf high index)
+            (setf old-sum sum)))
+    (list low high old-sum)))
+</code></pre>
+
+<p>代码二的实现显著地比代码一地实现短小。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Symbol, Variable, Name, Value, What Exactly Are They in Lisp?]]></title>
+    <link href="http://www.wuli.mobi/blog/2013/11/13/symbol-variable/"/>
+    <updated>2013-11-13T00:00:00+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2013/11/13/symbol-variable</id>
+    <content type="html"><![CDATA[<p>Symbol, Variable, Name, Value, what exactly are they in Lisp?</p>
+
+<p>Let’s start with some simple expressions we saw many times.</p>
+
+<pre><code>x                     ;the symbol X
+()                    ;the empty list
+(1 2 3)               ;a list of three numbers
+("foo" "bar")         ;a list of two strings
+(x y z)               ;a list of three symbols
+(x 1 "foo")           ;a list of a symbol, a number, and a string 
+(+ (* 2 3) 4)         ;a list of a symbol, a list, and a number
+</code></pre>
+
+<p>At first, when we talk about a name, that is always a string, like “foo”, “bar”. They are enclosed with &ldquo; in both sides.</p>
+
+<p>Value in Lisp is a object.</p>
+
+<p>Now we are back to &ldquo;Symbol&rdquo;. Symbol is a data type in Lisp. It is typical a word or a phrase, like APPLE, ABS. Actually, it can be composed by any sequence of letters, digits, and permissible characters.</p>
+
+<p>Every symbol has a name, its name is the just the literal presentation of itself. For example, symbol x has the name “X”.</p>
+
+<p>Symbol may or may not has an value. If a symbol has a value, we call the symbol &ldquo;variable&rdquo;.  That means symbol has a reference to the value (object). For example</p>
+
+<pre><code> (defparameter x  1)
+ (symbol-value 'x)  ==&gt; 1
+</code></pre>
+
+<p>This creates a symbol X, and binds the value 1 (object 1) to the symbol with name &ldquo;X&rdquo;. X now is a variable. A symbol can also have no value. For example, we just type &lsquo;y in SBCL interpreter, that will create a symbol Y without value assigned.</p>
+
+<pre><code> 'y                 ==&gt; Y
+ (symbol-value 'y)
+ debugger invoked on a UNBOUND-VARIABLE: The variable Y is unbound.
+
+ Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+ restarts (invokable by number or by possibly-abbreviated name):
+   0: [ABORT] Exit debugger, returning to top level.
+
+(SYMBOL-VALUE Y)
+0] 0
+</code></pre>
+
+<p>In additional of the variable, function definition actually assigns a function object to a symbol</p>
+
+<pre><code> (defun func () (print “hi”))
+</code></pre>
+
+<p>This binds symbol FUNC with a function object. So, a symbol can either be a identifier for object (we call it a variable, use <em>symbol-value</em> get the value) or a identifier to function (we call it function, use <em>symbol-function</em> to get the function object)</p>
+
+<p>Let’s take a look the lisp syntax again to review these definition.
+<code>(setf x 1)</code> defines a varaible, that creates a symbol and an object then bind them together. The variable name is the symbol name.<br/>
+<code>(defun fun() (print 1))</code> defines a function, that creates a symbol and a function object and bind them together. The function name is the symbol name<br/>
+And, furthermore, if we do
+<code>(setf  myvar ‘hello)</code>, Lisp will create two symbols, MYVAR and HELLO, set value of MYVAR to literal HELLO (set to a symbol object, not “HELLO” string). But Lisp does not assign a value to symbol HELLO, symbol HELLO just has a name attribute.</p>
+
+<p>A full list of symbol attributes are:</p>
+
+<ul>
+<li>Name    - a string represents symbol name</li>
+<li>Package - indicates which package the symbol belongs to</li>
+<li>Property list - …</li>
+<li>Value - Used to bind a object.</li>
+<li>Function - Used to bind a function object</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Use ASDF to Manage Lisp Packages]]></title>
+    <link href="http://www.wuli.mobi/blog/2013/11/12/asdf/"/>
+    <updated>2013-11-12T00:00:00+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2013/11/12/asdf</id>
+    <content type="html"><![CDATA[<p>It seems that Lisp built-in lacking a mechanism to allow user to manager their own programming library just like C/Python/Java . The built-in functions/macros such as &ldquo;defpackage&rdquo;, &ldquo;in-package&rdquo;, &ldquo;load&rdquo;, &ldquo;require&rdquo; is merely for simple organisation of python files. But for a large library that has nested directories and different sub-package. It will soon become complicated to load them and to resolve the dependencies.</p>
+
+<p>So, we have ASDF. ASDF is &ldquo;A system definition facility&rdquo;. Just like autotool in C, it can manage the correlations between files in your library, compiling them, loading them for your use.</p>
+
+<p>I am using SBCL, it has ASDF library included by default. And, currently ASDF 3 is published. As i am a new comer, following the official instruction of ASDF website. Just familiar with ASDF 3 is enough, no burden of legacy interfaces.  Here is some essentials to ASDF and i will illustrate how to use ASDF to build my hello world library.
+First, define a hello.asd (always use the .asd suffix, just like suffix &ldquo;.in&rdquo; for autoconf). This file describes your system. Find more details about usage in ASDF manual. In this example, we just define 3 additional files: packages.lisp, macros.lisp, and hello.lisp and set their dependencies.</p>
+
+<pre><code>(asdf:defsystem :hello
+  :name "Hello System"
+  :description "hello: a sample file system."
+  :version "0.2.1"
+  :author "Wu Li &lt;who@unknown.com&gt;"
+  :licence "Public Domain"
+  :components ((:file "packages")
+               (:file "macros" :depends-on ("packages"))
+               (:file "hello"  :depends-on ("macros"))))
+</code></pre>
+
+<p>Define your package in package.lisp. Here we define a new package :hello and set a nick name HI.</p>
+
+<pre><code>(defpackage :hello
+  (:nicknames hi)
+  (:use :common-lisp)
+  (:export main))
+</code></pre>
+
+<p>Leave macros.lisp empty for simplicity.
+Define hello.lisp. We just define one function here.</p>
+
+<pre><code>(in-package :hello)
+(defun main () (format t "Hello world~%"))
+</code></pre>
+
+<p>So far, we have programs and we defined the package by using ASDF, then we can use ASDF to load this package for use.</p>
+
+<p>Load package.</p>
+
+<pre><code>(require :ASDF)                     ;load ASDF package if necessary
+(push #P"/path/to/the/package/" asdf:*central-registry*) ;tell ASDF where the lib can be found
+(asdf:load-system :hello)   ;the symbol should be identical with the one defined in hello.asd
+</code></pre>
+
+<p>Run function owned by hello package</p>
+
+<pre><code>(hi:main) -&gt; Hello world            ;hi is a nickname to hello package
+</code></pre>
+
+<p>This is a standard use of ASDF to build package.</p>
+]]></content>
+  </entry>
+  
+</feed>

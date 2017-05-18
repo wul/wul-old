@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Use ASDF to Manage Lisp Packages - Wu's Blogs</title>
+  <meta name="author" content="Wu Li">
+
+  
+  <meta name="description" content="It seems that Lisp built-in lacking a mechanism to allow user to manager their own programming library just like C/Python/Java . The built-in &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.wuli.mobi/blog/2013/11/12/asdf">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wu's Blogs" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wu's Blogs</a></h1>
+  
+    <h2>A blog for saving my articles.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.wuli.mobi" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Use ASDF to Manage Lisp Packages</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-11-12T00:00:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>It seems that Lisp built-in lacking a mechanism to allow user to manager their own programming library just like C/Python/Java . The built-in functions/macros such as &ldquo;defpackage&rdquo;, &ldquo;in-package&rdquo;, &ldquo;load&rdquo;, &ldquo;require&rdquo; is merely for simple organisation of python files. But for a large library that has nested directories and different sub-package. It will soon become complicated to load them and to resolve the dependencies.</p>
+
+<p>So, we have ASDF. ASDF is &ldquo;A system definition facility&rdquo;. Just like autotool in C, it can manage the correlations between files in your library, compiling them, loading them for your use.</p>
+
+<p>I am using SBCL, it has ASDF library included by default. And, currently ASDF 3 is published. As i am a new comer, following the official instruction of ASDF website. Just familiar with ASDF 3 is enough, no burden of legacy interfaces.  Here is some essentials to ASDF and i will illustrate how to use ASDF to build my hello world library.
+First, define a hello.asd (always use the .asd suffix, just like suffix &ldquo;.in&rdquo; for autoconf). This file describes your system. Find more details about usage in ASDF manual. In this example, we just define 3 additional files: packages.lisp, macros.lisp, and hello.lisp and set their dependencies.</p>
+
+<pre><code>(asdf:defsystem :hello
+  :name "Hello System"
+  :description "hello: a sample file system."
+  :version "0.2.1"
+  :author "Wu Li &lt;who@unknown.com&gt;"
+  :licence "Public Domain"
+  :components ((:file "packages")
+               (:file "macros" :depends-on ("packages"))
+               (:file "hello"  :depends-on ("macros"))))
+</code></pre>
+
+<p>Define your package in package.lisp. Here we define a new package :hello and set a nick name HI.</p>
+
+<pre><code>(defpackage :hello
+  (:nicknames hi)
+  (:use :common-lisp)
+  (:export main))
+</code></pre>
+
+<p>Leave macros.lisp empty for simplicity.
+Define hello.lisp. We just define one function here.</p>
+
+<pre><code>(in-package :hello)
+(defun main () (format t "Hello world~%"))
+</code></pre>
+
+<p>So far, we have programs and we defined the package by using ASDF, then we can use ASDF to load this package for use.</p>
+
+<p>Load package.</p>
+
+<pre><code>(require :ASDF)                     ;load ASDF package if necessary
+(push #P"/path/to/the/package/" asdf:*central-registry*) ;tell ASDF where the lib can be found
+(asdf:load-system :hello)   ;the symbol should be identical with the one defined in hello.asd
+</code></pre>
+
+<p>Run function owned by hello package</p>
+
+<pre><code>(hi:main) -&gt; Hello world            ;hi is a nickname to hello package
+</code></pre>
+
+<p>This is a standard use of ASDF to build package.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Wu Li</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2013-11-12T00:00:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/lisp/'>lisp</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.wuli.mobi/blog/2013/11/12/asdf/" data-via="" data-counturl="http://www.wuli.mobi/blog/2013/11/12/asdf/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/11/10/lisp-string/" title="Previous Post: lisp字符串处理的一些方法">&laquo; lisp字符串处理的一些方法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/11/13/symbol-variable/" title="Next Post: Symbol, Variable, Name, Value, what exactly are they in Lisp?">Symbol, Variable, Name, Value, what exactly are they in Lisp? &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/pythonexp/">Pythonexp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/24/resume/">Resume</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/04/closures/">闭包</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/30/legb/">LEGB规则与 Python 变量的存取</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/29/issues-of-imports/">Python 包管理以及导入包时候一些问题辨析</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Wu Li -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'httpwulimobi';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

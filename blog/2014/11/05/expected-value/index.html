@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>期望值，方差和协方差（1） - Wu's Blogs</title>
+  <meta name="author" content="Wu Li">
+
+  
+  <meta name="description" content="学习统计学、机器学习甚至线性代数的时候，总是有几个概念时不时跳出来，伴随着整个学习过程。起初的时候，你好像知道他们是干什么用的，慢慢地，你得回头过去看看到底他们是做什么用得，甚至还要思考，他们为什么还会存在。为什么数学家要将他们定义成这个样子，而不是其他的形式。他们就是期望值、方差、协方差， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.wuli.mobi/blog/2014/11/05/expected-value">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wu's Blogs" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wu's Blogs</a></h1>
+  
+    <h2>A blog for saving my articles.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:www.wuli.mobi" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">期望值，方差和协方差（1）</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-05T08:05:09+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>8:05 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>学习统计学、机器学习甚至线性代数的时候，总是有几个概念时不时跳出来，伴随着整个学习过程。起初的时候，你好像知道他们是干什么用的，慢慢地，你得回头过去看看到底他们是做什么用得，甚至还要思考，他们为什么还会存在。为什么数学家要将他们定义成这个样子，而不是其他的形式。他们就是期望值、方差、协方差，许多讨论概率的分布，随机变量的相关性等问题，都与他们相联系。因此，真正搞懂他们的意义，本身的意义就很重大。</p>
+
+<h1>期望值 (Expected Value/Expectation)</h1>
+
+<p>期望值的数学定义为：
+$$E[X]=\sum_{s\in_S}X(s)P(s)   \qquad 离散随机变量$$</p>
+
+<p>其中 X 是<strong>随机变量</strong>，s是<strong>样本</strong>，S 是<strong>样本空间</strong>，P(s)是样本的<strong>概率</strong>。每个样本的概率可以看做是一个权重，于是在这个样本下对应的随机变量的值与这个权重的乘积描述了此随机变量值对总体期望的一个“贡献值”。将所有这些贡献值相加，得到对总体随机变量值的一个期望。那么这个期望又有什么意思呢？通过一个例子来理解这个期望比较容易，比如说掷色子，色子有6个面，一个理想没有作弊过的色子我们认为（注意，是认为，为什么这么认为呢？以后再说）在其被掷出，每个面朝上的几率都是1/6，样本空间为{1，2，3，4，5，6}（集合中的每个值代表每个面的点数）。将这些信息带入上面的期望值中得定义里可得
+ E[X]=1<em>1/6+2</em>1/6+&hellip;+6*1/6=3.5</p>
+
+<p>这个3.5与任意一次掷色子的结果{1，2，3，4，5，6}都不同，但它描述了一个趋势，那就是，如果我们掷色子足够多次数，我们得到的所有结果，其点数的平均值就是3.5。或许你连着6次都扔了6点，但是当扔足够大的次数时候，所有点数的平均值比如等于3.5（大数定理）。</p>
+
+<p>听起来期望值似乎与平均值一个意思，单单从数值上来讲，对于足够多次的实验结果，这两个值是一样的。但是这两个概念的定义是不同的。期望值对应的是所有<strong>样本</strong>，即掷色子出现{1，2，3，4，5，6}这个样本空间；而平均值是针对投掷色子的<strong>结果</strong>，如{2，3，5，6，6，6，2，3，&hellip;}。</p>
+
+<p>上面关于期望值的定义可以推导出另外一种形式的定义：</p>
+
+<p>$$E[X]=\sum_{r}(X=r)P(X=r)   \qquad 离散随机变量$$</p>
+
+<p>这个形式描述了随机变量的值与这个值所出现的概率。对于连续随机变量，期望值的定义如下：</p>
+
+<p>$$E[X]=\int^{+\infty}_{-\infty}xf(x)dx   \qquad 连续随机变量$$</p>
+
+<p>这里f(x)是概率密度函数。</p>
+
+<h1>这就是期望值？没啥花头么</h1>
+
+<p>方差就是这样定义，似乎描述了一个类似平均或者重心的概念，没有什么啥好想的。其实不然，我们从一个小赌博开始，假设你和另外一个人投硬币游戏，那个人对你说，我们玩个游戏，连续猜五次正反面为一局，如果都猜对，给你30圆，如果输，你给他一元。 你说你赌不赌？赌是可以赌的，小赌怡情么，不过对于当前这个规则，假设你们能够赌到天荒地老，时间管够。你可是必输无疑的。为什么呢？我们算算期望值，也就是你的理想收益（足够多局数情况下）。</p>
+
+<p>对于连着猜5次都能猜正确，我们知道，这个概率是$(&frac12;)^{5} = 1/32$
+于是你有1/32的概率得到30圆，而又31/32的概率输掉1圆钱。那么期望值E(X)=1/32*30+31/32*(-1)=-1/32圆。这意味着你玩这个游戏，每次的收益期望是-1/32圆。那么时间玩得够久，你就损失大了。 当然，话说回来，这也不排除你第一把就全猜对5个正反面，赢了30 圆跑路。</p>
+
+<p>概率论本身就是研究这个世界不确定性，它的发展反映了人性的一些特点，历史上很多人把概率应用到各种赌博中去，甚至有人通过计算，发了横财。这再次说明，知识就是生产力啊。</p>
+
+<p>总体而言，期望着是给你一个预期，让你理性判别得失。</p>
+
+<p>作为结束，提一下期望值的一些运算规则，很好证明，不再赘述。</p>
+
+<p>$$
+\begin{align*}
+E[X+b] &amp;= E[X] + b \\
+E[X+Y] &amp;= E[X] + E[Y] \\
+E[aX] &amp;= aE[X] \\
+E[XY] &amp;= E[X]E[Y] \qquad X,Y是独立变量\\
+\end{align*}
+$$</p>
+
+<p>关于方差 (Variance) ，且听下回分解。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Wu Li</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-11-05T08:05:09+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>8:05 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/machine-learning/'>machine learning</a>, <a class='category' href='/blog/categories/math/'>math</a>, <a class='category' href='/blog/categories/statictisc/'>statictisc</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.wuli.mobi/blog/2014/11/05/expected-value/" data-via="" data-counturl="http://www.wuli.mobi/blog/2014/11/05/expected-value/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/05/covariance/" title="Previous Post: 期望值，方差和协方差（3）">&laquo; 期望值，方差和协方差（3）</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/11/05/variance/" title="Next Post: 期望值，方差和协方差（2）">期望值，方差和协方差（2） &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/pythonexp/">Pythonexp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/24/resume/">Resume</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/04/closures/">闭包</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/30/legb/">LEGB规则与 Python 变量的存取</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/29/issues-of-imports/">Python 包管理以及导入包时候一些问题辨析</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Wu Li -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'httpwulimobi';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.wuli.mobi/blog/2014/11/05/expected-value/';
+        var disqus_url = 'http://www.wuli.mobi/blog/2014/11/05/expected-value/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

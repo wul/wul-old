@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Stuff | Wu's Blogs]]></title>
+  <link href="http://www.wuli.mobi/blog/categories/stuff/atom.xml" rel="self"/>
+  <link href="http://www.wuli.mobi/"/>
+  <updated>2017-05-18T23:31:33+08:00</updated>
+  <id>http://www.wuli.mobi/</id>
+  <author>
+    <name><![CDATA[Wu Li]]></name>
+    <email><![CDATA[li.koun@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Latex Support on Github Blogs]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/08/29/latex-support/"/>
+    <updated>2014-08-29T09:08:24+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/08/29/latex-support</id>
+    <content type="html"><![CDATA[<p>$$
+f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{\frac{(x-\mu)^{2}}{2\sigma^{2}}}
+$$</p>
+
+<p>Thanks for MathJax ，现在可以在Github blog 上面增加 Latex 支持了。步骤很简单：</p>
+
+<ol>
+<li><p>将以下代码拷贝到布局页面中去，和其他 load 各种 javascript 的代码放在一起。</p>
+
+<pre><code> &lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;  
+</code></pre></li>
+<li><p>然后就可以开始书写 Latex 代码了，前后用双美元符号($$)括起来即可.</p></li>
+</ol>
+
+
+<p>有一点不便利，不知道是我哪里用错了，书写 Latex 代码的时候，所有的 superscribe都必须用大括号括起来，否则就不行。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[更新了下个人主页]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/08/28/manage-old-posts/"/>
+    <updated>2014-08-28T18:51:15+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/08/28/manage-old-posts</id>
+    <content type="html"><![CDATA[<p>好久没更新个人主页了。原因一是以前用得框架很丑陋，自己不擅长搞这些界面的东西，也没找到个好的框架；另一方面也没有太多要放上来得东西。</p>
+
+<p>不过域名既然申请了，还是得好好维护。幸在今天找到一个好框架，搭建配置也非常顺利，最主要的时解决了界面丑陋的问题，深得我心。</p>
+
+<p>赶快把以前的帖子重新放在新框架里，同时发几个水帖.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Emacs Package Management]]></title>
+    <link href="http://www.wuli.mobi/blog/2014/01/02/emacs-packages/"/>
+    <updated>2014-01-02T00:00:00+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2014/01/02/emacs-packages</id>
+    <content type="html"><![CDATA[<p>Emacs has a powerful pacakge management system &ldquo;pacakge.el&rdquo;. Normally you need a few lines of modification of .emacs and restart the Emacs, the packages you wanted will be auto-loaded for you. Of course, like other convinent package management systems such as &ldquo;apt-get&rdquo;, &ldquo;yum&rdquo;, &ldquo;quickload&rdquo;, you need internet access.</p>
+
+<h1>Make Emacs Manage Packages</h1>
+
+<ul>
+<li><p>Configure .emacs file</p>
+
+<p>In .emacs file, put below lisp forms</p>
+
+<pre><code>(require 'package)
+(package-initialize)
+(add-to-list 'package-archives
+      '("marmalade" . "http://marmalade-repo.org/packages/"))
+</code></pre>
+
+<p>These direct emacs to do auto package initialization when startup. The package-archives varaible saves all package repository list. There are some repository maintained by different orgs. Google them for yourself.</p></li>
+<li><p>Restart Emacs</p>
+
+<p>After restarting Emacs, type &rsquo;M-x&#8217; and input list-packages, Emacs will open a new buff that displays all available pckages. The package source is what you just configured before.</p>
+
+<p>In this buffer, you can browse the packages use emacs search shortcut to find wanted packages, you also can use shotcuts to mark/unamrk the package you install/uninstall. Getting the key and command list by typing M-x and input describe mode or get the description here. For impatients, just use &lsquo;Up&rsquo;/&lsquo;Down&rsquo; key to navigate to the package and click &lsquo;Enter&rsquo; key to install them.</p></li>
+<li><p>Auto Load Packages When Emacs Starting Up</p>
+
+<p>Added below Lisp forms into your .emacs file</p>
+
+<pre><code>(defvar  package-list
+   '(djvu
+     oauth2)
+   "List of package need to be installed")
+#Check if the package is there, if not, downloading/installing/loading
+(dolist (pack package-list)
+    (when (not (package-installed-p pack))
+      (package-refresh-contents) 
+      (package-install pack)))
+</code></pre>
+
+<p>Functions package-installed-p, pacakge-refresh-contents and pacakge-install are is offered by package.el. At first, call package-installed-p to check if one package is missed, if so, call package-refresh-contents to get the latest packages info and make them ready for downloading, finally, call package-install to installed missing package. All packages in package-list variable will be saved into ~/.emacs.d directory and loaded automatically.</p></li>
+<li><p>Note</p>
+
+<p>Some packages in these repository is too old and cannot work properly. For instance, package &lsquo;slime&rsquo; is not working for now. You have to download slime manually and manage them through the instuction of slime docs.</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
