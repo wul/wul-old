@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Wu's Blogs]]></title>
   <link href="http://www.wuli.mobi/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://www.wuli.mobi/"/>
-  <updated>2017-05-19T18:34:53+08:00</updated>
+  <updated>2017-05-19T18:36:48+08:00</updated>
   <id>http://www.wuli.mobi/</id>
   <author>
     <name><![CDATA[Wu Li]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Python 语言使用回顾]]></title>
-    <link href="http://www.wuli.mobi/blog/2016/01/15/2016-01-15-pythonexp2/"/>
+    <link href="http://www.wuli.mobi/blog/2016/01/15/pythonexp2/"/>
     <updated>2016-01-15T06:36:33+08:00</updated>
-    <id>http://www.wuli.mobi/blog/2016/01/15/2016-01-15-pythonexp2</id>
+    <id>http://www.wuli.mobi/blog/2016/01/15/pythonexp2</id>
     <content type="html"><![CDATA[<h1>Python 语言使用回顾 (二)</h1>
 
 <p>接着来说Python的使用经验。上次谈到Python语法规范简洁，对于初学者很友善，同时对于老程序员来讲，会发现其比较简单，舍弃了一些不常用的语言特性。但这绝对不意味着Python功能不行，恰恰相反，Python是语言中的狗皮膏药，在各个领域都能发挥其作用。</p>
