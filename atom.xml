@@ -4,7 +4,7 @@
   <title><![CDATA[Wu's Blogs]]></title>
   <link href="http://www.wuli.mobi/atom.xml" rel="self"/>
   <link href="http://www.wuli.mobi/"/>
-  <updated>2017-05-19T18:36:48+08:00</updated>
+  <updated>2017-05-19T18:38:41+08:00</updated>
   <id>http://www.wuli.mobi/</id>
   <author>
     <name><![CDATA[Wu Li]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Python 语言使用回顾]]></title>
+    <title type="html"><![CDATA[Python 语言使用回顾(二）]]></title>
     <link href="http://www.wuli.mobi/blog/2016/01/15/pythonexp2/"/>
     <updated>2016-01-15T06:36:33+08:00</updated>
     <id>http://www.wuli.mobi/blog/2016/01/15/pythonexp2</id>
