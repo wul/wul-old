@@ -9,7 +9,7 @@
   <meta name="author" content="Wu Li">
 
   
-  <meta name="description" content="正交性 (Orthogonal) 在向量空间中，如何评价两个向量之间的角度，或者更加进一步说他们之间的相关程度？ 想想在一个二维空间中，一个通过原点的向量的长度和方向由其坐标（x,y）决定。如果同时存在另外一个类似的向量，他们之间会存在一个夹角。这个夹角要么大于或者小于90度，要么正好90度。 &hellip;">
+  <meta name="description" content="支持向量机 (Support Vector Machine) 支持向量机从字面意思上完全得不到要领。支持&hellip;向量机&hellip;？干嘛要支持机器？了解到底这是一个什么东西之前，我们先看看它另外一个别名，“最大边界分类器”（Maximum Margin Classifier）。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,130 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/19/svm/">支持向量机 (SVM)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-19T08:42:38+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>8:42 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>支持向量机 (Support Vector Machine)</h1>
+
+<p>支持向量机从字面意思上完全得不到要领。支持&hellip;向量机&hellip;？干嘛要支持机器？了解到底这是一个什么东西之前，我们先看看它另外一个别名，“最大边界分类器”（Maximum Margin Classifier）。这个就有点意思了，首先是个分类器，再者是基于边界进行分类，再加上个限定词“最大”。这是一个基于直觉上的形象说法，在探讨算法本身之前，我们先看看，在一个二维空间内，对于线性可以区分的两类数据如何划分它们的边界，以此来获得关于所谓的最大边界分类的一个初步认识。</p>
+
+<p>以下图来自Wikipedia
+<img src="http://upload.wikimedia.org/wikipedia/commons/2/20/Svm_separating_hyperplanes.png" alt="SVM" /></p>
+
+<p>这里明显有两组不同样本，在机器学习中我们可以通过神经网络或者逻辑回归或者其他算法来做分类处理，但是从直觉上，我们可以看到，实际上可以在它们中间划分一条线来进行分割。这是一个很自然地想法，问题是，如何来划这个分割线。不同的人有不同的画法，在这里总共有3条直线来划分，H1，H2 和 H3。其中 H3 这个划分是错误的，它没有将多数样本正确区分。H1这条线可以说区分了样本，但是没有 H2 这条线的划分好。这是因为，H1的划分并不在两个样本集合边缘的正中间，如果新来一个样本来计算分类的话，很容易错误分类。而 H2 这条线则使得两组样本的边缘最大化，是一个优选的答案。</p>
+
+<p>现在对于分类器而言，我们的问题就是根据这个想法，如何找到这个最优的分割线。这个例子本身是用得二维空间，通过线段来分割两组样本。对于多维空间，我们是要寻找一个超平面（Hyperplane），来分割样本。</p>
+
+<p>首先我们定义包含 m 个样本，n 个 features的集合为：</p>
+
+<p>$$\mathcal{D}=\{(x_i,y_i)|x_{i}\in{R^{n}},y_i\in\{-1,1\} \}_{i=1}^{m}$$</p>
+
+<h2>拉格朗日对偶（Lagrange duality）- 数学理论基础</h2>
+
+<p>我们之前已经知道我们所要找寻的目标是最大化2/w，这个问题可以换种表述方式而不影响结果。那就是，我们找寻的目标是最小化 $w<sup>2</sup>/2 $。</p>
+
+<p>在目前的情况下，似乎很难找到这样的 w，但是这里有一些约束，可以帮助我们进行寻找。这些约束显而易见，对于我们所有的样本，它们对应的值不是>=1，就是&lt;=-1。</p>
+
+<p>在继续推导之前，先介绍一下拉格朗日对偶。说要寻找一个函数 f(x) 的最小值，这个函数符合一些约束。</p>
+
+<p>$$ \underset{w}{min}\quad f(w) $$
+$$  s.t. \quad h_i(w)=0, \quad i=1,2,&hellip;,l.$$</p>
+
+<p>对此，我们定义拉格朗日方程</p>
+
+<p>$$\mathcal{L}(\mathcal{w},\beta)=f(w)+\sum_{i=1}^{l}\beta_ih_i(w)$$</p>
+
+<p>$\beta_i$被称作拉格朗日乘子(Lagrange multipliers)，对于这个方程，求偏导数可得$\mathcal{w}和\beta$.</p>
+
+<p>$$\frac{\partial{\mathcal{L}}}{\partial{w_i}}=0 ;\quad \frac{\partial{\mathcal{L}}}{\partial \beta_i} = 0 $$</p>
+
+<p>这里，我们谈论的这个约束条件是一个等式。对于更一般的拉格朗日方程，它不但包含等式约束，也有可能报刊不等式约束，也就是<strong>primal</strong> 优化问题。</p>
+
+<p>$$\underset{w}{min}\quad f(w) $$
+$$ s.t. \quad g_i(w)\leq 0, \quad i=1,&hellip;,k $$
+$$\qquad   h_i(w)=0,\quad i=1,&hellip;l$$</p>
+
+<p>对于更改后的约束，更一般的拉格朗日方程为:</p>
+
+<p>$$\mathcal{L}(\mathcal{w},\alpha,\beta)=f(w)+\sum_{i=l}^{k}\alpha_ig_i(w)+\sum_{i=l}^{l}\beta_ih_i(w)$$</p>
+
+<p>$\alpha与\beta$仍然是拉格朗日乘子。现在考虑拉格朗日方程的最大值，定义其为</p>
+
+<p>$$\theta_\mathcal{P}(w)=\underset{\alpha,\beta:\alpha_{i}\geq 0}{max}\mathcal{L}(w,\alpha,\beta) $$</p>
+
+<p>$\mathcal{P}$代表&#8221;primal&#8221;。拉格朗日方程中，如果选取的 w 出现 $g_i(w)或者h_i(w)$不符合约束条件的话，我们总能够选取足够大的$\alpha和\beta$，使得$\theta_\mathcal{P}(w)$的最大值区域无穷；反之，如果对于任意 w，这些约束条件都满足，则最大值就是f(w),表示如下:</p>
+
+<p>$$
+\theta_\mathcal{p}(w) = \left \{
+  \begin{array}{l l}
+    \infty &amp; \quad \text{如果 w 不满足约束}&#92;
+    f(w) &amp; \quad \text{如果 w 满足约束}
+  \end{array}
+\right.
+$$</p>
+
+<p>因此，假设在 w 取值满足约束的时候，如果我们寻找$\underset{w}{min}\theta_\mathcal{P}(w)$，实际上就是寻找$\underset{w}{min} f(w)$。 为什么要绕这个弯子？ 为什么不直接找 f(w)最小值呢？ 那是因为做不到啊，很难用替代法之类的找到这个答案。那么用间接方式又如何做到呢？ 根据上面的推导，我们首先定义</p>
+
+<p>$$\underset{w}{min} \theta_\mathcal{P}(w)=\underset{w}{min} \underset{\alpha,\beta:\alpha_i \geq 0}{max} \mathcal{L}(w,\alpha,\beta) \quad \text {(1)}$$</p>
+
+<p>我们定义这个值为$p^*$。</p>
+
+<p>然后换个角度看待问题，定义新的方程</p>
+
+<p>$$\theta_\mathcal{D}(\alpha,\beta)=\underset{w}{min}\mathcal{L}(w,\alpha,\beta)$$</p>
+
+<p>$\mathcal{D}$代表对偶(dual),这个方程寻找拉格朗日方程的最小值，不过不同于公式(1)中的相对于的变量$\alpha和\beta$，这里我们相对于变量w。继续推导，可得对偶优化问题</p>
+
+<p>$$\underset{\alpha,\beta:\alpha_i \geq 0}{max} \theta_\mathcal{D}(\alpha,\beta)=\underset{\alpha,\beta:\alpha_i \geq 0}{max} \underset{w}{min}\mathcal{L}(w,\alpha,\beta) \quad \text {(2)}$$</p>
+
+<p>这个公式和公式（1）很相似，不同的是把 max 和 min 的顺序反了。定义这个值为$d^*$</p>
+
+<p>不过似乎还是没有头绪，现在不过就是定义了2个公式，对应了两个极值$d^*和p^*$，可这对于解决f(w)有什么帮助呢？答案是这两个值的关系可以帮助我们寻找答案。 那么这两个值什么关系？ 先看一个不等式</p>
+
+<p>$$\underset{x}{max}\underset{y}{min}f_(x,y) &lt;= \underset{y}{min}\underset{x}{max}f(x,y)$$</p>
+
+<p>这个公式这里不证明了，如果想不通可以看一个例子：定义f(x,y)=sin(x+y)，这样可得：</p>
+
+<p>$$\underset{x}{max}\underset{y}{min}f_(x,y) = -1 &lt;= \underset{y}{min}\underset{x}{max}f(x,y) = 1$$</p>
+
+<p>这个公式告诉我们$d^*\leq p^*$。 假设$f,g_i$是凸函数，$h_i(w)=a_i^{T}w+b_i$,同时对于任意w,$g_i(w) \leq 0$，那么必存在$w^*,\alpha^*,\beta^*$，使得$p^*=d^*=\mathcal{L}(w^*,\alpha^*,\beta^*)$ (还不是很明白这一段)，同时$w^*,\alpha^*,\beta^*$符合 KKT 条件（Karush-Kuhn-Tucker)：</p>
+
+<p>$$
+\begin{align*}
+\frac{\partial{}}{\partial{w_i}}\mathcal{L}(w^*,\alpha^*,\beta^*) &amp;= 0,\quad \text {i=1,..,n} &#92;
+\frac{\partial{}}{\partial{\beta_i}}\mathcal{L}(w^*,\alpha^*,\beta^*) &amp;= 0,\quad \text {i=1,..,l} &#92;
+\alpha_i^*g_i(w^*)&amp;=0,\quad \text {i=1,..,k} &#92;
+g_i(w^*)&amp;\leq 0,\quad \text {i=1,..,k} &#92;
+\alpha^*&amp;\geq 0,\quad \text {i=1,..,k}
+\end{align*}
+$$</p>
+
+<p>未完，待修改&hellip;</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -648,108 +772,6 @@ $$</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/30/simple-optimization/">一个简单优化Python程序效率的小技巧</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-03-30T00:00:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>先看以下两个程序, 先是s1.py</p>
-
-<pre><code>#s1.py
-n = 0
-while n &lt; 10000000:
-    i, j , k = [1,2,3]
-    m = i+j+k
-    n += 1
-</code></pre>
-
-<p>再是s2.py</p>
-
-<pre><code>def main():
-    n = 0
-    while n &lt; 10000000:
-        i, j , k = [1,2,3]
-        m = i+j+k
-        n += i
-main()
-</code></pre>
-
-<p>这两个程序代码几乎一样，只是s2.py的主要代码都包在函数里面执行，而s1.py的代码直接在global空间执行。代码其实很简单，就是执行了一千万次的1，2，3的相加。</p>
-
-<p>然后分别统计以下各自的执行时间。在我的MacPro上，它们的执行时间如下：</p>
-
-<pre><code>wuli2-mac:tmp wuli2$ time python s1.py 
-
-real    0m3.898s
-user    0m3.886s
-sys 0m0.011s
-wuli2-mac:tmp wuli2$ time python s2.py 
-
-real    0m2.151s
-user    0m2.140s
-sys 0m0.010s
-wuli2-mac:tmp wuli2$ time python s1.py 
-
-real    0m3.875s
-user    0m3.862s
-sys 0m0.012s
-wuli2-mac:tmp wuli2$ time python s2.py 
-
-real    0m2.157s
-user    0m2.145s
-sys 0m0.011s
-wuli2-mac:tmp wuli2$ time python s1.py 
-
-real    0m3.908s
-user    0m3.897s
-sys 0m0.010s
-wuli2-mac:tmp wuli2$ time python s2.py 
-
-real    0m2.163s
-user    0m2.153s
-sys 0m0.009s
-</code></pre>
-
-<p>先简单说下time命令的输出。real代表实际程序执行的时间，这个是用户最直观的感受，程序到底从执行到结束执行了多少时间；user代表程序在用户态执行了多少时间，体现的是用户模式下执行指令画了多少CPU时间，至于你的用户代码因为等待或者被调度不算在里面；sys是代码因为系统调用进入内核态，在内核态执行占用了多少时间。 因此 user + sys代表了一个程序实际上占用了多少CPU资源。</p>
-
-<p>在我们这个例子里面，sys占到的比值太小了，而且两个程序相比较差别也不大，因此我们看用户态执行时间的差异如何。3次执行结果取平均值，s1.py平均用了3.889秒，s2.py平均用了2.150秒。</p>
-
-<p>这里的问题很明显，对于几乎一模一样的程序，为什么速度上有几乎81%的差异？</p>
-
-<p>这本质上是Python对待全局变量与局部变量的区别。全局变量存放在字典中，对他们的存取是通过<strong>getattribute</strong>的操作，这样必然需要一些类似hash，搜作等操作，而局部变量一般的实现方式都是放在栈中或者寄存器中，它的存取必然比全局变量快。</p>
-
-<p>因此，程序s1.py和s2.py的速度差异主要体现在一千万次对全局变量和局部变量的存取速度上。</p>
-
-<p>单单从这个小小的优化来讲，似乎应用范围很窄，一般来讲，速度的瓶颈一般处于迭代或者递归之处，而这样的代码又一般封装在函数里面作为算法。当然了，这里也是一个提醒，这样的可能造成瓶颈的代码一定不要放在global空间来执行。</p>
-
-<p>最后，还是那句老话。优化的第一步，就是不要优化。 程序的结构和逻辑比优化更重要，不要因为优化而大段改写代码，不易懂又难维护。</p>
-
-<h1>参考</h1>
-
-<p><a href="http://stackoverflow.com/questions/9132288/why-are-local-variables-accessed-faster-than-global-variables-in-lua">http://stackoverflow.com/questions/9132288/why-are-local-variables-accessed-faster-than-global-variables-in-lua</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -767,6 +789,10 @@ sys 0m0.009s
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/02/01/python3/">Python 语言使用回顾 (三)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/15/pythonexp2/">Python 语言使用回顾(二）</a>
       </li>
     
@@ -780,10 +806,6 @@ sys 0m0.009s
     
       <li class="post">
         <a href="/blog/2015/05/04/closures/">闭包</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/30/legb/">LEGB规则与 Python 变量的存取</a>
       </li>
     
   </ul>
