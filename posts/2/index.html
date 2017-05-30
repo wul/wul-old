@@ -9,7 +9,7 @@
   <meta name="author" content="Wu Li">
 
   
-  <meta name="description" content="支持向量机 (Support Vector Machine) 支持向量机从字面意思上完全得不到要领。支持&hellip;向量机&hellip;？干嘛要支持机器？了解到底这是一个什么东西之前，我们先看看它另外一个别名，“最大边界分类器”（Maximum Margin Classifier）。 &hellip;">
+  <meta name="description" content="总是记不着DataFrame中各种Indexing和Slicing操作，也是因为用得少的缘故。很多操作非常像numpy.ndarray的操作，很多又像字典操作，又有类似 sequence 的操作。总之似乎很方便，前提是都得知道该怎么用。 因此整理一下，权当笔记。 首先构造一个试验用的 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,166 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/03/learning-pandas-1/">Learning Pandas (1) - DataFrame Indexing and Slicing</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-03T08:29:46+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>8:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>总是记不着DataFrame中各种Indexing和Slicing操作，也是因为用得少的缘故。很多操作非常像numpy.ndarray的操作，很多又像字典操作，又有类似 sequence 的操作。总之似乎很方便，前提是都得知道该怎么用。</p>
+
+<p>因此整理一下，权当笔记。</p>
+
+<p>首先构造一个试验用的 DataFrame。</p>
+
+<p><img src="/images/pandas-df.png" alt="frame" /></p>
+
+<p>这个 DateFrame 的索引（index）是基于时间的，他得列分别给予标签&#8217;one&#8217;, &lsquo;two&rsquo;, &lsquo;three&#8217;。那么关于索引，有以下几种目的：</p>
+
+<h1>Indexing</h1>
+
+<h2>获得某一行</h2>
+
+<p>分为两种情况.
+第一，如果你知道index的值，比如&#8217;2012-01-01&#8217;，你可以使用</p>
+
+<pre><code>&gt;&gt;&gt;frame.ix['2012-1-1'] 
+&gt;&gt;&gt;frame.ix['2012-01-1']
+&gt;&gt;&gt;frame.ix['2012-01-01']
+</code></pre>
+
+<p>来做索引，可以看到，这个给的 key，只要能够正确转换成时间即可。这样，就可以把第一行取出来，生成一个 Series 对象返回；</p>
+
+<p>第二种情况，你可能并不清楚这个 Key，但是你知道你想要第几行数据，比如说第一行，那么你可以用</p>
+
+<pre><code>&gt;&gt;&gt;frame.ix[0]
+</code></pre>
+
+<p> ix 会猜你到底给的是个 标签 类型的还是一个数字类型的索引。当然了，特别要注意，当你的标签，也就是索引本身恰好是数字类型的话，第二种方式可能<strong>会造成歧义</strong>，而返回非期望的结果。</p>
+
+<p>DataFrame 其实还提供了另外的索引方法，</p>
+
+<pre><code>&gt;&gt;&gt;frame.iloc[idx] 
+</code></pre>
+
+<p>来明确指定需求一个数字做索引，返回需要的行;</p>
+
+<pre><code>&gt;&gt;&gt;frame.loc[label_idx] 
+</code></pre>
+
+<p>则需要一个标签做索引。网上看到有人做过实验，iloc,loc的效率不及ix，没有亲身试过。</p>
+
+<h2>获得某一列</h2>
+
+<p>也分类似两种情况，知道列的标签与否。如果知道，比如可以使用</p>
+
+<pre><code>&gt;&gt;&gt;frame.ix[:,'one']
+</code></pre>
+
+<p>取出第一列。如果不知道，使用</p>
+
+<pre><code>&gt;&gt;&gt;frame.ix[:,0]
+</code></pre>
+
+<p>取出第一列。当然了，也要注意标签恰好是数字类型而出现歧义。</p>
+
+<p>如果基于标签的索引，还有两种种快捷方式，将列的标签作为 key，将 DataFrame 当做字典来存取，如</p>
+
+<pre><code>&gt;&gt;&gt;frame['one']
+</code></pre>
+
+<p>取出第一行。或者将某行当做DataFrame的成员变量哪有存取，如</p>
+
+<pre><code>&gt;&gt;&gt;frame.one
+</code></pre>
+
+<p>都可以将第一列当做Series 对象返回</p>
+
+<h2>获得指定行指定列</h2>
+
+<p>仍然是两种情况，基于数字或基于标签的索引，比如去第三行第二列数字8，有如下索引方式：</p>
+
+<pre><code>&gt;&gt;&gt;frame.ix[2,1]
+&gt;&gt;&gt;frame.ix['2014-1-1', 'two']
+&gt;&gt;&gt;frame.ix[2, 'two']
+&gt;&gt;&gt;frame.ix['2014-1-1', 1]
+</code></pre>
+
+<p>是不是很灵活啊？ 太灵活了！受不了了！这还没完，还有方法呢，要取出8，还有</p>
+
+<pre><code>&gt;&gt;&gt;frame['two'][2], 
+&gt;&gt;&gt;frame.two[2]
+</code></pre>
+
+<p>还有 at（基于标签的）和 iat（基于数字的），如</p>
+
+<pre><code>&gt;&gt;&gt;frame.at[datetime.datetime(2014,1,1), 'two']
+&gt;&gt;&gt;frame.iat(2,1)
+</code></pre>
+
+<p>还有类方法</p>
+
+<pre><code>&gt;&gt;&gt;frame.get_value(pd.Timestamp('2014-1-1', 'two')
+</code></pre>
+
+<p>是不是头很大，不管你是不是头大，我是有点晕。太多的选择真不符合 Python style。</p>
+
+<h1>Slicing</h1>
+
+<p>有了Indexing的各种手段，来学习 Slicing 的时候有许多类似的概念能够用得到。仍旧针对行与列来操作。</p>
+
+<h2>取多行</h2>
+
+<p>比如取第一、二行，返回仍旧是一个 DataFrame。</p>
+
+<pre><code>&gt;&gt;&gt;frame.ix[0:2]
+&gt;&gt;&gt;frame.ix[[0,1]]
+&gt;&gt;&gt;frame.ix['2012-1-1':'2013-1-1']       
+&gt;&gt;&gt;frame.ix[pd.DatetimeIndex(['2012-1-1','2013-1-1'])]
+</code></pre>
+
+<p>前2个方法比较好理解，与NumPy里面的数组操作方式一样，基于数字做索引。 第三种方式给定一个范围，这两个标签之内的所有行都取出（包括最后一个标签对应的行，与数字索引不同）；第四种方式则显得间接，必须显式的将字符串转换成时间索引，来获取其对应的行（FIXME， frame.ix[[&lsquo;2012-1-1&rsquo;,&lsquo;2013-1-1&rsquo;]]不工作）</p>
+
+<h2>取多列</h2>
+
+<p>取出第一、二列</p>
+
+<pre><code>&gt;&gt;&gt;frame.ix[:,0:2]
+&gt;&gt;&gt;frame.ix[:,[0,1]]
+&gt;&gt;&gt;frame.ix[:,'one':'two']
+&gt;&gt;&gt;frame.ix[:,['one','two']
+&gt;&gt;&gt;frame[0:2]
+&gt;&gt;&gt;frame[[0,1]]
+&gt;&gt;&gt;frame[['one','two']]
+</code></pre>
+
+<p>第一二种方式基于数字做索引；第三种基于标签，两个标签之间的所有列都取出（包括截止标签对应的列）；第四种提供一个标签列表，属于这个列表中的列都取出;第五、六种是1，2的快捷方式，第七种是第四种方式的快捷操作，没有第三种的快捷方式。</p>
+
+<p>因此，似乎是用标签来做 slicing 的时候，是用类似列表的 <em>start:end</em> 不是很管用。</p>
+
+<p>总体看来，ix 的各种操作很方便获得行，而是用 frame[]类似的快捷方式能方便得获得各种列。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -735,43 +895,6 @@ $$</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/28/application-of-logistic-regression/">逻辑回归的一个日常应用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-08-28T18:22:40+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:22 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>学了机器学习，一直没找到好的练习。经常练手的诸如垃圾邮件过滤，似乎已经有很多实现了，况且我也不是很感兴趣。翻着手机查看交通违章记录的时候，突然想到在网站上如果想查看违章记录，需要输入一堆东西，还要图片验证校验码，比较麻烦。 刚好，这些过程，比如自动获取网页，POST 信息，用程序实现都很方便，让人感兴趣的时校验码输入，刚好能够练习一下机器学习学到的东西。</p>
-
-<p>查询违章记录的时针对上海市的交通信息网，里面有供司机查询电子眼拍到或现场违章记录。</p>
-
-<p>用 Python 简单实现了Logistic Regression，配合一些手工得到的样本，图片识别很成功。一方面归功于网站的校验码设置也比较简单，另一方面，也体现 ML 的实用性。</p>
-
-<p>反正是练习，顺便用 SVM 和 Decision Tree 同时来识别校验码，效果都很好，唯一不好的时 kNN, 经常将数字8和0混淆，也可能是样本少得缘故吧。</p>
-
-<p>源代码在github:    <a href="https://github.com/wul/tvish">https://github.com/wul/tvish</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -789,6 +912,10 @@ $$</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/02/20/python4/">Python语言使用回顾 (四)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/02/01/python3/">Python 语言使用回顾 (三)</a>
       </li>
     
@@ -802,10 +929,6 @@ $$</p>
     
       <li class="post">
         <a href="/blog/2015/08/24/resume/">Resume</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/04/closures/">闭包</a>
       </li>
     
   </ul>

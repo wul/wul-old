@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>期望值，方差和协方差（3） - Wu's Blogs</title>
+  <title>Python语言使用回顾 (四) - Wu's Blogs</title>
   <meta name="author" content="Wu Li">
 
   
-  <meta name="description" content="在多随机变量的方差运算中，我们看到了协方差的身影 COV。协方差的定义为： $$cov(X,Y)=E[(X-\mu)(Y-\nu)] = E[XY]-E[X]E[Y]$$ $\mu$是 X 的期望值 E[X]，$\nu$是 Y 的期望值 E[Y]。协方差是描述两个随机变量之间的。 &hellip;">
+  <meta name="description" content="写了Python语法的简洁，语言的实用性广， 作为高级语言的特点后，今天再来看看Python语言的另外一个特点， 那就是Python虽然容易上手，但是要精通Python则需要花费一些气力。 Python有很多高级特性，比如生成器，装饰器，元类，各种魔法函数。许多情况下， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.wuli.mobi/blog/2014/11/05/covariance">
+  <link rel="canonical" href="http://www.wuli.mobi/blog/2016/02/20/python4">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Wu's Blogs" type="application/atom+xml">
@@ -68,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">期望值，方差和协方差（3）</h1>
+      <h1 class="entry-title">Python语言使用回顾 (四)</h1>
     
     
       <p class="meta">
@@ -77,43 +77,30 @@
 
 
 
-<time class='entry-date' datetime='2014-11-05T08:05:09+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>8:05 am</span></time>
+<time class='entry-date' datetime='2016-02-20T20:03:54+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:03 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>在多随机变量的方差运算中，我们看到了协方差的身影 COV。协方差的定义为：</p>
+<div class="entry-content"><p>写了Python语法的简洁，语言的实用性广， 作为高级语言的特点后，今天再来看看Python语言的另外一个特点， 那就是Python虽然容易上手，但是要精通Python则需要花费一些气力。</p>
 
-<p>$$cov(X,Y)=E[(X-\mu)(Y-\nu)] = E[XY]-E[X]E[Y]$$</p>
+<p>Python有很多高级特性，比如生成器，装饰器，元类，各种魔法函数。许多情况下，在我们用Python写程序或许用不到这些技术，对于很多的项目开发，利用现有的语法和基本数据结构即可，不需要使用这些高级概念。那么，这些高级概念对于我们使用Python又有什么利弊呢？</p>
 
-<p>$\mu$是 X 的期望值 E[X]，$\nu$是 Y 的期望值 E[Y]。协方差是描述两个随机变量之间的。协方差有时候也用符号$\sigma$来表示。这个公式看起来有点眼熟，如果我们让 Y=X，实际上它就变成了方差的定义。这不是偶合，下面详细说明。</p>
+<p>在我看来，掌握这些高级概念至少有以下好处：</p>
 
-<p>协方差表示的是两个随机变量的总体误差，并描述两个随机变量之间的线性相关度。为了方便，我们经常使用规范化（normalized）的协方差。</p>
-
-<p>$$corr(X,Y)=\frac{cov(X,Y)}{\sqrt{Var(X)Var(Y)}} $$</p>
-
-<p>由柯西不等式可以知道这个值介于-1与1之间。 下图第一排反映的是2个随机变量（$X_i,Y_i$）构成的点集的相关性关系。如果两个随机变量正相关，即Y和 X 之间符合Y=aX+b，则它们的构成的点集为一条直线（corr=1）；如果2个随机变量相反，但符合 Y=-aX+b，此时他们负相关相反（corr=-1）；同时，还有一个特点，如果2个随机变量独立，或者说它们是不相关的，此时，则构成的点集是一团（corr=0）。</p>
-
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Correlation_examples.png/800px-Correlation_examples.png" alt="aaaa" /></p>
-
-<center>图片取自wikipedia</center>
+<ul>
+<li>能看懂别人的开发库，理解别人程序的意思</li>
+<li>能够完成一些普通方法不好完成的功能；或者使用普通方法虽然能够完成某些功能，但并不能在内存使用或者执行效率上有优势</li>
+</ul>
 
 
-<p>由方差公式 Var(X+Y)=Var(X)+Var(Y)+Cov(X,Y)知道，如果 X，Y 为独立变量，则 Cov(X,Y)=0。但不能翻过来说。亦，如果 Cov(X,Y)=0， 则 X,Y 互为独立变量是错误的。比如在[-1,1]之间 $Cov(X,X<sup>2</sup>)$为0（根据 Cov 定义，代$入 X，X<sup>2</sup>积分可得），但不能说 X 和 X<sup>2</sup>$ 是独立的。</p>
+<p>先看第一点。 随着越来越深的接触别人的程序，无论看项目中其他组员的程序还是学习第三方的库，势必会看到别人写的于自己不一样的地方，别人可能会用到一些Python高级特性，简单说来，为了看懂别人的程序，你也不得不去学习这些新概念，以期看懂别人的设计和实现。</p>
 
-<p>另一方面，如果两个随机变量非常相关，比如 Y=X，那么相关度公式</p>
+<p>至于第二点，高级概念的存在本来就是为了解决某些特定的问题。这些问题如果用已有的普通Python语言特性也可能能够实现，但是不够优雅和自然。比如装饰器，我们为了在不修改原来代码的基础上，通过装饰来增添额外的代码，间接的完成了实现逻辑的改变；又比如，使用generator来产生可迭代对象能够比普通集合在内存使用上更加效率。</p>
 
-<p>$$corr(X,X)=\frac{Var(X)}{\sqrt{Var(X)<sup>2</sup>}}=1$$</p>
-
-<p>从这个特例可直觉上印证随机变量的相关度。</p>
-
-<p>在线性代数中，对于一个矩阵 A，其由 N 个列向量组成，每个列向量可以看做是一个随机变量的不同值构成，那么它的协方差矩阵为</p>
-
-<p>$$\Sigma=E[(X-E[X])^{T}(X-E[X])]$$</p>
-
-<p>协方差矩阵在这里描述的是任意两个向量之间的线性相关度（一般将 E(x)归一化成0）。在机器学习中得降维处理中有所应用。其目的在于寻找一组基使得排除一些不重要的维度成为可能。</p>
+<p>那么这些高级概念的有什么坏处呢？ 显而易见增长了学习曲线，对于一个组织来讲就是个人学习时间xN，拉长整个团队的学习时间，耗费还是巨大的。 如果某个人在某处代码中用到高级概念，那势必团队中的人都有学会这个高级概念，才能维护代码。</p>
 </div>
 
 
@@ -129,21 +116,15 @@
 
 
 
-<time class='entry-date' datetime='2014-11-05T08:05:09+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>8:05 am</span></time>
+<time class='entry-date' datetime='2016-02-20T20:03:54+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:03 pm</span></time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/machine-learning/'>machine learning</a>, <a class='category' href='/blog/categories/math/'>math</a>, <a class='category' href='/blog/categories/statictisc/'>statictisc</a>
-  
-</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.wuli.mobi/blog/2014/11/05/covariance/" data-via="" data-counturl="http://www.wuli.mobi/blog/2014/11/05/covariance/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.wuli.mobi/blog/2016/02/20/python4/" data-via="" data-counturl="http://www.wuli.mobi/blog/2016/02/20/python4/" >Tweet</a>
   
   
   
@@ -152,10 +133,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/09/10/pca-and-linear-algorithm/" title="Previous Post: PCA的线性代数的背景">&laquo; PCA的线性代数的背景</a>
+        <a class="basic-alignment left" href="/blog/2016/02/01/python3/" title="Previous Post: Python 语言使用回顾 (三)">&laquo; Python 语言使用回顾 (三)</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/11/05/expected-value/" title="Next Post: 期望值，方差和协方差（1）">期望值，方差和协方差（1） &raquo;</a>
       
     </p>
   </footer>
@@ -221,8 +200,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://www.wuli.mobi/blog/2014/11/05/covariance/';
-        var disqus_url = 'http://www.wuli.mobi/blog/2014/11/05/covariance/';
+        var disqus_identifier = 'http://www.wuli.mobi/blog/2016/02/20/python4/';
+        var disqus_url = 'http://www.wuli.mobi/blog/2016/02/20/python4/';
         var disqus_script = 'embed.js';
       
     (function () {

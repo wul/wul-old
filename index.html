@@ -9,7 +9,7 @@
   <meta name="author" content="Wu Li">
 
   
-  <meta name="description" content="Python是一门相比C，C++更为高级的语言。这里所说的高级并不包含褒义或者贬义，而是指相对于程序操作的对象，我们更关注与业务的需求还是更关注底层对操作系统的请求。 以前我们用C来写程序的时候，如果动态的创建变量，我们需要自己调用malloc等函数来向操作系统申请内存，自己管理好指针， &hellip;">
+  <meta name="description" content="写了Python语法的简洁，语言的实用性广， 作为高级语言的特点后，今天再来看看Python语言的另外一个特点， 那就是Python虽然容易上手，但是要精通Python则需要花费一些气力。 Python有很多高级特性，比如生成器，装饰器，元类，各种魔法函数。许多情况下， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +71,51 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/02/20/python4/">Python语言使用回顾 (四)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-20T20:03:54+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:03 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>写了Python语法的简洁，语言的实用性广， 作为高级语言的特点后，今天再来看看Python语言的另外一个特点， 那就是Python虽然容易上手，但是要精通Python则需要花费一些气力。</p>
+
+<p>Python有很多高级特性，比如生成器，装饰器，元类，各种魔法函数。许多情况下，在我们用Python写程序或许用不到这些技术，对于很多的项目开发，利用现有的语法和基本数据结构即可，不需要使用这些高级概念。那么，这些高级概念对于我们使用Python又有什么利弊呢？</p>
+
+<p>在我看来，掌握这些高级概念至少有以下好处：</p>
+
+<ul>
+<li>能看懂别人的开发库，理解别人程序的意思</li>
+<li>能够完成一些普通方法不好完成的功能；或者使用普通方法虽然能够完成某些功能，但并不能在内存使用或者执行效率上有优势</li>
+</ul>
+
+
+<p>先看第一点。 随着越来越深的接触别人的程序，无论看项目中其他组员的程序还是学习第三方的库，势必会看到别人写的于自己不一样的地方，别人可能会用到一些Python高级特性，简单说来，为了看懂别人的程序，你也不得不去学习这些新概念，以期看懂别人的设计和实现。</p>
+
+<p>至于第二点，高级概念的存在本来就是为了解决某些特定的问题。这些问题如果用已有的普通Python语言特性也可能能够实现，但是不够优雅和自然。比如装饰器，我们为了在不修改原来代码的基础上，通过装饰来增添额外的代码，间接的完成了实现逻辑的改变；又比如，使用generator来产生可迭代对象能够比普通集合在内存使用上更加效率。</p>
+
+<p>那么这些高级概念的有什么坏处呢？ 显而易见增长了学习曲线，对于一个组织来讲就是个人学习时间xN，拉长整个团队的学习时间，耗费还是巨大的。 如果某个人在某处代码中用到高级概念，那势必团队中的人都有学会这个高级概念，才能维护代码。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/02/01/python3/">Python 语言使用回顾 (三)</a></h1>
     
     
@@ -87,9 +132,9 @@
   </header>
 
 
-  <div class="entry-content"><p>Python是一门相比C，C++更为高级的语言。这里所说的高级并不包含褒义或者贬义，而是指相对于程序操作的对象，我们更关注与业务的需求还是更关注底层对操作系统的请求。</p>
+  <div class="entry-content"><p>Python是一门相比C，C++更为高级的语言。这里所说的高级并不包含褒义或者贬义，而是指相对于程序操作的对象，Python的使用者更关注与业务的需求还是更关注底层对操作系统的请求。</p>
 
-<p>以前我们用C来写程序的时候，如果动态的创建变量，我们需要自己调用malloc等函数来向操作系统申请内存，自己管理好指针，并且在用完之后释放掉。比如，我们要有255个元素大小的一个列表，里面能够存放某种元素（如整数)，我们希望如下进行indexing，slicing和判断一个元素是非在内的操作。</p>
+<p>以前我们用C来写程序的时候，如果动态的创建变量，我们需要自己调用malloc等函数来向操作系统申请内存，自己管理好指针，并且在用完之后释放掉。比如，我们要有255个元素大小的一个列表，里面能够存放某种元素（如整数)，我们希望进行indexing，slicing和判断一个元素是否在内的操作。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -213,6 +258,8 @@
 
 
 <p>在Python中，整数本身就是一个对象（object），int类的实例，所以这里没有进一步向C一样封装成struct。 对比C的代码，明显感觉到对于list的操作要简单很多，省去了内存管理，省去了很多辅助代码。</p>
+
+<p>应该讲，程序员的精力也是有限的。如果一个需求，你既要关注对客户需求的抽象，又要关注底层的内存处理细节，就需要有更多的精力投入，这样虽不能说顾此失彼，但至少提高了复杂度。如果语言能够像Python这样，省去了底层的细节，那么程序员就可以专注于客户需求的抽象和建模，自然会带来效率上的提升。</p>
 
 <p>但这并不是说，Python这样的高级语言一定全方位都好，各有各的长处。C/C++长处在于速度和能处理广泛性，从嵌入式到大型应用开发； Python在于开发效率和对速度不敏感业务的开发，能够快速给出原型，然后快速迭代，满足客户和市场的快速变化。</p>
 </div>
@@ -1084,166 +1131,6 @@ print(s)                                             =&gt; "这是 unicode 字�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/03/learning-pandas-1/">Learning Pandas (1) - DataFrame Indexing and Slicing</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-12-03T08:29:46+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>8:29 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>总是记不着DataFrame中各种Indexing和Slicing操作，也是因为用得少的缘故。很多操作非常像numpy.ndarray的操作，很多又像字典操作，又有类似 sequence 的操作。总之似乎很方便，前提是都得知道该怎么用。</p>
-
-<p>因此整理一下，权当笔记。</p>
-
-<p>首先构造一个试验用的 DataFrame。</p>
-
-<p><img src="/images/pandas-df.png" alt="frame" /></p>
-
-<p>这个 DateFrame 的索引（index）是基于时间的，他得列分别给予标签&#8217;one&#8217;, &lsquo;two&rsquo;, &lsquo;three&#8217;。那么关于索引，有以下几种目的：</p>
-
-<h1>Indexing</h1>
-
-<h2>获得某一行</h2>
-
-<p>分为两种情况.
-第一，如果你知道index的值，比如&#8217;2012-01-01&#8217;，你可以使用</p>
-
-<pre><code>&gt;&gt;&gt;frame.ix['2012-1-1'] 
-&gt;&gt;&gt;frame.ix['2012-01-1']
-&gt;&gt;&gt;frame.ix['2012-01-01']
-</code></pre>
-
-<p>来做索引，可以看到，这个给的 key，只要能够正确转换成时间即可。这样，就可以把第一行取出来，生成一个 Series 对象返回；</p>
-
-<p>第二种情况，你可能并不清楚这个 Key，但是你知道你想要第几行数据，比如说第一行，那么你可以用</p>
-
-<pre><code>&gt;&gt;&gt;frame.ix[0]
-</code></pre>
-
-<p> ix 会猜你到底给的是个 标签 类型的还是一个数字类型的索引。当然了，特别要注意，当你的标签，也就是索引本身恰好是数字类型的话，第二种方式可能<strong>会造成歧义</strong>，而返回非期望的结果。</p>
-
-<p>DataFrame 其实还提供了另外的索引方法，</p>
-
-<pre><code>&gt;&gt;&gt;frame.iloc[idx] 
-</code></pre>
-
-<p>来明确指定需求一个数字做索引，返回需要的行;</p>
-
-<pre><code>&gt;&gt;&gt;frame.loc[label_idx] 
-</code></pre>
-
-<p>则需要一个标签做索引。网上看到有人做过实验，iloc,loc的效率不及ix，没有亲身试过。</p>
-
-<h2>获得某一列</h2>
-
-<p>也分类似两种情况，知道列的标签与否。如果知道，比如可以使用</p>
-
-<pre><code>&gt;&gt;&gt;frame.ix[:,'one']
-</code></pre>
-
-<p>取出第一列。如果不知道，使用</p>
-
-<pre><code>&gt;&gt;&gt;frame.ix[:,0]
-</code></pre>
-
-<p>取出第一列。当然了，也要注意标签恰好是数字类型而出现歧义。</p>
-
-<p>如果基于标签的索引，还有两种种快捷方式，将列的标签作为 key，将 DataFrame 当做字典来存取，如</p>
-
-<pre><code>&gt;&gt;&gt;frame['one']
-</code></pre>
-
-<p>取出第一行。或者将某行当做DataFrame的成员变量哪有存取，如</p>
-
-<pre><code>&gt;&gt;&gt;frame.one
-</code></pre>
-
-<p>都可以将第一列当做Series 对象返回</p>
-
-<h2>获得指定行指定列</h2>
-
-<p>仍然是两种情况，基于数字或基于标签的索引，比如去第三行第二列数字8，有如下索引方式：</p>
-
-<pre><code>&gt;&gt;&gt;frame.ix[2,1]
-&gt;&gt;&gt;frame.ix['2014-1-1', 'two']
-&gt;&gt;&gt;frame.ix[2, 'two']
-&gt;&gt;&gt;frame.ix['2014-1-1', 1]
-</code></pre>
-
-<p>是不是很灵活啊？ 太灵活了！受不了了！这还没完，还有方法呢，要取出8，还有</p>
-
-<pre><code>&gt;&gt;&gt;frame['two'][2], 
-&gt;&gt;&gt;frame.two[2]
-</code></pre>
-
-<p>还有 at（基于标签的）和 iat（基于数字的），如</p>
-
-<pre><code>&gt;&gt;&gt;frame.at[datetime.datetime(2014,1,1), 'two']
-&gt;&gt;&gt;frame.iat(2,1)
-</code></pre>
-
-<p>还有类方法</p>
-
-<pre><code>&gt;&gt;&gt;frame.get_value(pd.Timestamp('2014-1-1', 'two')
-</code></pre>
-
-<p>是不是头很大，不管你是不是头大，我是有点晕。太多的选择真不符合 Python style。</p>
-
-<h1>Slicing</h1>
-
-<p>有了Indexing的各种手段，来学习 Slicing 的时候有许多类似的概念能够用得到。仍旧针对行与列来操作。</p>
-
-<h2>取多行</h2>
-
-<p>比如取第一、二行，返回仍旧是一个 DataFrame。</p>
-
-<pre><code>&gt;&gt;&gt;frame.ix[0:2]
-&gt;&gt;&gt;frame.ix[[0,1]]
-&gt;&gt;&gt;frame.ix['2012-1-1':'2013-1-1']       
-&gt;&gt;&gt;frame.ix[pd.DatetimeIndex(['2012-1-1','2013-1-1'])]
-</code></pre>
-
-<p>前2个方法比较好理解，与NumPy里面的数组操作方式一样，基于数字做索引。 第三种方式给定一个范围，这两个标签之内的所有行都取出（包括最后一个标签对应的行，与数字索引不同）；第四种方式则显得间接，必须显式的将字符串转换成时间索引，来获取其对应的行（FIXME， frame.ix[[&lsquo;2012-1-1&rsquo;,&lsquo;2013-1-1&rsquo;]]不工作）</p>
-
-<h2>取多列</h2>
-
-<p>取出第一、二列</p>
-
-<pre><code>&gt;&gt;&gt;frame.ix[:,0:2]
-&gt;&gt;&gt;frame.ix[:,[0,1]]
-&gt;&gt;&gt;frame.ix[:,'one':'two']
-&gt;&gt;&gt;frame.ix[:,['one','two']
-&gt;&gt;&gt;frame[0:2]
-&gt;&gt;&gt;frame[[0,1]]
-&gt;&gt;&gt;frame[['one','two']]
-</code></pre>
-
-<p>第一二种方式基于数字做索引；第三种基于标签，两个标签之间的所有列都取出（包括截止标签对应的列）；第四种提供一个标签列表，属于这个列表中的列都取出;第五、六种是1，2的快捷方式，第七种是第四种方式的快捷操作，没有第三种的快捷方式。</p>
-
-<p>因此，似乎是用标签来做 slicing 的时候，是用类似列表的 <em>start:end</em> 不是很管用。</p>
-
-<p>总体看来，ix 的各种操作很方便获得行，而是用 frame[]类似的快捷方式能方便得获得各种列。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1259,6 +1146,10 @@ print(s)                                             =&gt; "这是 unicode 字�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/02/20/python4/">Python语言使用回顾 (四)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/02/01/python3/">Python 语言使用回顾 (三)</a>
       </li>
     
@@ -1272,10 +1163,6 @@ print(s)                                             =&gt; "这是 unicode 字�
     
       <li class="post">
         <a href="/blog/2015/08/24/resume/">Resume</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/04/closures/">闭包</a>
       </li>
     
   </ul>

@@ -9,9 +9,7 @@
   <meta name="author" content="Wu Li">
 
   
-  <meta name="description" content="先看以下两个程序, 先是s1.py #s1.py
-n = 0
-while n &lt; 10000000: i, j , k = [1,2,3] m = i+j+k n += 1 再是s2.py def main(): n = 0 while n &lt; 10000000: i, j , k &hellip;">
+  <meta name="description" content="学了机器学习，一直没找到好的练习。经常练手的诸如垃圾邮件过滤，似乎已经有很多实现了，况且我也不是很感兴趣。翻着手机查看交通违章记录的时候，突然想到在网站上如果想查看违章记录，需要输入一堆东西，还要图片验证校验码，比较麻烦。 刚好，这些过程，比如自动获取网页，POST 信息，用程序实现都很方便， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +65,43 @@ while n &lt; 10000000: i, j , k = [1,2,3] m = i+j+k n += 1 再是s2.py def main(
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/28/application-of-logistic-regression/">逻辑回归的一个日常应用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-08-28T18:22:40+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:22 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>学了机器学习，一直没找到好的练习。经常练手的诸如垃圾邮件过滤，似乎已经有很多实现了，况且我也不是很感兴趣。翻着手机查看交通违章记录的时候，突然想到在网站上如果想查看违章记录，需要输入一堆东西，还要图片验证校验码，比较麻烦。 刚好，这些过程，比如自动获取网页，POST 信息，用程序实现都很方便，让人感兴趣的时校验码输入，刚好能够练习一下机器学习学到的东西。</p>
+
+<p>查询违章记录的时针对上海市的交通信息网，里面有供司机查询电子眼拍到或现场违章记录。</p>
+
+<p>用 Python 简单实现了Logistic Regression，配合一些手工得到的样本，图片识别很成功。一方面归功于网站的校验码设置也比较简单，另一方面，也体现 ML 的实用性。</p>
+
+<p>反正是练习，顺便用 SVM 和 Decision Tree 同时来识别校验码，效果都很好，唯一不好的时 kNN, 经常将数字8和0混淆，也可能是样本少得缘故吧。</p>
+
+<p>源代码在github:    <a href="https://github.com/wul/tvish">https://github.com/wul/tvish</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1193,6 +1228,10 @@ regex-replace-all regex target-string replacement &amp;key start end preserve-ca
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/02/20/python4/">Python语言使用回顾 (四)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/02/01/python3/">Python 语言使用回顾 (三)</a>
       </li>
     
@@ -1206,10 +1245,6 @@ regex-replace-all regex target-string replacement &amp;key start end preserve-ca
     
       <li class="post">
         <a href="/blog/2015/08/24/resume/">Resume</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/04/closures/">闭包</a>
       </li>
     
   </ul>

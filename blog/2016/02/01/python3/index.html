@@ -9,7 +9,7 @@
   <meta name="author" content="Wu Li">
 
   
-  <meta name="description" content="Python是一门相比C，C++更为高级的语言。这里所说的高级并不包含褒义或者贬义，而是指相对于程序操作的对象，我们更关注与业务的需求还是更关注底层对操作系统的请求。 以前我们用C来写程序的时候，如果动态的创建变量，我们需要自己调用malloc等函数来向操作系统申请内存，自己管理好指针， &hellip;">
+  <meta name="description" content="Python是一门相比C，C++更为高级的语言。这里所说的高级并不包含褒义或者贬义，而是指相对于程序操作的对象，Python的使用者更关注与业务的需求还是更关注底层对操作系统的请求。 以前我们用C来写程序的时候，如果动态的创建变量，我们需要自己调用malloc等函数来向操作系统申请内存， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,9 +84,9 @@
   </header>
 
 
-<div class="entry-content"><p>Python是一门相比C，C++更为高级的语言。这里所说的高级并不包含褒义或者贬义，而是指相对于程序操作的对象，我们更关注与业务的需求还是更关注底层对操作系统的请求。</p>
+<div class="entry-content"><p>Python是一门相比C，C++更为高级的语言。这里所说的高级并不包含褒义或者贬义，而是指相对于程序操作的对象，Python的使用者更关注与业务的需求还是更关注底层对操作系统的请求。</p>
 
-<p>以前我们用C来写程序的时候，如果动态的创建变量，我们需要自己调用malloc等函数来向操作系统申请内存，自己管理好指针，并且在用完之后释放掉。比如，我们要有255个元素大小的一个列表，里面能够存放某种元素（如整数)，我们希望如下进行indexing，slicing和判断一个元素是非在内的操作。</p>
+<p>以前我们用C来写程序的时候，如果动态的创建变量，我们需要自己调用malloc等函数来向操作系统申请内存，自己管理好指针，并且在用完之后释放掉。比如，我们要有255个元素大小的一个列表，里面能够存放某种元素（如整数)，我们希望进行indexing，slicing和判断一个元素是否在内的操作。</p>
 
 <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -211,6 +211,8 @@
 
 <p>在Python中，整数本身就是一个对象（object），int类的实例，所以这里没有进一步向C一样封装成struct。 对比C的代码，明显感觉到对于list的操作要简单很多，省去了内存管理，省去了很多辅助代码。</p>
 
+<p>应该讲，程序员的精力也是有限的。如果一个需求，你既要关注对客户需求的抽象，又要关注底层的内存处理细节，就需要有更多的精力投入，这样虽不能说顾此失彼，但至少提高了复杂度。如果语言能够像Python这样，省去了底层的细节，那么程序员就可以专注于客户需求的抽象和建模，自然会带来效率上的提升。</p>
+
 <p>但这并不是说，Python这样的高级语言一定全方位都好，各有各的长处。C/C++长处在于速度和能处理广泛性，从嵌入式到大型应用开发； Python在于开发效率和对速度不敏感业务的开发，能够快速给出原型，然后快速迭代，满足客户和市场的快速变化。</p>
 </div>
 
@@ -253,6 +255,8 @@
         <a class="basic-alignment left" href="/blog/2016/01/15/pythonexp2/" title="Previous Post: Python 语言使用回顾(二）">&laquo; Python 语言使用回顾(二）</a>
       
       
+        <a class="basic-alignment right" href="/blog/2016/02/20/python4/" title="Next Post: Python语言使用回顾 (四)">Python语言使用回顾 (四) &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -272,6 +276,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/02/20/python4/">Python语言使用回顾 (四)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/02/01/python3/">Python 语言使用回顾 (三)</a>
       </li>
     
@@ -285,10 +293,6 @@
     
       <li class="post">
         <a href="/blog/2015/08/24/resume/">Resume</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/04/closures/">闭包</a>
       </li>
     
   </ul>
