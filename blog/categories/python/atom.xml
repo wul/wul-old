@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Wu's Blogs]]></title>
   <link href="http://www.wuli.mobi/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://www.wuli.mobi/"/>
-  <updated>2017-05-31T10:43:43+08:00</updated>
+  <updated>2017-05-31T10:47:35+08:00</updated>
   <id>http://www.wuli.mobi/</id>
   <author>
     <name><![CDATA[Wu Li]]></name>
@@ -29,7 +29,7 @@ Foo = Foo()
 
 <p>上面定义了类Foo， 在上面的代码运行完毕后，如果想创建Foo的实例，这些实例都是指向最早创建的那个实例。 这里有两步特别有意思并且互相呼应。 第一步实现了一个<code>__call__</code>方法， 意味着Foo的实例可以像使用函数一样来进行调用，并且始终返回实例本身。 第二步，<code>Foo = Foo()</code>做了名字的重新绑定， 那就意味着在此代码执行完毕后，已经没有Foo这个类型了， &ldquo;Foo&#8221;这个名字完全地绑定在一个Foo的实例上， 配合第一步声明的方法，此后所有的<code>Foo()</code>调用，本来是用来创建一个实例，现在只是调用那个已经存在的实例（此时实例名字为Foo）的<code>__call__</code>方法返回实例本身。这是一种嫁接的方式，在完成第一次实例的初始化方法后，屏蔽了对类初始化函数的再次调用，从而实现singleton模式。</p>
 
-<p>但是这个实现有缺点，每个singleton类型的类都要做类似这样的一个名字重新绑定。并不是一个通用的方法来把某个类编程singleton。</p>
+<p>但是这个实现有缺点，每个singleton类型的类都要做类似这样的一个名字重新绑定。并不是一个通用的方法来把某个类变成singleton。</p>
 
 <p>另外一种实现方式代码如下：</p>
 
