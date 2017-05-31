@@ -4,7 +4,7 @@
   <title><![CDATA[Wu's Blogs]]></title>
   <link href="http://www.wuli.mobi/atom.xml" rel="self"/>
   <link href="http://www.wuli.mobi/"/>
-  <updated>2017-05-30T21:47:29+08:00</updated>
+  <updated>2017-05-31T10:43:43+08:00</updated>
   <id>http://www.wuli.mobi/</id>
   <author>
     <name><![CDATA[Wu Li]]></name>
@@ -12,6 +12,135 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[装饰器实现的变形]]></title>
+    <link href="http://www.wuli.mobi/blog/2016/05/30/decorator-morphing/"/>
+    <updated>2016-05-30T23:33:02+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2016/05/30/decorator-morphing</id>
+    <content type="html"><![CDATA[<p>最近看到关于Python来实现设计模式中的singleton模式，发现有两个例子特别有意思。看代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Foo():
+</span><span class='line'>    def __call__(self, *args, **argv):
+</span><span class='line'>        return self
+</span><span class='line'>        
+</span><span class='line'>Foo = Foo()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面定义了类Foo， 在上面的代码运行完毕后，如果想创建Foo的实例，这些实例都是指向最早创建的那个实例。 这里有两步特别有意思并且互相呼应。 第一步实现了一个<code>__call__</code>方法， 意味着Foo的实例可以像使用函数一样来进行调用，并且始终返回实例本身。 第二步，<code>Foo = Foo()</code>做了名字的重新绑定， 那就意味着在此代码执行完毕后，已经没有Foo这个类型了， &ldquo;Foo&#8221;这个名字完全地绑定在一个Foo的实例上， 配合第一步声明的方法，此后所有的<code>Foo()</code>调用，本来是用来创建一个实例，现在只是调用那个已经存在的实例（此时实例名字为Foo）的<code>__call__</code>方法返回实例本身。这是一种嫁接的方式，在完成第一次实例的初始化方法后，屏蔽了对类初始化函数的再次调用，从而实现singleton模式。</p>
+
+<p>但是这个实现有缺点，每个singleton类型的类都要做类似这样的一个名字重新绑定。并不是一个通用的方法来把某个类编程singleton。</p>
+
+<p>另外一种实现方式代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>def singleton(cls):
+</span><span class='line'>    ins = {}
+</span><span class='line'>    def wrapper(*args, **kws):
+</span><span class='line'>        obj = None
+</span><span class='line'>        try:
+</span><span class='line'>            obj = ins[cls]
+</span><span class='line'>        except KeyError:
+</span><span class='line'>            obj = cls(*args, **kws)
+</span><span class='line'>            ins[cls] = obj
+</span><span class='line'>        return obj
+</span><span class='line'>    
+</span><span class='line'>    return wrapper
+</span><span class='line'>    
+</span><span class='line'>@singleton
+</span><span class='line'>class Foo(): pass
+</span><span class='line'>    
+</span><span class='line'>@singleton
+</span><span class='line'>class Bar(): pass
+</span><span class='line'>    
+</span><span class='line'>foo1, foo2 = Foo(), Foo()
+</span><span class='line'>id(foo1) == id(foo2)   #True
+</span><span class='line'>type(Foo)              #function</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是一种通用的singleton实现方式，通过实现一个装饰器，来对任一想成为singleton的类进行装饰。</p>
+
+<p>需要注意的是，无论Foo类还是Bar类，通过装饰后，其名字所代表的已经不在时原先的类，而且，被一个叫做wrapper的函数所代替。 这是因为，装饰器实质上是一个重新绑定定义的过程。其过程等同于</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Foo = singleton(Foo)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>singleton这里是一个高级函数，它接受类作为参数名，返回一个函数代替了之前的Foo类的定义。</p>
+
+<p>一般我们用装饰器来装饰函数，被装饰的对象与装饰后的对象是同样类型的，比如函数装饰器返回函数对象，类装饰器返回类对象。这里却使用了函数来代替被装饰的类，这在支持多特性的Python中，很容易做到这一点。 使用<code>Foo()</code>来创建一个类的实例，调用的是<strong>init</strong>方法，如果使用函数来代替，关键是将函数所接收到的参数以合适的方式传递给<strong>init</strong>构造方法。这里用到了可变参数的概念，通过<code>*args</code>和<code>**kws</code>来接受与应用变长的位置参数和变长的关键字参数，实现了鸭子类型。一个函数和一个类的构造行为一样，并且它的返回值也是这个类的实例，那么对于外界调用者来讲，这个函数对象就是这个类型对象。</p>
+
+<p>既然函数能够伪装成类，当然类也可以伪装函数的行为。一般我们不是直接使用类构造方法来模拟函数的行为，而是使用Python的魔法函数<code>__call__</code>来达到这个目的。如下代码所示：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def decor(f):
+</span><span class='line'>    class Wrapper:
+</span><span class='line'>        def __init__(self):
+</span><span class='line'>            self.func = f
+</span><span class='line'>        def __call__(self, *args, **kws):
+</span><span class='line'>            print("Inside class method")
+</span><span class='line'>            self.func(*args, **kws)
+</span><span class='line'>    
+</span><span class='line'>    return Wrapper()
+</span><span class='line'>    
+</span><span class='line'>@decor
+</span><span class='line'>def hello(name):
+</span><span class='line'>    print("Hello", name)
+</span><span class='line'>
+</span><span class='line'>hello('Zhang San')
+</span><span class='line'>#Inside class method
+</span><span class='line'>#Hello Zhang San</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在这里，hello函数经过装饰，实际上变成了一个Wrapper类的实例，对于hello函数的调用，也会变成对<code>__call__</code>函数的调用。</p>
+
+<p>有机的结合Python各种高级概念，比如这里的magic函数，ducking type, 有的时候你会发现实现一些模式非常便利，这大概就是我喜欢Python的原因了吧，不费劲。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python语言使用回顾 (四)]]></title>
@@ -1491,19 +1620,6 @@ $$</p>
 
 
 <p>有一点不便利，不知道是我哪里用错了，书写 Latex 代码的时候，所有的 superscribe都必须用大括号括起来，否则就不行。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[更新了下个人主页]]></title>
-    <link href="http://www.wuli.mobi/blog/2014/08/28/manage-old-posts/"/>
-    <updated>2014-08-28T18:51:15+08:00</updated>
-    <id>http://www.wuli.mobi/blog/2014/08/28/manage-old-posts</id>
-    <content type="html"><![CDATA[<p>好久没更新个人主页了。原因一是以前用得框架很丑陋，自己不擅长搞这些界面的东西，也没找到个好的框架；另一方面也没有太多要放上来得东西。</p>
-
-<p>不过域名既然申请了，还是得好好维护。幸在今天找到一个好框架，搭建配置也非常顺利，最主要的时解决了界面丑陋的问题，深得我心。</p>
-
-<p>赶快把以前的帖子重新放在新框架里，同时发几个水帖.</p>
 ]]></content>
   </entry>
   
