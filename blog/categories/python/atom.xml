@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Wu's Blogs]]></title>
   <link href="http://www.wuli.mobi/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://www.wuli.mobi/"/>
-  <updated>2017-05-31T10:47:35+08:00</updated>
+  <updated>2017-06-02T22:54:38+08:00</updated>
   <id>http://www.wuli.mobi/</id>
   <author>
     <name><![CDATA[Wu Li]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Singleton的实现]]></title>
+    <link href="http://www.wuli.mobi/blog/2016/06/02/singleton/"/>
+    <updated>2016-06-02T21:31:01+08:00</updated>
+    <id>http://www.wuli.mobi/blog/2016/06/02/singleton</id>
+    <content type="html"><![CDATA[<p>上次文章中用到了设计模式中的singleton， 显示了2中singleton的实现方式，要不不通用，针对每个类都得定义，要么用装饰器来实现，但singleton类不能够继承，总是有局限性。 其实还有一种方法实现能够优雅和自然的多，那就是利用类的静态方法$<strong>new</strong>$来实现。</p>
+
+<p>我们常用的类实例的初始化方法是$<strong>init</strong>$，这个大家都知道。但是对于$<strong>new</strong>$就很少用到， $<strong>new</strong>$的作用是创建并返回实例，这里我们就可以大做文章，来决定每次是否创建一个新的实例还是返回一个已有的实例。 代码如下:</p>
+
+<pre><code>class Singleton(object):
+    _instance = None
+    def __new__(cls, *args, **kws):
+        if cls._instance is None:
+            cls._instance = object.__new__(cls, *args, **kws)
+
+        return cls._instance
+
+obj = Singleton()
+obj2 = Singleton()
+obj is obj2
+</code></pre>
+
+<p>这样实现的Singleton类，如果其有子类继承它，则子类的实例也是singleton模式的行为。</p>
+
+<p>当然了，也可以通过元类来实现singleton，通过重载（overloading)元类的$<strong>call</strong>$方法来控制自定义类实例的生成。</p>
+
+<pre><code>class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        #this function is called by cls(), it will create one instace of cls
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Foo(metaclass=Singleton):pass
+
+#trigger 
+foo = Foo()
+foo2 = Foo()
+foo is foo2
+</code></pre>
+
+<p>原理都是相同的，存在一个字典记录类及其实例的对应表，在创建新的实例的时候先检查这个对应表，如果已有实例，则直接返回，如果没有就创建一个。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[装饰器实现的变形]]></title>
@@ -269,46 +315,6 @@ int main()
 <p>比如C++和Java对于类属性和成员函数，都有public，protected和private等存取限定。这种设置对于又经验的程序员可能不觉得困难，但是对于初学者，在诸如外部调用或者继承调用等不同使用场景下可能觉得比较烦杂。这虽然本着安全角度来考虑，但是是通过技术手段来限制，Python OOP就没有这种概念，对于该存取不该存取的属性，并没有技术手段来限制，而是通过一些common rules来形成共识，必须以下横线&#8221;_&ldquo;开通的变量就是private属性，两个下横线&rdquo;__&ldquo;则代表更强private意味。 那么所有的人都遵循这些规则，我们一样可以写出安全程序，那么语法上就没有那么繁杂了。</p>
 
 <p>另外，C++和Java实际上提供了很多不是那么常用的的特性，至少是在频率上不那么常用。那么为什么不大胆的舍弃一些特性使得语言显得简练呢？ 这样最大的好处就是嫌少了团队的学习成本。对于一个人来说，很多时间花费在并不常用的特性学习上可能看不到这个代价，但对于一个团队来讲，这个代价就要倍乘。这是因为，一旦有人在代码中用到这些特性，其他一起维护代码的团队成员就不得不熟悉这些特性，来理解采用这些技术的实现。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[闭包]]></title>
-    <link href="http://www.wuli.mobi/blog/2015/05/04/closures/"/>
-    <updated>2015-05-04T14:27:03+08:00</updated>
-    <id>http://www.wuli.mobi/blog/2015/05/04/closures</id>
-    <content type="html"><![CDATA[<p>套用维基百科的解释：闭包（closure）是此法闭包（Lexical Closure）的简称，是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创造它的环境也不例外。我们从一个简单地例子来分析这些话在说什么。</p>
-
-<pre><code>def foo(bar):
-    def plus_one():
-    return bar+1          #1 引用自由变量 bar
-
-    return plus_one
-func1 = foo(100)
-func2 = foo(101)
-print(func1())                #2 bar 仍然存在， 输出为101
-print(func2())                #3 bar 仍然存在， 输出为102
-</code></pre>
-
-<p>这个例子中，foo 函数中一个局部变量 bar 被一个其内部定义的函数 plus_one 所引用，并且这个函数被当做对象作为返回值返回。当被返回的函数被调用的时候，其运算的时候仍然能够访问得到 foo 所定义的局部变量 bar，即使此时已经不在 foo 函数内部。 这个就是闭包的一个基本用法。</p>
-
-<p>首先确定的是，闭包在创建的时候封闭了当时的一些状态，并且能够此后被调用的时候利用当时的状态信息。上面例子中，诸如局部变量（plus_one的enclosing函数）bar被plus_one所保留，即使离开了 foo 的执行，plus_one 仍够访问这个当初保留的状态，也即 bar 这个变量。</p>
-
-<p>再者，我们看到，根据不同的环境创建的函数保留了不同的状态而在此后表现出不同的行为（输出分别为101和102），比如根据参数不同生成的两个函数 func1和 func2，非常类似模式里面的工厂方法。创建的时候根据不同的输入而此后表现出不同的行为带给程序员很大的灵活性。</p>
-
-<p>最后，在使用闭包的过程中，需要注意，闭包引用的变量可能在后来发生改变，因此也会影响闭包的行为。比如：函数 plus_one 在创建的时候保留了 bar 的状态，但不意味着此后如果 bar 的值再次修改，不会影响 plus_one 的调用结果。修改上面代码如下:</p>
-
-<pre><code>def foo():
-    bar = 100                
-    def plus_one():
-    return bar+1         
-bar = 99                 # 在创建plus_one函数对象之后，修改 bar 会影响 plus_one 的调用结果
-    return plus_one
-func = foo()
-print(func())                # 输出100
-</code></pre>
-
-<p>可以看到，return 函数对象plus_one之前，修改过 bar 的值，plus_one 的调用使得它会使用最后一次 bar 的赋值。需要注意一下这个特性，尤其是引用的变量处于循环当中。</p>
 ]]></content>
   </entry>
   

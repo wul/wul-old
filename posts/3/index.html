@@ -9,7 +9,9 @@
   <meta name="author" content="Wu Li">
 
   
-  <meta name="description" content="好久没更新个人主页了。原因一是以前用得框架很丑陋，自己不擅长搞这些界面的东西，也没找到个好的框架；另一方面也没有太多要放上来得东西。 不过域名既然申请了，还是得好好维护。幸在今天找到一个好框架，搭建配置也非常顺利，最主要的时解决了界面丑陋的问题，深得我心。 赶快把以前的帖子重新放在新框架里， &hellip;">
+  <meta name="description" content="$$
+f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{\frac{(x-\mu)^{2}}{2\sigma^{2}}}
+$$ Thanks for MathJax ，现在可以在Github blog 上面增加 Latex 支持了。步骤很简单： 将以下代码拷贝到布局页面中去， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +67,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/29/latex-support/">Latex Support on Github Blogs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-08-29T09:08:24+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:08 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>$$
+f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{\frac{(x-\mu)^{2}}{2\sigma^{2}}}
+$$</p>
+
+<p>Thanks for MathJax ，现在可以在Github blog 上面增加 Latex 支持了。步骤很简单：</p>
+
+<ol>
+<li><p>将以下代码拷贝到布局页面中去，和其他 load 各种 javascript 的代码放在一起。</p>
+
+<pre><code> &lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;  
+</code></pre></li>
+<li><p>然后就可以开始书写 Latex 代码了，前后用双美元符号($$)括起来即可.</p></li>
+</ol>
+
+
+<p>有一点不便利，不知道是我哪里用错了，书写 Latex 代码的时候，所有的 superscribe都必须用大括号括起来，否则就不行。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -987,82 +1033,6 @@ And, furthermore, if we do
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/12/asdf/">Use ASDF to Manage Lisp Packages</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2013-11-12T00:00:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>It seems that Lisp built-in lacking a mechanism to allow user to manager their own programming library just like C/Python/Java . The built-in functions/macros such as &ldquo;defpackage&rdquo;, &ldquo;in-package&rdquo;, &ldquo;load&rdquo;, &ldquo;require&rdquo; is merely for simple organisation of python files. But for a large library that has nested directories and different sub-package. It will soon become complicated to load them and to resolve the dependencies.</p>
-
-<p>So, we have ASDF. ASDF is &ldquo;A system definition facility&rdquo;. Just like autotool in C, it can manage the correlations between files in your library, compiling them, loading them for your use.</p>
-
-<p>I am using SBCL, it has ASDF library included by default. And, currently ASDF 3 is published. As i am a new comer, following the official instruction of ASDF website. Just familiar with ASDF 3 is enough, no burden of legacy interfaces.  Here is some essentials to ASDF and i will illustrate how to use ASDF to build my hello world library.
-First, define a hello.asd (always use the .asd suffix, just like suffix &ldquo;.in&rdquo; for autoconf). This file describes your system. Find more details about usage in ASDF manual. In this example, we just define 3 additional files: packages.lisp, macros.lisp, and hello.lisp and set their dependencies.</p>
-
-<pre><code>(asdf:defsystem :hello
-  :name "Hello System"
-  :description "hello: a sample file system."
-  :version "0.2.1"
-  :author "Wu Li &lt;who@unknown.com&gt;"
-  :licence "Public Domain"
-  :components ((:file "packages")
-               (:file "macros" :depends-on ("packages"))
-               (:file "hello"  :depends-on ("macros"))))
-</code></pre>
-
-<p>Define your package in package.lisp. Here we define a new package :hello and set a nick name HI.</p>
-
-<pre><code>(defpackage :hello
-  (:nicknames hi)
-  (:use :common-lisp)
-  (:export main))
-</code></pre>
-
-<p>Leave macros.lisp empty for simplicity.
-Define hello.lisp. We just define one function here.</p>
-
-<pre><code>(in-package :hello)
-(defun main () (format t "Hello world~%"))
-</code></pre>
-
-<p>So far, we have programs and we defined the package by using ASDF, then we can use ASDF to load this package for use.</p>
-
-<p>Load package.</p>
-
-<pre><code>(require :ASDF)                     ;load ASDF package if necessary
-(push #P"/path/to/the/package/" asdf:*central-registry*) ;tell ASDF where the lib can be found
-(asdf:load-system :hello)   ;the symbol should be identical with the one defined in hello.asd
-</code></pre>
-
-<p>Run function owned by hello package</p>
-
-<pre><code>(hi:main) -&gt; Hello world            ;hi is a nickname to hello package
-</code></pre>
-
-<p>This is a standard use of ASDF to build package.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -1080,6 +1050,10 @@ Define hello.lisp. We just define one function here.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/06/02/singleton/">Singleton的实现</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/05/30/decorator-morphing/">装饰器实现的变形</a>
       </li>
     
@@ -1093,10 +1067,6 @@ Define hello.lisp. We just define one function here.</p>
     
       <li class="post">
         <a href="/blog/2016/01/15/pythonexp2/">Python 语言使用回顾(二）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/09/pythonexp/">Python 语言使用回顾</a>
       </li>
     
   </ul>

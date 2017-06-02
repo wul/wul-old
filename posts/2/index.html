@@ -9,7 +9,7 @@
   <meta name="author" content="Wu Li">
 
   
-  <meta name="description" content="我们讨论 Unicode和使用编程中使用 Unicode，需要对 Unicode 的一些概念予以澄清，从而知道知道它是什么，它用来解决什么问题。对于很多的程序员来讲，在编程生涯中或多或少听过或者少量用过 Unicode，但是可能对于说清楚它是什么，它如何工作的却没有信心。那么本着回答这些问题的原则 &hellip;">
+  <meta name="description" content="Python Relative Imports Python包内模块之间当然可以像我们熟知的包导入方式一样，通过import或者from &hellip; import &hellip;来完成。 但是这里有个细节问题，可能会出现并非开发者所想到的后果。通过举例来说明， 现在要开发一个包（ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,120 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/22/python-relative-imports/">Python Relative Imports</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-22T10:11:17+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:11 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Python Relative Imports</h1>
+
+<p>Python包内模块之间当然可以像我们熟知的包导入方式一样，通过<em>import</em>或者<em>from &hellip; import &hellip;</em>来完成。 但是这里有个细节问题，可能会出现并非开发者所想到的后果。通过举例来说明， 现在要开发一个包（Package）Hello，它的目录结构如下：</p>
+
+<pre><code>Hello\
+      __init__.py
+      foo.py
+      bar.py  
+</code></pre>
+
+<p>Hello这个包包含两个文件， foo.py 和 bar.py， 我们说 foo.py 包含一个函数叫做 <em>func</em>，bar.py 希望通过引入 foo 这个包来使用这个函数。那么对于 bar.py 来讲，导入并使用的方式可以如下：</p>
+
+<pre><code>import foo
+foo.func()
+</code></pre>
+
+<p>这个用法似乎也没啥问题。 但是Python2.x 与 Python3.x 对于<em>import foo</em>的解释是不同的。</p>
+
+<ul>
+<li>Python2.x:会在当前包（&#8221;Hello&#8221;）所在的路径中搜索叫做 foo 的包名，然后搜索系统路径(sys.path)</li>
+<li>Python3.x:只会搜索系统路径</li>
+</ul>
+
+
+<p>可以看到，对于一些程序，如果既要运行在 Python2.x，又要运行到 Python3.x，可能会出现问题，考虑到 sys.path 里面的目录，其中一个路径恰好也有一个模块是 foo，那么在 bar.py 引入 foo 模块的时候，Python3.x 会用这个模块而非和 bar 在同一个包得模块 foo，当调用<em>foo.func()</em>要么报错（不存在），要么用得不是期望的函数。</p>
+
+<p>那么如何通过显示的手段来指明我们想要引入的包，来避免模块内包互相导入呢出现的上述问题呢？ 这可以使用 Python 的相对导入（Relative Imports）机制。 通过</p>
+
+<ul>
+<li><strong>from .foo import func</strong></li>
+<li><strong>from . import foo</strong></li>
+</ul>
+
+
+<p>来对包 foo 进行导入。 这种通过一个点来指明包内导入的方式叫做相对导入。</p>
+
+<p>无论是Python2.x或者Python3.x碰见这种语句，都会只在当前包目录中查找想要导入的包，而不会去系统路径中去寻找，因此避免了不当导入。</p>
+
+<p>当然，包得层次结构也不都一定是扁平的，只有一个目录，可能有子目录，子目录下可能还有下级子目录。那么又如何在包内导入其他目录下的模块呢？</p>
+
+<p>有人或许已经猜到，既然像 Unix 访问目录一样，用 “.”表示包内同一个目录。那么可以用“..”表示包层次结构中的上一层。仍旧通过举例说明，有一个复杂的目录结构如下：</p>
+
+<pre><code>Hello \
+      __init__.py
+      a\
+        __init__.py
+        b\
+          __init__.py
+          b1.py
+      c\
+         __init__.py
+         c1.py
+</code></pre>
+
+<p>Hello包包含子目录“a”和子目录“c”，其中子目录 “a”又包含二级子目录 “b”。 在目录“b”与“c”内分别有两个模块“b1”与“c1”。模块“c1”想使用“b1”中的函数“func”。</p>
+
+<p>模块“c1”中可以用下面这种方式来引入模块“b1”.</p>
+
+<ul>
+<li><em>from ..b.b1 import func</em></li>
+<li><em>import ..b.b1</em></li>
+</ul>
+
+
+<p>如同目录行为一样，很好理解，不用赘述。</p>
+
+<p>可是，仍旧有人会说，其实也简单，将 Hello 包所在路径加入 sys.path 中，在模块“c1”中用如下语句也可以：</p>
+
+<pre><code>from Hello.a.b.b1 import func
+#
+#or
+#
+import Hello.a.b.b1
+</code></pre>
+
+<p>是的，这种方式也可以。但首先，如果目录层次比较复杂，敲的字符会很长，不够经济；再者，如果目录进行挪动，需要改动代码，相对导入能够解决这个问题（相对路径如果保持不变）。</p>
+
+<p>虽然用类似目录结构的方式相对导入包内的模块，但这种语句也只是适合包内导入，位于非包这种组织形式(包含__init__.py)的两个文件，不可以通过这种方式（from . .. import）来互相导入。</p>
+
+<p>总结一下：Python 的相对导入的关键在于</p>
+
+<ul>
+<li>它限定了搜索的路径在于包内，而不会盲目的在系统路径中找寻一个相同的名字，避免了误导入。</li>
+<li>所有的相对导入通过<em>from &hellip; import &hellip;</em>这种格式来完成</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1002,50 +1116,6 @@ $$</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/29/latex-support/">Latex Support on Github Blogs</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-08-29T09:08:24+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:08 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>$$
-f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{\frac{(x-\mu)^{2}}{2\sigma^{2}}}
-$$</p>
-
-<p>Thanks for MathJax ，现在可以在Github blog 上面增加 Latex 支持了。步骤很简单：</p>
-
-<ol>
-<li><p>将以下代码拷贝到布局页面中去，和其他 load 各种 javascript 的代码放在一起。</p>
-
-<pre><code> &lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;  
-</code></pre></li>
-<li><p>然后就可以开始书写 Latex 代码了，前后用双美元符号($$)括起来即可.</p></li>
-</ol>
-
-
-<p>有一点不便利，不知道是我哪里用错了，书写 Latex 代码的时候，所有的 superscribe都必须用大括号括起来，否则就不行。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1063,6 +1133,10 @@ $$</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/06/02/singleton/">Singleton的实现</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/05/30/decorator-morphing/">装饰器实现的变形</a>
       </li>
     
@@ -1076,10 +1150,6 @@ $$</p>
     
       <li class="post">
         <a href="/blog/2016/01/15/pythonexp2/">Python 语言使用回顾(二）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/09/pythonexp/">Python 语言使用回顾</a>
       </li>
     
   </ul>

@@ -9,7 +9,7 @@
   <meta name="author" content="Wu Li">
 
   
-  <meta name="description" content="lisp字符串处理的一些方法 Lisp的字符串处理函数是相对贫乏。一些常用的操作，如split, replace, join没有提供。相对于其他的高级语言，比如Python，不能不说有些差距。 这里对照Python提供的字符串相关方法和函数，来比较下Lisp是否有相应的实现。 &hellip;">
+  <meta name="description" content="It seems that Lisp built-in lacking a mechanism to allow user to manager their own programming library just like C/Python/Java . The built-in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,82 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/12/asdf/">Use ASDF to Manage Lisp Packages</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-11-12T00:00:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It seems that Lisp built-in lacking a mechanism to allow user to manager their own programming library just like C/Python/Java . The built-in functions/macros such as &ldquo;defpackage&rdquo;, &ldquo;in-package&rdquo;, &ldquo;load&rdquo;, &ldquo;require&rdquo; is merely for simple organisation of python files. But for a large library that has nested directories and different sub-package. It will soon become complicated to load them and to resolve the dependencies.</p>
+
+<p>So, we have ASDF. ASDF is &ldquo;A system definition facility&rdquo;. Just like autotool in C, it can manage the correlations between files in your library, compiling them, loading them for your use.</p>
+
+<p>I am using SBCL, it has ASDF library included by default. And, currently ASDF 3 is published. As i am a new comer, following the official instruction of ASDF website. Just familiar with ASDF 3 is enough, no burden of legacy interfaces.  Here is some essentials to ASDF and i will illustrate how to use ASDF to build my hello world library.
+First, define a hello.asd (always use the .asd suffix, just like suffix &ldquo;.in&rdquo; for autoconf). This file describes your system. Find more details about usage in ASDF manual. In this example, we just define 3 additional files: packages.lisp, macros.lisp, and hello.lisp and set their dependencies.</p>
+
+<pre><code>(asdf:defsystem :hello
+  :name "Hello System"
+  :description "hello: a sample file system."
+  :version "0.2.1"
+  :author "Wu Li &lt;who@unknown.com&gt;"
+  :licence "Public Domain"
+  :components ((:file "packages")
+               (:file "macros" :depends-on ("packages"))
+               (:file "hello"  :depends-on ("macros"))))
+</code></pre>
+
+<p>Define your package in package.lisp. Here we define a new package :hello and set a nick name HI.</p>
+
+<pre><code>(defpackage :hello
+  (:nicknames hi)
+  (:use :common-lisp)
+  (:export main))
+</code></pre>
+
+<p>Leave macros.lisp empty for simplicity.
+Define hello.lisp. We just define one function here.</p>
+
+<pre><code>(in-package :hello)
+(defun main () (format t "Hello world~%"))
+</code></pre>
+
+<p>So far, we have programs and we defined the package by using ASDF, then we can use ASDF to load this package for use.</p>
+
+<p>Load package.</p>
+
+<pre><code>(require :ASDF)                     ;load ASDF package if necessary
+(push #P"/path/to/the/package/" asdf:*central-registry*) ;tell ASDF where the lib can be found
+(asdf:load-system :hello)   ;the symbol should be identical with the one defined in hello.asd
+</code></pre>
+
+<p>Run function owned by hello package</p>
+
+<pre><code>(hi:main) -&gt; Hello world            ;hi is a nickname to hello package
+</code></pre>
+
+<p>This is a standard use of ASDF to build package.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -264,6 +340,10 @@ regex-replace-all regex target-string replacement &amp;key start end preserve-ca
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/06/02/singleton/">Singleton的实现</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/05/30/decorator-morphing/">装饰器实现的变形</a>
       </li>
     
@@ -277,10 +357,6 @@ regex-replace-all regex target-string replacement &amp;key start end preserve-ca
     
       <li class="post">
         <a href="/blog/2016/01/15/pythonexp2/">Python 语言使用回顾(二）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/09/pythonexp/">Python 语言使用回顾</a>
       </li>
     
   </ul>
