@@ -4,7 +4,7 @@
   <title><![CDATA[Wu's Blogs]]></title>
   <link href="http://www.wuli.mobi/atom.xml" rel="self"/>
   <link href="http://www.wuli.mobi/"/>
-  <updated>2017-06-02T22:54:38+08:00</updated>
+  <updated>2017-06-04T10:50:33+08:00</updated>
   <id>http://www.wuli.mobi/</id>
   <author>
     <name><![CDATA[Wu Li]]></name>
@@ -18,9 +18,9 @@
     <link href="http://www.wuli.mobi/blog/2016/06/02/singleton/"/>
     <updated>2016-06-02T21:31:01+08:00</updated>
     <id>http://www.wuli.mobi/blog/2016/06/02/singleton</id>
-    <content type="html"><![CDATA[<p>上次文章中用到了设计模式中的singleton， 显示了2中singleton的实现方式，要不不通用，针对每个类都得定义，要么用装饰器来实现，但singleton类不能够继承，总是有局限性。 其实还有一种方法实现能够优雅和自然的多，那就是利用类的静态方法$<strong>new</strong>$来实现。</p>
+    <content type="html"><![CDATA[<p>上次文章中用到了设计模式中的singleton， 显示了两种singleton的实现方式，要不不通用，针对每个类都得定义，要么用装饰器来实现，但singleton类不能够继承，总是有局限性。 其实还有一种方法实现能够优雅和自然的多，那就是利用类的静态方法&#8220;`<strong>new</strong>&#8220;&#8220;&#8220;来实现。</p>
 
-<p>我们常用的类实例的初始化方法是$<strong>init</strong>$，这个大家都知道。但是对于$<strong>new</strong>$就很少用到， $<strong>new</strong>$的作用是创建并返回实例，这里我们就可以大做文章，来决定每次是否创建一个新的实例还是返回一个已有的实例。 代码如下:</p>
+<p>我们常用的类实例的初始化方法是<code>__init__</code>，这个大家都知道。但是对于<code>__new__</code>就很少用到， <code>__new__</code>的作用是创建并返回实例，这里我们就可以大做文章，来决定每次是否创建一个新的实例还是返回一个已有的实例。 代码如下:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -48,7 +48,7 @@
 
 <p>这样实现的Singleton类，如果其有子类继承它，则子类的实例也是singleton模式的行为。</p>
 
-<p>当然了，也可以通过元类来实现singleton，通过重载（overloading)元类的$<strong>call</strong>$方法来控制自定义类实例的生成。</p>
+<p>当然了，也可以通过元类来实现singleton，通过重载（overloading)元类的<code>__call__</code>方法来控制自定义类实例的生成。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
